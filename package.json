@@ -8,6 +8,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "qs": "^6.5.1",
+    "set-cookie-parser": "^2.0.0"
   }
 }
