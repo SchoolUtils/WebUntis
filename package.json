@@ -6,5 +6,8 @@
   "repository": "https://github.com/TheNoim/WebUntis.git",
   "author": "Nils <nilsbergmann@noim.io>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "axios": "^0.16.2"
+  }
 }
