@@ -100,16 +100,14 @@ class WebUntis {
 	}
 
 	async getOwnTimetableFor(date) {
-		const currentUntisDate = date.getFullYear() + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
-		console.log(currentUntisDate);
 		return this._request("getTimetable", {
 			"options": {
 				"element": {
 					"id": this.sessionInformation.personId,
 					"type": this.sessionInformation.personType
 				},
-				"startDate": currentUntisDate,
-				"endDate": currentUntisDate,
+				"startDate": this.convertDateToUntis(date),
+				"endDate": this.convertDateToUntis(date),
 				"showLsText": true,
 				"showStudentgroup": true,
 				"showLsNumber": true,
@@ -145,10 +143,24 @@ class WebUntis {
 		});
 	}
 
-	async _request(method, parameter = {}) {
+	async getHomeWorksFor(rangeStart, rangeEnd) {
+		return await this.axios({
+			method: "GET",
+			url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+			headers: {
+				"Cookie": this._buildCookies()
+			}
+		});
+	}
+
+	convertDateToUntis(date) {
+		return date.getFullYear() + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
+	}
+
+	async _request(method, parameter = {}, url = `/WebUntis/jsonrpc.do?school=${this.school}`) {
 		const response = await this.axios({
 			method: "POST",
-			url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+			url: url,
 			headers: {
 				"Cookie": this._buildCookies()
 			},
