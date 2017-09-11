@@ -4,11 +4,10 @@ const untis = new WebUntis(process.env.SCHOOL, process.env.UNTISUSER, process.en
 
 (async function () {
 	try {
-		const r = await untis.login();
-		console.log(r);
-		console.log(untis._buildCookies())
+		await untis.login();
 		const x = await untis.validateSession();
-		console.log(x);
+		console.log("Valid session: " + x);
+		console.log("Timetable: " + JSON.stringify(await untis.getOwnTimetableFor(new Date())))
 	} catch (e) {
 		console.error(e);
 	}

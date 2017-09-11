@@ -77,6 +77,92 @@ class WebUntis {
 		});
 		return typeof response.data.result === 'number';
 	}
+
+	async getOwnTimetableForToday() {
+		return this._request("getTimetable", {
+			"options": {
+				"element": {
+					"id": this.sessionInformation.personId,
+					"type": this.sessionInformation.personType
+				},
+				"showLsText": true,
+				"showStudentgroup": true,
+				"showLsNumber": true,
+				"showSubstText": true,
+				"showInfo": true,
+				"showBooking": true,
+				"klasseFields": ["id", "name", "longname", "externalkey"],
+				"roomFields": ["id", "name", "longname", "externalkey"],
+				"subjectFields": ["id", "name", "longname", "externalkey"],
+				"teacherFields": ["id", "name", "longname", "externalkey"]
+			}
+		});
+	}
+
+	async getOwnTimetableFor(date) {
+		const currentUntisDate = date.getFullYear() + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
+		console.log(currentUntisDate);
+		return this._request("getTimetable", {
+			"options": {
+				"element": {
+					"id": this.sessionInformation.personId,
+					"type": this.sessionInformation.personType
+				},
+				"startDate": currentUntisDate,
+				"endDate": currentUntisDate,
+				"showLsText": true,
+				"showStudentgroup": true,
+				"showLsNumber": true,
+				"showSubstText": true,
+				"showInfo": true,
+				"showBooking": true,
+				"klasseFields": ["id", "name", "longname", "externalkey"],
+				"roomFields": ["id", "name", "longname", "externalkey"],
+				"subjectFields": ["id", "name", "longname", "externalkey"],
+				"teacherFields": ["id", "name", "longname", "externalkey"]
+			}
+		});
+	}
+
+	async getOwnClassTimetableForToday() {
+		return this._request("getTimetable", {
+			"options": {
+				"element": {
+					"id": this.sessionInformation.klasseId,
+					"type": 1
+				},
+				"showLsText": true,
+				"showStudentgroup": true,
+				"showLsNumber": true,
+				"showSubstText": true,
+				"showInfo": true,
+				"showBooking": true,
+				"klasseFields": ["id", "name", "longname", "externalkey"],
+				"roomFields": ["id", "name", "longname", "externalkey"],
+				"subjectFields": ["id", "name", "longname", "externalkey"],
+				"teacherFields": ["id", "name", "longname", "externalkey"]
+			}
+		});
+	}
+
+	async _request(method, parameter = {}) {
+		const response = await this.axios({
+			method: "POST",
+			url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+			headers: {
+				"Cookie": this._buildCookies()
+			},
+			data: {
+				id: this.id,
+				method: method,
+				params: parameter,
+				jsonrpc: "2.0"
+			}
+		});
+		if (!response.data.result) throw new Error("Server didn't returned any result.");
+		if (response.data.result.code) throw new Error("Server returned error code: " + response.data.result.code);
+		return response.data.result;
+	}
 }
 
 export default WebUntis;
