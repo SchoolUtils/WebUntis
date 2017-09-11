@@ -1,15 +1,20 @@
 import axios from 'axios';
 import qs from 'qs';
 import setCookie from 'set-cookie-parser';
+import Base64 from 'js-base64';
+import CookieBuilder from 'cookie';
 
 class WebUntis {
 
-	constructor(school, username, password, baseurl) {
+	constructor(school, username, password, baseurl, identity = "Awesome") {
 		this.school = school;
+		this.schoolbase64 = "_" + Base64.Base64.encode(this.school);
 		this.username = username;
 		this.password = password;
 		this.baseurl = "https://" + baseurl + "/";
 		this.cookies = [];
+		this.id = identity;
+		this.sessionInformation = {};
 
 		this.axios = axios.create({
 			baseURL: this.baseurl,
@@ -26,37 +31,52 @@ class WebUntis {
 		});
 	}
 
-	async requestJSESSIONIDAndSchoolname() {
+	async login() {
 		const response = await this.axios({
-			url: '/WebUntis/j_spring_security_check',
 			method: "POST",
-			data: qs.stringify({
-				"school": this.school,
-				"login_url": "/login.do"
-			}),
-			maxRedirects: 0,
-			headers: {
-				'Content-type': 'application/x-www-form-urlencoded'
+			url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+			data: {
+				id: this.id,
+				method: "authenticate",
+				params: {
+					user: this.username,
+					password: this.password,
+					client: this.id
+				},
+				jsonrpc: "2.0"
 			}
 		});
-		let cookies = setCookie.parse(response.headers["set-cookie"]);
-		let jsSessionID;
-		let schoolname;
-		for (let cookie of cookies) {
-			if (cookie.name === "JSESSIONID") {
-				jsSessionID = cookie.value;
-			}
-			if (cookie.name === "schoolname") {
-				schoolname = cookie.value;
-			}
-		}
-		if (!jsSessionID || !schoolname) {
-			throw new Error("No JSESSIONID or no schoolname");
-		}
-		this.cookies = cookies;
-		return this.cookies;
+		if (typeof response.data !== 'object') throw new Error("Failed to parse server response.");
+		if (!response.data.result) throw new Error("Failed to login.");
+		if (response.data.result.code) throw new Error("Login returned error code: " + response.data.result.code);
+		if (!response.data.result.sessionId) throw new Error("Failed to login. No session id.");
+		this.sessionInformation = response.data.result;
+		return response.data.result;
 	}
 
+	_buildCookies() {
+		let cookies = [];
+		cookies.push(CookieBuilder.serialize('JSESSIONID', this.sessionInformation.sessionId));
+		cookies.push(CookieBuilder.serialize('schoolname', this.schoolbase64));
+		return cookies.join('; ');
+	}
+
+	async validateSession() {
+		const response = await this.axios({
+			method: "POST",
+			url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+			headers: {
+				"Cookie": this._buildCookies()
+			},
+			data: {
+				id: this.id,
+				method: "getLatestImportTime",
+				params: {},
+				jsonrpc: "2.0"
+			}
+		});
+		return typeof response.data.result === 'number';
+	}
 }
 
 export default WebUntis;
