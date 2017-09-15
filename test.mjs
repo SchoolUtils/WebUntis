@@ -8,9 +8,11 @@ const untis = new WebUntis(process.env.SCHOOL, process.env.UNTISUSER, process.en
 		await untis.login();
 		const x = await untis.validateSession();
 		console.log("Valid session: " + x);
-		console.log("Timetable: " + JSON.stringify(await untis.getOwnTimetableFor(new Date())))
-		const nextFriday = moment().endOf('week').toDate();
-		console.log("Homework: " + JSON.stringify((await untis.getHomeWorksFor(new Date(), nextFriday)).data))
+		console.log("Timetable: " + JSON.stringify(await untis.getOwnTimetableFor(new Date())));
+		const d = moment("20170915", 'YYYYMMDD')
+		const endOfMonth = moment().endOf('month').toDate();
+		console.log("Homework: " + JSON.stringify((await untis.getHomeWorkAndLessons(new Date(), endOfMonth))));
+		console.log("Rooms: " + JSON.stringify(await untis.getRooms()))
 	} catch (e) {
 		console.error(e);
 	}

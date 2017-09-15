@@ -4,8 +4,19 @@ import setCookie from 'set-cookie-parser';
 import Base64 from 'js-base64';
 import CookieBuilder from 'cookie';
 
+/**
+ * WebUntis API Class
+ */
 class WebUntis {
 
+	/**
+	 *
+	 * @param {String} school
+	 * @param {String} username
+	 * @param {String} password
+	 * @param {String} baseurl
+	 * @param {String} identity
+	 */
 	constructor(school, username, password, baseurl, identity = "Awesome") {
 		this.school = school;
 		this.schoolbase64 = "_" + Base64.Base64.encode(this.school);
@@ -47,7 +58,7 @@ class WebUntis {
 			}
 		});
 		if (typeof response.data !== 'object') throw new Error("Failed to parse server response.");
-		if (!response.data.result) throw new Error("Failed to login.");
+		if (!response.data.result) throw new Error("Failed to login. " + JSON.stringify(response.data));
 		if (response.data.result.code) throw new Error("Login returned error code: " + response.data.result.code);
 		if (!response.data.result.sessionId) throw new Error("Failed to login. No session id.");
 		this.sessionInformation = response.data.result;
@@ -99,6 +110,11 @@ class WebUntis {
 		});
 	}
 
+	/**
+	 *
+	 * @param {Date} date
+	 * @returns {Promise.<Object>}
+	 */
 	async getOwnTimetableFor(date) {
 		return this._request("getTimetable", {
 			"options": {
@@ -143,20 +159,69 @@ class WebUntis {
 		});
 	}
 
+	/**
+	 *
+	 * @param {Date} rangeStart
+	 * @param {Date} rangeEnd
+	 * @returns {Promise.<void>}
+	 */
 	async getHomeWorksFor(rangeStart, rangeEnd) {
-		return await this.axios({
+		const response = await this.axios({
 			method: "GET",
 			url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&endDate=${this.convertDateToUntis(rangeEnd)}`,
 			headers: {
 				"Cookie": this._buildCookies()
 			}
 		});
+		if (typeof response.data.data !== 'object') throw new Error("Server returned invalid data.");
+		if (!response.data.data["homeworks"]) throw new Error("Data object doesn't contains homeworks object.");
+		return response.data.data["homeworks"];
 	}
 
+	/**
+	 *
+	 * @param {Date} rangeStart
+	 * @param {Date} rangeEnd
+	 * @returns {Promise.<void>}
+	 */
+	async getHomeWorkAndLessons(rangeStart, rangeEnd) {
+		const response = await this.axios({
+			method: "GET",
+			url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+			headers: {
+				"Cookie": this._buildCookies()
+			}
+		});
+		if (typeof response.data.data !== 'object') throw new Error("Server returned invalid data.");
+		if (!response.data.data["homeworks"]) throw new Error("Data object doesn't contains homeworks object.");
+		return response.data.data;
+	}
+
+	/**
+	 *
+	 * @returns {Promise.<Object>}
+	 */
+	async getRooms() {
+		return await this._request('getRooms');
+	}
+
+	/**
+	 *
+	 * @param {Date} date
+	 * @returns {String}
+	 */
 	convertDateToUntis(date) {
 		return date.getFullYear() + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)) + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
 	}
 
+	/**
+	 *
+	 * @param {String} method
+	 * @param {Object} [parameter={}]
+	 * @param {String} [url='/WebUntis/jsonrpc.do?school=SCHOOL']
+	 * @returns {Promise.<Object>}
+	 * @private
+	 */
 	async _request(method, parameter = {}, url = `/WebUntis/jsonrpc.do?school=${this.school}`) {
 		const response = await this.axios({
 			method: "POST",
@@ -176,5 +241,6 @@ class WebUntis {
 		return response.data.result;
 	}
 }
+
 
 export default WebUntis;
