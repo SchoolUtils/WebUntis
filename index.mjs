@@ -1,6 +1,4 @@
 import axios from 'axios';
-import qs from 'qs';
-import setCookie from 'set-cookie-parser';
 import Base64 from 'js-base64';
 import CookieBuilder from 'cookie';
 
