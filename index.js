@@ -213,6 +213,14 @@ class WebUntis {
 
 	/**
 	 *
+	 * @returns {Promise.<Object>}
+	 */
+	async getClasses() {
+		return await this._request('getKlassen');
+	}
+
+	/**
+	 *
 	 * @param {Date} date
 	 * @returns {String}
 	 */
