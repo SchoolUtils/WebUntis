@@ -1,6 +1,6 @@
 import axios from 'axios';
-import Base64 from 'js-base64';
 import CookieBuilder from 'cookie';
+import Base64 from './Base64';
 
 /**
  * WebUntis API Class
@@ -17,7 +17,7 @@ class WebUntis {
 	 */
 	constructor(school, username, password, baseurl, identity = "Awesome") {
 		this.school = school;
-		this.schoolbase64 = "_" + Base64.Base64.encode(this.school);
+		this.schoolbase64 = "_" + Base64.btoa(this.school);
 		this.username = username;
 		this.password = password;
 		this.baseurl = "https://" + baseurl + "/";
