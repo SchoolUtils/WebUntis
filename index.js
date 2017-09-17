@@ -181,7 +181,11 @@ class WebUntis {
 	 * @returns {Promise.<Object>}
 	 */
 	async getSubjects() {
-		return this._request('getSubjects');
+		return await this._request('getSubjects');
+	}
+
+	async getTimegrid() {
+		return await this._request('getTimegridUnits');
 	}
 
 	/**
