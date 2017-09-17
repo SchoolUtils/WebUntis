@@ -184,6 +184,10 @@ class WebUntis {
 		return await this._request('getSubjects');
 	}
 
+	/**
+	 *
+	 * @returns {Promise.<Object>}
+	 */
 	async getTimegrid() {
 		return await this._request('getTimegridUnits');
 	}
