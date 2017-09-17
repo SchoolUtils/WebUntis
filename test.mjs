@@ -1,4 +1,4 @@
-import WebUntis from './index.mjs';
+import WebUntis from './index.js';
 import moment from 'moment';
 
 const untis = new WebUntis(process.env.SCHOOL, process.env.UNTISUSER, process.env.UNTISPW, process.env.UNTISHOST);
