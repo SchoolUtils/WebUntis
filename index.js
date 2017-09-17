@@ -136,6 +136,35 @@ class WebUntis {
 		});
 	}
 
+	/**
+	 *
+	 * @param {Date} rangeStart
+	 * @param {Date} rangeEnd
+	 * @returns {Promise.<Object>}
+	 */
+	async getOwnTimetableForRange(rangeStart, rangeEnd) {
+		return this._request("getTimetable", {
+			"options": {
+				"element": {
+					"id": this.sessionInformation.personId,
+					"type": this.sessionInformation.personType
+				},
+				"startDate": this.convertDateToUntis(rangeStart),
+				"endDate": this.convertDateToUntis(rangeEnd),
+				"showLsText": true,
+				"showStudentgroup": true,
+				"showLsNumber": true,
+				"showSubstText": true,
+				"showInfo": true,
+				"showBooking": true,
+				"klasseFields": ["id", "name", "longname", "externalkey"],
+				"roomFields": ["id", "name", "longname", "externalkey"],
+				"subjectFields": ["id", "name", "longname", "externalkey"],
+				"teacherFields": ["id", "name", "longname", "externalkey"]
+			}
+		});
+	}
+
 	async getOwnClassTimetableForToday() {
 		return this._request("getTimetable", {
 			"options": {
