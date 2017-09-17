@@ -178,6 +178,14 @@ class WebUntis {
 
 	/**
 	 *
+	 * @returns {Promise.<Object>}
+	 */
+	async getSubjects() {
+		return this._request('getSubjects');
+	}
+
+	/**
+	 *
 	 * @param {Date} rangeStart
 	 * @param {Date} rangeEnd
 	 * @returns {Promise.<void>}
