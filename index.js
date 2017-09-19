@@ -258,6 +258,14 @@ class WebUntis {
 
 	/**
 	 *
+	 * @returns {Promise.<Object>}
+	 */
+	async getHolidays() {
+		return await this._request('getHolidays');
+	}
+
+	/**
+	 *
 	 * @param {Date} date
 	 * @returns {String}
 	 */
