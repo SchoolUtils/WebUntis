@@ -202,7 +202,7 @@ class WebUntis {
 		});
 		if (typeof response.data.data !== 'object') throw new Error("Server returned invalid data.");
 		if (!response.data.data["homeworks"]) throw new Error("Data object doesn't contains homeworks object.");
-		return response.data.data["homeworks"];
+		return response.data.data;
 	}
 
 	/**
