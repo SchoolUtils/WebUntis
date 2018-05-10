@@ -1,7 +1,5 @@
 # WebUntis API
 
-Requirements: Node 9.0.0 Nightly
-
 ```bash
 export SCHOOL=[Your school]
 export UNTISUSER=[Username]

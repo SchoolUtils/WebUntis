@@ -41,4 +41,4 @@ const Base64 = {
 	}
 };
 
-export default Base64;
+module.exports = Base64;

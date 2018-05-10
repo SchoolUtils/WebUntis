@@ -1,6 +1,6 @@
-import axios from 'axios';
-import CookieBuilder from 'cookie';
-import Base64 from './Base64';
+const axios = require('axios');
+const CookieBuilder = require('cookie');
+const Base64 = require('./Base64');
 
 /**
  * WebUntis API Class
@@ -301,5 +301,4 @@ class WebUntis {
 	}
 }
 
-
-export default WebUntis;
+module.exports = WebUntis;
