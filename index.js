@@ -40,6 +40,10 @@ class WebUntis {
 		});
 	}
 
+	async logout() {
+		return await this._request('logout');
+	}
+
 	async login() {
 		const response = await this.axios({
 			method: "POST",
