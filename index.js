@@ -41,7 +41,17 @@ class WebUntis {
 	}
 
 	async logout() {
-		return await this._request('logout');
+        await this.axios({
+            method: "POST",
+            url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+            data: {
+                id: this.id,
+                method: "logout",
+                params: {},
+                jsonrpc: "2.0"
+            }
+        });
+		return true;
 	}
 
 	async login() {
