@@ -1,12 +1,12 @@
 {
-  "name": "WebUntis",
+  "name": "webuntis",
   "version": "1.0.0",
   "description": "WebUntis API",
   "main": "index.js",
   "repository": "https://github.com/TheNoim/WebUntis.git",
   "author": "Nils <nilsbergmann@noim.io>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "axios": "^0.16.2",
     "cookie": "^0.3.1",
