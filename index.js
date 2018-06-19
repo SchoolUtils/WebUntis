@@ -1,6 +1,7 @@
 const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
+const moment = require('moment');
 
 /**
  * WebUntis API Class
@@ -75,6 +76,26 @@ class WebUntis {
 		if (!response.data.result.sessionId) throw new Error("Failed to login. No session id.");
 		this.sessionInformation = response.data.result;
 		return response.data.result;
+	}
+
+    /**
+	 *
+     * @returns {Promise<{name: String, id: Number, startDate: Date, endDate: Date}>}
+     */
+	async getLatestSchoolyear() {
+		const data = await this._request('getSchoolyears');
+		data.sort((a, b) => {
+			const na = moment(a.startDate, 'YYYYMMDD').toDate();
+			const nb = moment(b.startDate, 'YYYYMMDD').toDate();
+            return nb - na;
+		});
+		if (!data[0]) throw new Error("Failed to receive school year");
+		return {
+			name: data[0].name,
+			id: data[0].id,
+            startDate: moment(data[0].startDate, 'YYYYMMDD').toDate(),
+			endDate: moment(data[0].endDate, 'YYYYMMDD').toDate()
+		}
 	}
 
 	_buildCookies() {
