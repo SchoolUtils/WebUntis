@@ -121,6 +121,10 @@ class WebUntis {
 		});
 		return typeof response.data.result === 'number';
 	}
+	
+	async getLatestImportTime() {
+		return this._request("getLatestImportTime")
+	}
 
 	async getOwnTimetableForToday() {
 		return this._request("getTimetable", {
