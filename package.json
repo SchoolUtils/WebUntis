@@ -3,7 +3,10 @@
   "version": "1.4.0",
   "description": "WebUntis API",
   "main": "index.js",
-  "repository": "https://github.com/TheNoim/WebUntis.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNoim/WebUntis.git"
+  },
   "author": "Nils <nilsbergmann@noim.io>",
   "license": "MIT",
   "private": false,
