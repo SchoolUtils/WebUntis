@@ -1,4 +1,45 @@
-const axios = require('axios');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="WebUntis.html">WebUntis</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#convertDateToUntis">convertDateToUntis</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getClasses">getClasses</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getHolidays">getHolidays</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getHomeWorkAndLessons">getHomeWorkAndLessons</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getHomeWorksFor">getHomeWorksFor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getLatestImportTime">getLatestImportTime</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getLatestSchoolyear">getLatestSchoolyear</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getOwnClassTimetableForToday">getOwnClassTimetableForToday</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getOwnTimetableFor">getOwnTimetableFor</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getOwnTimetableForRange">getOwnTimetableForRange</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getOwnTimetableForToday">getOwnTimetableForToday</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getRooms">getRooms</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getSubjects">getSubjects</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#getTimegrid">getTimegrid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#login">login</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#logout">logout</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WebUntis.html#validateSession">validateSession</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
 const moment = require('moment');
@@ -36,14 +77,14 @@ class WebUntis {
                 "X-Requested-With": "XMLHttpRequest"
             },
             validateStatus: function (status) {
-                return status >= 200 && status < 303; // default
+                return status >= 200 &amp;&amp; status &lt; 303; // default
             }
         });
     }
 
     /**
      * Logout the current session
-     * @returns {Promise<boolean>}
+     * @returns {Promise&lt;boolean>}
      */
     async logout() {
         await this.axios({
@@ -62,7 +103,7 @@ class WebUntis {
 
     /**
      * Login with your credentials
-     * @returns {Promise<Object>}
+     * @returns {Promise&lt;Object>}
      */
     async login() {
         const response = await this.axios({
@@ -90,7 +131,7 @@ class WebUntis {
     /**
      * Get the latest WebUntis Schoolyear
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise<{name: String, id: Number, startDate: Date, endDate: Date}>}
+     * @returns {Promise&lt;{name: String, id: Number, startDate: Date, endDate: Date}>}
      */
     async getLatestSchoolyear(validateSession = true) {
         const data = await this._request('getSchoolyears', {}, validateSession);
@@ -122,7 +163,7 @@ class WebUntis {
 
     /**
      * Checks if your current WebUntis Session is valid
-     * @returns {Promise<boolean>}
+     * @returns {Promise&lt;boolean>}
      */
     async validateSession() {
         const response = await this.axios({
@@ -144,7 +185,7 @@ class WebUntis {
     /**
      * Get the time when WebUntis last changed it's data
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise<Number>}
+     * @returns {Promise&lt;Number>}
      */
     async getLatestImportTime(validateSession = true) {
         return this._request("getLatestImportTime", {}, validateSession)
@@ -153,7 +194,7 @@ class WebUntis {
     /**
      * Get your own Timetable for the current day
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise<Object>}
+     * @returns {Promise&lt;Object>}
      */
     async getOwnTimetableForToday(validateSession = true) {
         return this._request("getTimetable", {
@@ -180,7 +221,7 @@ class WebUntis {
      * Get your own Timetable for the given day
      * @param {Date} date
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getOwnTimetableFor(date, validateSession = true) {
         return this._request("getTimetable", {
@@ -210,7 +251,7 @@ class WebUntis {
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getOwnTimetableForRange(rangeStart, rangeEnd, validateSession = true) {
         return this._request("getTimetable", {
@@ -238,7 +279,7 @@ class WebUntis {
     /**
      * Get the Timetable of your class for today
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise<Object>}
+     * @returns {Promise&lt;Object>}
      */
     async getOwnClassTimetableForToday(validateSession = true) {
         return this._request("getTimetable", {
@@ -266,13 +307,13 @@ class WebUntis {
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getHomeWorksFor(rangeStart, rangeEnd, validateSession = true) {
-        if (validateSession && !await this.validateSession()) throw new Error("Current Session is not valid");
+        if (validateSession &amp;&amp; !await this.validateSession()) throw new Error("Current Session is not valid");
         const response = await this.axios({
             method: "GET",
-            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&amp;endDate=${this.convertDateToUntis(rangeEnd)}`,
             headers: {
                 "Cookie": this._buildCookies()
             }
@@ -285,7 +326,7 @@ class WebUntis {
     /**
      * Get all known Subjects for the current logged in user
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getSubjects(validateSession = true) {
         return await this._request('getSubjects', {}, validateSession);
@@ -294,7 +335,7 @@ class WebUntis {
     /**
      * Get the timegrid of current school
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getTimegrid(validateSession = true) {
         return await this._request('getTimegridUnits', {}, validateSession);
@@ -305,13 +346,13 @@ class WebUntis {
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<void>}
+     * @returns {Promise.&lt;void>}
      */
     async getHomeWorkAndLessons(rangeStart, rangeEnd, validateSession = true) {
-        if (validateSession && !await this.validateSession()) throw new Error("Current Session is not valid");
+        if (validateSession &amp;&amp; !await this.validateSession()) throw new Error("Current Session is not valid");
         const response = await this.axios({
             method: "GET",
-            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(rangeStart)}&amp;endDate=${this.convertDateToUntis(rangeEnd)}`,
             headers: {
                 "Cookie": this._buildCookies()
             }
@@ -324,7 +365,7 @@ class WebUntis {
     /**
      * Get all known rooms by WebUntis
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getRooms(validateSession = true) {
         return await this._request('getRooms', {}, validateSession);
@@ -333,7 +374,7 @@ class WebUntis {
     /**
      * Get all classes known by WebUntis
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getClasses(validateSession = true) {
         return await this._request('getKlassen', {}, validateSession);
@@ -342,7 +383,7 @@ class WebUntis {
     /**
      * Get all Holidays known by WebUntis
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      */
     async getHolidays(validateSession = true) {
         return await this._request('getHolidays', {}, validateSession);
@@ -354,7 +395,7 @@ class WebUntis {
      * @returns {String}
      */
     convertDateToUntis(date) {
-        return date.getFullYear().toString() + ((date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)).toString() + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()).toString();
+        return date.getFullYear().toString() + ((date.getMonth() + 1) &lt; 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)).toString() + (date.getDate() &lt; 10 ? "0" + date.getDate() : date.getDate()).toString();
     }
 
     /**
@@ -363,11 +404,11 @@ class WebUntis {
      * @param {Object} [parameter={}]
      * @param {String} [url='/WebUntis/jsonrpc.do?school=SCHOOL']
      * @param {Boolean} [validateSession=true] Whether the session should be checked first
-     * @returns {Promise.<Object>}
+     * @returns {Promise.&lt;Object>}
      * @private
      */
     async _request(method, parameter = {}, url = `/WebUntis/jsonrpc.do?school=${this.school}`, validateSession = true) {
-        if (validateSession && !await this.validateSession()) throw new Error("Current Session is not valid");
+        if (validateSession &amp;&amp; !await this.validateSession()) throw new Error("Current Session is not valid");
         const response = await this.axios({
             method: "POST",
             url: url,
@@ -388,3 +429,22 @@ class WebUntis {
 }
 
 module.exports = WebUntis;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Aug 08 2018 11:44:09 GMT+0200 (CEST) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
