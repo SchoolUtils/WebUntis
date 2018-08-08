@@ -1,9 +1,5 @@
 # WebUntis API
 
-```bash
-export SCHOOL=[Your school]
-export UNTISUSER=[Username]
-export UNTISPW=[Password]
-export UNTISHOST=[Untis Host]
-node --experimental-modules test.mjs
-```
+This is a NodeJS Wrapper for the JSON RPC WebUntis API.
+
+The Documentation is available at [https://noim.me/WebUntis/latest/](https://noim.me/WebUntis/latest/)
