@@ -19,6 +19,6 @@
     "symlink-dir": "^1.1.3"
   },
   "scripts": {
-    "generate-doc": "node linkDocs.js && jsdoc --configure ./.jsdoc.json --verbose index.js"
+    "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js"
   }
 }
