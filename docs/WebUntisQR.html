@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>WebUntis - Documentation</title>
+    <title>WebUntisQR - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">WebUntis</h1>
+    <h1 class="page-title">WebUntisQR</h1>
     
 
     
@@ -42,10 +42,8 @@
 <header>
     
         <h2>
-        WebUntis
+        WebUntisQR
         </h2>
-        
-            <div class="class-description"><p>WebUntis API Class</p></div>
         
     
 </header>
@@ -57,14 +55,16 @@
 <div class="section-method">
 
     
-    <h2>Constructor</h2>
-    
 
-    <h4 class="name" id="WebUntis"><span class="type-signature"></span>new WebUntis<span class="signature">(school, username, password, baseurl, identity<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="WebUntisQR"><span class="type-signature"></span>new WebUntisQR<span class="signature">(QRCodeURI, identity<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
+
+<div class="description">
+    <p>Use the data you get from a WebUntis QR code</p>
+</div>
 
 
 
@@ -99,7 +99,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line14">line 14</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line526">line 526</a>
     </li></ul></dd>
     
 
@@ -147,7 +147,7 @@
 
         <tr>
             
-                <td class="name"><code>school</code></td>
+                <td class="name"><code>QRCodeURI</code></td>
             
 
             <td class="type">
@@ -176,121 +176,7 @@
             
 
             <td class="description last">
-                <p>The school identifier</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>username</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>password</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>baseurl</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>String</code></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">
-                <p>Just the host name of your WebUntis (Example: mese.webuntis.com)</p>
+                <p>A WebUntis uri. This is the data you get from the QR Code from the webuntis webapp under profile-&gt;Data access-&gt;Display</p>
                 
             </td>
         </tr>
@@ -361,6 +247,17 @@
     </div>
 
     
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="WebUntisSecretAuth.html">WebUntisSecretAuth</a></li>
+    </ul>
+
+
+    
 
     
 
@@ -401,6 +298,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#convertDateToUntis">WebUntis#convertDateToUntis</a>
+    </li></ul></dd>
     
 
     
@@ -557,6 +459,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getClasses">WebUntis#getClasses</a>
+    </li></ul></dd>
     
 
     
@@ -734,6 +641,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getHolidays">WebUntis#getHolidays</a>
+    </li></ul></dd>
+    
 
     
 
@@ -905,6 +817,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getHomeWorkAndLessons">WebUntis#getHomeWorkAndLessons</a>
+    </li></ul></dd>
     
 
     
@@ -1153,6 +1070,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getHomeWorksFor">WebUntis#getHomeWorksFor</a>
+    </li></ul></dd>
     
 
     
@@ -1406,6 +1328,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getLatestImportTime">WebUntis#getLatestImportTime</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1581,6 +1508,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getLatestSchoolyear">WebUntis#getLatestSchoolyear</a>
+    </li></ul></dd>
     
 
     
@@ -1758,6 +1690,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getOwnClassTimetableForToday">WebUntis#getOwnClassTimetableForToday</a>
+    </li></ul></dd>
+    
 
     
 
@@ -1933,6 +1870,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getOwnTimetableFor">WebUntis#getOwnTimetableFor</a>
+    </li></ul></dd>
     
 
     
@@ -2147,6 +2089,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getOwnTimetableForRange">WebUntis#getOwnTimetableForRange</a>
+    </li></ul></dd>
     
 
     
@@ -2400,6 +2347,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getOwnTimetableForToday">WebUntis#getOwnTimetableForToday</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2575,6 +2527,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getRooms">WebUntis#getRooms</a>
+    </li></ul></dd>
     
 
     
@@ -2752,6 +2709,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getSubjects">WebUntis#getSubjects</a>
+    </li></ul></dd>
+    
 
     
 
@@ -2927,6 +2889,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#getTimegrid">WebUntis#getTimegrid</a>
+    </li></ul></dd>
     
 
     
@@ -3104,6 +3071,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#login">WebUntis#login</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3208,6 +3180,11 @@
     
 
     
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#logout">WebUntis#logout</a>
+    </li></ul></dd>
+    
 
     
 
@@ -3311,6 +3288,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="WebUntis.html#validateSession">WebUntis#validateSession</a>
+    </li></ul></dd>
     
 
     

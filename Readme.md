@@ -4,12 +4,47 @@ This is a NodeJS Wrapper for the JSON RPC WebUntis API.
 
 The Documentation is available at [https://noim.me/WebUntis/](https://noim.me/WebUntis/)
 
-### Example
+## Examples
+
+### User/Password Login
 
 ```javascript
 const WebUntis = require("webuntis");
 
 const untis = new WebUntis("school", "username", "password", "xyz.webuntis.com");
+
+untis.login().then(() => {
+	return untis.getOwnTimetableForToday();
+}).then(timetable => {
+	// profit
+});
+```
+
+### QR Code Login
+
+```javascript
+const WebUntisLib = require("webuntis");
+
+// The result of the scanned QR Code
+const QRCodeData = "untis://setschool?url=[...]&school=[...]&user=[...]&key=[...]&schoolNumber=[...]";
+
+const untis = new WebUntisLib.WebUntisQR(QRCodeData);
+
+untis.login().then(() => {
+	return untis.getOwnTimetableForToday();
+}).then(timetable => {
+	// profit
+});
+```
+
+### User/Secret Login
+
+```javascript
+const WebUntisLib = require("webuntis");
+
+const secret = "NL04FGY4FSY5";
+
+const untis = new WebUntisLib.WebUntisSecretAuth("school", "username", secret, "xyz.webuntis.com");
 
 untis.login().then(() => {
 	return untis.getOwnTimetableForToday();
