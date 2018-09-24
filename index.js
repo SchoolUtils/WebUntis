@@ -268,6 +268,65 @@ class WebUntis {
     }
 
     /**
+     * Get the Timetable of your class for the given day
+     * @param {Date} date
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise.<Object>}
+     */
+    async getOwnClassTimetableFor(date, validateSession = true) {
+        return this._request("getTimetable", {
+            "options": {
+                "element": {
+                    "id": this.sessionInformation.klasseId,
+                    "type": 1
+                },
+                "startDate": this.convertDateToUntis(date),
+                "endDate": this.convertDateToUntis(date),
+                "showLsText": true,
+                "showStudentgroup": true,
+                "showLsNumber": true,
+                "showSubstText": true,
+                "showInfo": true,
+                "showBooking": true,
+                "klasseFields": ["id", "name", "longname", "externalkey"],
+                "roomFields": ["id", "name", "longname", "externalkey"],
+                "subjectFields": ["id", "name", "longname", "externalkey"],
+                "teacherFields": ["id", "name", "longname", "externalkey"]
+            }
+        }, validateSession);
+    }
+
+    /**
+     * Get the Timetable of your class for a given Date range
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise.<Object>}
+     */
+    async getOwnClassTimetableForRange(rangeStart, rangeEnd, validateSession = true) {
+        return this._request("getTimetable", {
+            "options": {
+                "element": {
+                    "id": this.sessionInformation.klasseId,
+                    "type": 1
+                },
+                "startDate": this.convertDateToUntis(rangeStart),
+                "endDate": this.convertDateToUntis(rangeEnd),
+                "showLsText": true,
+                "showStudentgroup": true,
+                "showLsNumber": true,
+                "showSubstText": true,
+                "showInfo": true,
+                "showBooking": true,
+                "klasseFields": ["id", "name", "longname", "externalkey"],
+                "roomFields": ["id", "name", "longname", "externalkey"],
+                "subjectFields": ["id", "name", "longname", "externalkey"],
+                "teacherFields": ["id", "name", "longname", "externalkey"]
+            }
+        }, validateSession);
+    }
+
+    /**
      *
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
