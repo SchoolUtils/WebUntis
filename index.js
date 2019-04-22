@@ -15,11 +15,11 @@ class WebUntis {
 	/**
 	 *
 	 * @constructor
-	 * @param {String} school The school identifier
-	 * @param {String} username
-	 * @param {String} password
-	 * @param {String} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
-	 * @param {String} [identity="Awesome"] A identity like: MyAwesomeApp
+	 * @param {string} school The school identifier
+	 * @param {string} username
+	 * @param {string} password
+	 * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
+	 * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
 	 */
 	constructor(school, username, password, baseurl, identity = 'Awesome') {
 		this.school = school;
@@ -172,7 +172,7 @@ class WebUntis {
 	/**
 	 * Get your own Timetable for the current day
 	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise<Object>}
+	 * @returns {Promise<Array>}
 	 */
 	async getOwnTimetableForToday(validateSession = true) {
 		return this._request(
@@ -203,7 +203,7 @@ class WebUntis {
 	 * Get your own Timetable for the given day
 	 * @param {Date} date
 	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise.<Array>}
 	 */
 	async getOwnTimetableFor(date, validateSession = true) {
 		return this._request(
@@ -237,7 +237,7 @@ class WebUntis {
 	 * @param {Date} rangeStart
 	 * @param {Date} rangeEnd
 	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise.<Array>}
 	 */
 	async getOwnTimetableForRange(
 		rangeStart,
@@ -273,7 +273,7 @@ class WebUntis {
 	/**
 	 * Get the Timetable of your class for today
 	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise<Object>}
+	 * @returns {Promise<Array>}
 	 */
 	async getOwnClassTimetableForToday(validateSession = true) {
 		return this._request(
@@ -304,7 +304,7 @@ class WebUntis {
 	 * Get the Timetable of your class for the given day
 	 * @param {Date} date
 	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise.<Array>}
 	 */
 	async getOwnClassTimetableFor(date, validateSession = true) {
 		return this._request(
@@ -337,8 +337,8 @@ class WebUntis {
 	 * Get the Timetable of your class for a given Date range
 	 * @param {Date} rangeStart
 	 * @param {Date} rangeEnd
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getOwnClassTimetableForRange(
 		rangeStart,
@@ -375,8 +375,8 @@ class WebUntis {
 	 *
 	 * @param {Date} rangeStart
 	 * @param {Date} rangeEnd
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getHomeWorksFor(rangeStart, rangeEnd, validateSession = true) {
 		if (validateSession && !(await this.validateSession()))
@@ -399,8 +399,8 @@ class WebUntis {
 
 	/**
 	 * Get all known Subjects for the current logged in user
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getSubjects(validateSession = true) {
 		return await this._request('getSubjects', {}, validateSession);
@@ -408,8 +408,8 @@ class WebUntis {
 
 	/**
 	 * Get the timegrid of current school
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getTimegrid(validateSession = true) {
 		return await this._request('getTimegridUnits', {}, validateSession);
@@ -419,7 +419,7 @@ class WebUntis {
 	 *
 	 * @param {Date} rangeStart
 	 * @param {Date} rangeEnd
-	 * @param {Boolean} [validateSession=true]
+	 * @param {boolean} [validateSession=true]
 	 * @returns {Promise.<void>}
 	 */
 	async getHomeWorkAndLessons(rangeStart, rangeEnd, validateSession = true) {
@@ -443,8 +443,8 @@ class WebUntis {
 
 	/**
 	 * Get all known rooms by WebUntis
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getRooms(validateSession = true) {
 		return await this._request('getRooms', {}, validateSession);
@@ -452,8 +452,8 @@ class WebUntis {
 
 	/**
 	 * Get all classes known by WebUntis
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getClasses(validateSession = true) {
 		return await this._request('getKlassen', {}, validateSession);
@@ -461,8 +461,8 @@ class WebUntis {
 
 	/**
 	 * Get all Holidays known by WebUntis
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Object>}
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise.<Array>}
 	 */
 	async getHolidays(validateSession = true) {
 		return await this._request('getHolidays', {}, validateSession);
@@ -489,11 +489,11 @@ class WebUntis {
 
 	/**
 	 * Make a JSON RPC Request with the current session
-	 * @param {String} method
+	 * @param {string} method
 	 * @param {Object} [parameter={}]
-	 * @param {String} [url='/WebUntis/jsonrpc.do?school=SCHOOL']
-	 * @param {Boolean} [validateSession=true] Whether the session should be checked first
-	 * @returns {Promise.<Object>}
+	 * @param {string} [url='/WebUntis/jsonrpc.do?school=SCHOOL']
+	 * @param {boolean} [validateSession=true] Whether the session should be checked first
+	 * @returns {Promise.<any>}
 	 * @private
 	 */
 	async _request(
@@ -532,11 +532,11 @@ class WebUntisSecretAuth extends WebUntis {
 	 *
 	 * @constructor
 	 * @augments WebUntis
-	 * @param {String} school The school identifier
-	 * @param {String} user
-	 * @param {String} secret
-	 * @param {String} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
-	 * @param {String} [identity="Awesome"] A identity like: MyAwesomeApp
+	 * @param {string} school The school identifier
+	 * @param {string} user
+	 * @param {string} secret
+	 * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
+	 * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
 	 */
 	constructor(school, user, secret, baseurl, identity = 'Awesome') {
 		super(school, user, null, baseurl, identity);
@@ -669,8 +669,8 @@ class WebUntisSecretAuth extends WebUntis {
 	/**
 	 *
 	 * @param {Array} setCookieArray
-	 * @param {String} [cookieName="JSESSIONID"]
-	 * @return {String|Boolean}
+	 * @param {string} [cookieName="JSESSIONID"]
+	 * @return {string|boolean}
 	 * @private
 	 */
 	_getCookieFromSetCookie(setCookieArray, cookieName = 'JSESSIONID') {
@@ -695,8 +695,8 @@ class WebUntisQR extends WebUntisSecretAuth {
 	 * Use the data you get from a WebUntis QR code
 	 * @constructor
 	 * @augments WebUntisSecretAuth
-	 * @param {String} QRCodeURI A WebUntis uri. This is the data you get from the QR Code from the webuntis webapp under profile->Data access->Display
-	 * @param {String} [identity="Awesome"]  A identity like: MyAwesomeApp
+	 * @param {string} QRCodeURI A WebUntis uri. This is the data you get from the QR Code from the webuntis webapp under profile->Data access->Display
+	 * @param {string} [identity="Awesome"]  A identity like: MyAwesomeApp
 	 */
 	constructor(QRCodeURI, identity) {
 		const uri = new URL(QRCodeURI);

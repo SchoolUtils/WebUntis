@@ -1,29 +1,30 @@
 {
-  "name": "webuntis",
-  "version": "1.7.1",
-  "description": "WebUntis API",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TheNoim/WebUntis.git"
-  },
-  "author": "Nils <nilsbergmann@noim.io>",
-  "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "axios": "^0.18.0",
-    "cookie": "^0.3.1",
-    "date-fns": "^2.0.0-alpha.27",
-    "lodash.find": "^4.6.0",
-    "otplib": "^11.0.0"
-  },
-  "devDependencies": {
-    "fs-extra": "^7.0.1",
-    "jsdoc": "^3.5.5",
-    "minami": "^1.2.3",
-    "symlink-dir": "^3.0.2"
-  },
-  "scripts": {
-    "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js"
-  }
+	"name": "webuntis",
+	"version": "1.7.1",
+	"description": "WebUntis API",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TheNoim/WebUntis.git"
+	},
+	"author": "Nils <nilsbergmann@noim.io>",
+	"license": "MIT",
+	"private": false,
+	"types": "index.d",
+	"dependencies": {
+		"axios": "^0.18.0",
+		"cookie": "^0.3.1",
+		"date-fns": "^2.0.0-alpha.27",
+		"lodash.find": "^4.6.0",
+		"otplib": "^11.0.0"
+	},
+	"devDependencies": {
+		"fs-extra": "^7.0.1",
+		"jsdoc": "^3.5.5",
+		"minami": "^1.2.3",
+		"symlink-dir": "^3.0.2"
+	},
+	"scripts": {
+		"generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js"
+	}
 }
