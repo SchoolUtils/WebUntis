@@ -4,3 +4,8 @@ test.mjs
 .git
 .idea/
 docs/
+.DS_Store
+.DS_store
+linkDocs.js
+.jsdoc.json
+.idea/

@@ -58,3 +58,6 @@ typings/
 .env
 
 .idea/runConfigurations/**/*
+
+.DS_Store
+.DS_store
