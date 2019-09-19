@@ -61,3 +61,4 @@ typings/
 
 .DS_Store
 .DS_store
+.env
