@@ -27,13 +27,12 @@ declare module 'webuntis' {
 		te: ShortData[];
 		su: ShortData[];
 		ro: ShortData[];
-		lstext: string;
+		lstext?: string;
 		lsnumber: number;
 		activityType?: 'Unterricht' | string;
 		code?: 'cancelled' | 'irregular';
 		info?: string;
 		substText?: string;
-		lstext?: string;
 		statflags?: string;
 		sg?: string;
 		bkRemark?: string;
@@ -122,7 +121,7 @@ declare module 'webuntis' {
 			username: string,
 			password: string,
 			baseurl: string,
-			identity?: string = 'Awesome'
+			identity?: string
 		);
 
 		logout(): Promise<boolean>;
@@ -130,73 +129,73 @@ declare module 'webuntis' {
 		login(): Promise<LoginSessionInformations>;
 
 		getLatestSchoolyear(
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<SchoolYear>;
 
 		private _buildCookies(): Promise<string>;
 
 		validateSession(): Promise<boolean>;
 
-		getLatestImportTime(validateSession?: boolean = true): Promise<number>;
+		getLatestImportTime(validateSession?: boolean): Promise<number>;
 
 		getOwnTimetableForToday(
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getOwnTimetableFor(
 			date: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getOwnTimetableForRange(
 			rangeStart: Date,
 			rangeEnd: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getOwnClassTimetableForToday(
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getOwnClassTimetableFor(
 			date: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getOwnClassTimetableForRange(
 			rangeStart: Date,
 			rangeEnd: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Lesson[]>;
 
 		getHomeWorksFor(
 			rangeStart: Date,
 			rangeEnd: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Homework[]>;
 
-		getSubjects(validateSession?: boolean = true): Promise<Subject[]>;
+		getSubjects(validateSession?: boolean): Promise<Subject[]>;
 
-		getTimegrid(validateSession?: boolean = true): Promise<Timegrid[]>;
+		getTimegrid(validateSession?: boolean): Promise<Timegrid[]>;
 
 		getHomeWorkAndLessons(
 			rangeStart: Date,
 			rangeEnd: Date,
-			validateSession?: boolean = true
+			validateSession?: boolean
 		): Promise<Array<any>>;
 
-		getRooms(validateSession?: boolean = true): Promise<Room[]>;
+		getRooms(validateSession?: boolean): Promise<Room[]>;
 
-		getClasses(validateSession?: boolean = true): Promise<Klasse[]>;
+		getClasses(validateSession?: boolean): Promise<Klasse[]>;
 
-		getHolidays(validateSession?: boolean = true): Promise<Holiday[]>;
+		getHolidays(validateSession?: boolean): Promise<Holiday[]>;
 
 		convertDateToUntis(date: Date): string;
 
 		private _request(
 			method: string,
 			parameter: any,
-			validateSession?: boolean = true,
+			validateSession?: boolean,
 			url?: string
 		): Promise<any>;
 	}
@@ -217,12 +216,12 @@ declare module 'webuntis' {
 			user: string,
 			secret: string,
 			baseurl: string,
-			identity?: string = 'Awesome'
+			identity?: string
 		);
 
 		private _getCookieFromSetCookie(
-			setCookieArray: Array,
-			cookieName?: string = 'JSESSIONID'
+			setCookieArray: Array<any>,
+			cookieName?: string
 		): Promise<string | boolean>;
 	}
 
@@ -234,6 +233,6 @@ declare module 'webuntis' {
 		 * @augments WebUntisSecretAuth
 		 * @constructor
 		 */
-		constructor(QRCodeURI: string, identity?: string = 'Awesome');
+		constructor(QRCodeURI: string, identity?: string);
 	}
 }
