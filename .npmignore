@@ -9,3 +9,4 @@ docs/
 linkDocs.js
 .jsdoc.json
 .idea/
+.env
