@@ -68,6 +68,11 @@ class WebUntis {
 
 	/**
 	 * Login with your credentials
+	 * 
+	 * **Notice: The server may revoke this session after less than 10min of idle.**
+	 * 
+	 * *Untis says in the official docs:*
+	 * > An application should always logout as soon as possible to free system resources on the server.
 	 * @returns {Promise<Object>}
 	 */
 	async login() {
