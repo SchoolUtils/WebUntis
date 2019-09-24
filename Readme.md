@@ -4,6 +4,8 @@ This is a NodeJS Wrapper for the JSON RPC WebUntis API.
 
 The Documentation is available at [https://noim.me/WebUntis/](https://noim.me/WebUntis/)
 
+In case you need the Untis API Spec (pdf) where those JSON responses are explained, you need to directly email Untis and ask. I am (legally) not allowed to publish it.
+
 ## Examples
 
 ### User/Password Login
