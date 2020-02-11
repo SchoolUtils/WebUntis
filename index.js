@@ -184,6 +184,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -215,6 +216,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -253,6 +255,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -285,6 +288,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
@@ -316,6 +320,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
@@ -354,6 +359,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
+					id: (new Date()).getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
