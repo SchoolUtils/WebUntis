@@ -45,6 +45,9 @@ const untisQR = new WebUntis.WebUntisQR(process.env.UNTISQR);
 				)
 		);
 		console.log('Rooms: ' + JSON.stringify(await untis.getRooms()));
+		console.log(
+			'News: ' + JSON.stringify(await untis.getNewsWidget(targetDate))
+		);
 	} catch (e) {
 		console.error(e);
 	}
