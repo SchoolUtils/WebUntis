@@ -68,9 +68,9 @@ class WebUntis {
 
 	/**
 	 * Login with your credentials
-	 * 
+	 *
 	 * **Notice: The server may revoke this session after less than 10min of idle.**
-	 * 
+	 *
 	 * *Untis says in the official docs:*
 	 * > An application should always logout as soon as possible to free system resources on the server.
 	 * @returns {Promise<Object>}
@@ -131,18 +131,20 @@ class WebUntis {
 	 * Get News Widget
 	 * @param {Date} date
 	 * @param {boolean} [validateSession=true]
-	 * @returns {Promise<Array>} see index.d.ts NewsWidget
+	 * @returns {Promise<Object>} see index.d.ts NewsWidget
 	 */
 	async getNewsWidget(date, validateSession = true) {
 		if (validateSession && !(await this.validateSession()))
 			throw new Error('Current Session is not valid');
 		const response = await this.axios({
 			method: 'GET',
-			url: `/WebUntis/api/public/news/newsWidgetData?date=${this.convertDateToUntis(date)}`,
+			url: `/WebUntis/api/public/news/newsWidgetData?date=${this.convertDateToUntis(
+				date
+			)}`,
 			headers: {
 				Cookie: this._buildCookies()
 			}
-		})
+		});
 		if (typeof response.data.data !== 'object')
 			throw new Error('Server returned invalid data.');
 		return response.data.data;
@@ -205,7 +207,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -237,7 +239,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -276,7 +278,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.personId,
 						type: this.sessionInformation.personType
@@ -309,7 +311,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
@@ -341,7 +343,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
@@ -380,7 +382,7 @@ class WebUntis {
 			'getTimetable',
 			{
 				options: {
-					id: (new Date()).getTime(),
+					id: new Date().getTime(),
 					element: {
 						id: this.sessionInformation.klasseId,
 						type: 1
@@ -577,9 +579,7 @@ class WebUntisSecretAuth extends WebUntis {
 
 	async login() {
 		// Get JSESSION
-		const url = `/WebUntis/jsonrpc_intern.do?m=isPremiumAvailable&school=${
-			this.school
-		}&v=i2.2`;
+		const url = `/WebUntis/jsonrpc_intern.do?m=isPremiumAvailable&school=${this.school}&v=i2.2`;
 		const token = otp.generate(this.secret);
 		const time = new Date().getTime();
 		const response = await this.axios({
