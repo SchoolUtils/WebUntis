@@ -128,6 +128,27 @@ class WebUntis {
 	}
 
 	/**
+	 * Get News Widget
+	 * @param {Date} date
+	 * @param {boolean} [validateSession=true]
+	 * @returns {Promise<Array>} see index.d.ts NewsWidget
+	 */
+	async getNewsWidget(date, validateSession = true) {
+		if (validateSession && !(await this.validateSession()))
+			throw new Error('Current Session is not valid');
+		const response = await this.axios({
+			method: 'GET',
+			url: `/WebUntis/api/public/news/newsWidgetData?date=${this.convertDateToUntis(date)}`,
+			headers: {
+				Cookie: this._buildCookies()
+			}
+		})
+		if (typeof response.data.data !== 'object')
+			throw new Error('Server returned invalid data.');
+		return response.data.data;
+	}
+
+	/**
 	 *
 	 * @returns {string}
 	 * @private

@@ -1,4 +1,19 @@
 declare module 'webuntis' {
+
+	export interface NewsWidget {
+        systemMessage: any;
+        messagesOfDay: MessagesOfDay[];
+        rssUrl:        string;
+	}
+
+	export interface MessagesOfDay {
+			id:          number;
+			subject:     string;
+			text:        string;
+			isExpanded:  boolean;
+			attachments: any[];
+	}
+
 	export interface LoginSessionInformations {
 		sessionId: string;
 		personType: number;
@@ -131,6 +146,11 @@ declare module 'webuntis' {
 		getLatestSchoolyear(
 			validateSession?: boolean
 		): Promise<SchoolYear>;
+
+		getNewsWidget(
+			date: Date,
+			validateSession?: boolean
+		): Promise<NewsWidget>
 
 		private _buildCookies(): Promise<string>;
 
