@@ -1,17 +1,16 @@
 declare module 'webuntis' {
-
 	export interface NewsWidget {
-        systemMessage: any;
-        messagesOfDay: MessagesOfDay[];
-        rssUrl:        string;
+		systemMessage: any;
+		messagesOfDay: MessagesOfDay[];
+		rssUrl: string;
 	}
 
 	export interface MessagesOfDay {
-			id:          number;
-			subject:     string;
-			text:        string;
-			isExpanded:  boolean;
-			attachments: any[];
+		id: number;
+		subject: string;
+		text: string;
+		isExpanded: boolean;
+		attachments: any[];
 	}
 
 	export interface LoginSessionInformations {
@@ -143,14 +142,12 @@ declare module 'webuntis' {
 
 		login(): Promise<LoginSessionInformations>;
 
-		getLatestSchoolyear(
-			validateSession?: boolean
-		): Promise<SchoolYear>;
+		getLatestSchoolyear(validateSession?: boolean): Promise<SchoolYear>;
 
 		getNewsWidget(
 			date: Date,
 			validateSession?: boolean
-		): Promise<NewsWidget>
+		): Promise<NewsWidget>;
 
 		private _buildCookies(): Promise<string>;
 
@@ -158,9 +155,7 @@ declare module 'webuntis' {
 
 		getLatestImportTime(validateSession?: boolean): Promise<number>;
 
-		getOwnTimetableForToday(
-			validateSession?: boolean
-		): Promise<Lesson[]>;
+		getOwnTimetableForToday(validateSession?: boolean): Promise<Lesson[]>;
 
 		getOwnTimetableFor(
 			date: Date,
@@ -211,6 +206,10 @@ declare module 'webuntis' {
 		getHolidays(validateSession?: boolean): Promise<Holiday[]>;
 
 		convertDateToUntis(date: Date): string;
+
+		static convertUntisDate(date: string | number, baseDate?: Date): Date;
+
+		static convertUntisTime(time: string | number, baseDate?: Date): Date;
 
 		private _request(
 			method: string,

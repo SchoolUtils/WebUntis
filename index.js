@@ -4,7 +4,7 @@ const Base64 = require('./Base64');
 const otp = require('otplib/authenticator');
 const find = require('lodash.find');
 const { URL } = require('url');
-const { parse } = require('date-fns');
+const { parse, startOfDay } = require('date-fns');
 
 otp.options = { crypto: require('crypto') };
 
@@ -429,6 +429,30 @@ class WebUntis {
 		if (!response.data.data['homeworks'])
 			throw new Error("Data object doesn't contains homeworks object.");
 		return response.data.data;
+	}
+
+	/**
+	 * Converts the untis date string format to a normal JS Date object
+	 * @param {string} date Untis date string
+	 * @param {Date} [baseDate=new Date()] Base date. Default beginning of current day
+	 * @returns {Date}
+	 * @static
+	 */
+	static convertUntisDate(date, baseDate = startOfDay(new Date())) {
+		if (typeof date !== 'string') date = `${date}`;
+		return parse(date, 'yyyyMMdd', baseDate);
+	}
+
+	/**
+	 * Convert a untis time string to a JS Date object
+	 * @param {string|number} time Untis time string
+	 * @param {Date} [baseDate=new Date()] Day used as base for the time. Default: Current date
+	 * @returns {Date}
+	 * @static
+	 */
+	static convertUntisTime(time, baseDate = new Date()) {
+		if (typeof time !== 'string') time = `${time}`;
+		return parse(time, 'Hmm', baseDate);
 	}
 
 	/**
