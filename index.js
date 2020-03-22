@@ -585,27 +585,13 @@ class WebUntis {
 	}
 }
 
-class WebUntisSecretAuth extends WebUntis {
-	/**
-	 *
-	 * @constructor
-	 * @augments WebUntis
-	 * @param {string} school The school identifier
-	 * @param {string} user
-	 * @param {string} secret
-	 * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
-	 * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
-	 */
-	constructor(school, user, secret, baseurl, identity = 'Awesome') {
-		super(school, user, null, baseurl, identity);
-		this.secret = secret;
+class InternalWebuntisSecretLogin extends WebUntis {
+	constructor(school, username, password, baseurl, identity = 'Awesome') {
+		super(school, username, password, baseurl, identity);
 	}
 
-	async login() {
-		// Get JSESSION
+	async _otpLogin(token, username, time) {
 		const url = `/WebUntis/jsonrpc_intern.do?m=isPremiumAvailable&school=${this.school}&v=i2.2`;
-		const token = otp.generate(this.secret);
-		const time = new Date().getTime();
 		const response = await this.axios({
 			method: 'POST',
 			url,
@@ -616,7 +602,7 @@ class WebUntisSecretAuth extends WebUntis {
 					{
 						auth: {
 							clientTime: time,
-							user: this.username,
+							user: username,
 							otp: token
 						}
 					}
@@ -746,6 +732,72 @@ class WebUntisSecretAuth extends WebUntis {
 	}
 }
 
+class WebuntisAnonymousAuth extends InternalWebuntisSecretLogin {
+	/**
+	 *
+	 * @param {string} school
+	 * @param {string} baseurl
+	 * @param {string} [identity='Awesome']
+	 */
+	constructor(school, baseurl, identity = 'Awesome') {
+		super(school, null, null, baseurl, identity);
+		this.username = '#anonymous#';
+	}
+
+	async login() {
+		// Check whether the school has public access or not
+		const url = `/WebUntis/jsonrpc_intern.do?m=getAppSharedSecret&school=${this.school}&v=i3.5`;
+		const response = await this.axios({
+			method: 'POST',
+			url,
+			data: {
+				id: this.id,
+				method: 'getAppSharedSecret',
+				params: [
+					{
+						userName: '#anonymous#',
+						password: ''
+					}
+				],
+				jsonrpc: '2.0'
+			}
+		});
+		if (response.data && response.data.error)
+			throw new Error(
+				'Failed to login. ' + (response.data.error.message || '')
+			);
+
+		// OTP never changes when using anonymous login
+		const otp = 100170;
+		const time = new Date().getTime();
+		return await this._otpLogin(otp, this.username, time);
+	}
+}
+
+class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
+	/**
+	 *
+	 * @constructor
+	 * @augments WebUntis
+	 * @param {string} school The school identifier
+	 * @param {string} user
+	 * @param {string} secret
+	 * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
+	 * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
+	 */
+	constructor(school, user, secret, baseurl, identity = 'Awesome') {
+		super(school, user, null, baseurl, identity);
+		this.secret = secret;
+	}
+
+	async login() {
+		// Get JSESSION
+		const token = otp.generate(this.secret);
+		const time = new Date().getTime();
+		return await this._otpLogin(token, this.username, time);
+	}
+}
+
 class WebUntisQR extends WebUntisSecretAuth {
 	/**
 	 * Use the data you get from a WebUntis QR code
@@ -768,5 +820,6 @@ class WebUntisQR extends WebUntisSecretAuth {
 
 WebUntis.WebUntisSecretAuth = WebUntisSecretAuth;
 WebUntis.WebUntisQR = WebUntisQR;
+WebUntis.WebuntisAnonymousAuth = WebuntisAnonymousAuth;
 
 module.exports = WebUntis;

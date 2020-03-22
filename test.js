@@ -27,6 +27,14 @@ const untisSecret = new WebUntis.WebUntisSecretAuth(
  */
 const untisQR = new WebUntis.WebUntisQR(process.env.UNTISQR);
 
+/**
+ *
+ */
+const anonymous = new WebUntis.WebuntisAnonymousAuth(
+	process.env.UNTISANONYMOUSSCHOOL,
+	process.env.UNTISANONYMOUSSCHOOLHOST
+);
+
 (async function() {
 	const endOfMonthVar = endOfMonth(new Date());
 	const targetDate = subDays(new Date(), 2);
@@ -90,6 +98,13 @@ const untisQR = new WebUntis.WebUntisQR(process.env.UNTISQR);
 				)
 		);
 		console.log('Rooms: ' + JSON.stringify(await untisQR.getRooms()));
+	} catch (e) {
+		console.trace(e);
+	}
+	try {
+		await anonymous.login();
+		const x = await untisQR.validateSession();
+		console.log('Valid session: ' + x);
 	} catch (e) {
 		console.trace(e);
 	}
