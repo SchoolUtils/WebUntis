@@ -75,6 +75,28 @@ untis
 	});
 ```
 
+### Anonymous Login
+
+Only if your school supports public access.
+
+```javascript
+const WebUntisLib = require('webuntis');
+
+const untis = new WebUntisLib.WebuntisAnonymousAuth(
+	'school',
+	'xyz.webuntis.com'
+);
+
+untis
+	.login()
+	.then(() => {
+		return untis.getTimegrid();
+	})
+	.then(timetable => {
+		// profit
+	});
+```
+
 ### Installation
 
 ```bash
