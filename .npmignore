@@ -8,5 +8,5 @@ docs/
 .DS_store
 linkDocs.js
 .jsdoc.json
-.idea/
 .env
+test2.js
