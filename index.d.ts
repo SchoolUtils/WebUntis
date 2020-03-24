@@ -1,4 +1,12 @@
 declare module 'webuntis' {
+	export enum WebUntisElementType {
+		CLASS = 1,
+		TEACHER = 2,
+		SUBJECT = 3,
+		ROOM = 4,
+		STUDENT = 5,
+	}
+
 	export interface NewsWidget {
 		systemMessage: any;
 		messagesOfDay: MessagesOfDay[];
@@ -15,9 +23,9 @@ declare module 'webuntis' {
 
 	export interface LoginSessionInformations {
 		sessionId: string;
-		personType: number;
-		personId: number;
-		klasseId: number;
+		personType?: number;
+		personId?: number;
+		klasseId?: number;
 	}
 	export interface SchoolYear {
 		name: string;
@@ -151,20 +159,34 @@ declare module 'webuntis' {
 
 		private _buildCookies(): Promise<string>;
 
+		private _checkAnonymous(): void;
+
 		validateSession(): Promise<boolean>;
 
 		getLatestImportTime(validateSession?: boolean): Promise<number>;
 
 		getOwnTimetableForToday(validateSession?: boolean): Promise<Lesson[]>;
 
+		getTimetableForToday(id: number, type: number, validateSession?: boolean): Promise<Lesson[]>;
+
 		getOwnTimetableFor(
 			date: Date,
 			validateSession?: boolean
 		): Promise<Lesson[]>;
 
+		getTimetableFor(date: Date, id: number, type: number, validateSession?: boolean): Promise<Lesson[]>;
+
 		getOwnTimetableForRange(
 			rangeStart: Date,
 			rangeEnd: Date,
+			validateSession?: boolean
+		): Promise<Lesson[]>;
+
+		getTimetableForRange(
+			rangeStart: Date,
+			rangeEnd: Date,
+			id: number,
+			type: number,
 			validateSession?: boolean
 		): Promise<Lesson[]>;
 
@@ -211,12 +233,26 @@ declare module 'webuntis' {
 
 		static convertUntisTime(time: string | number, baseDate?: Date): Date;
 
+		static WebUntisAnonymousAuth: typeof WebUntisAnonymousAuth;
+
+		static WebUntisSecretAuth: typeof WebUntisSecretAuth;
+
+		static WebUntisQR: typeof WebUntisQR;
+
+		static TYPES: typeof WebUntisElementType;
+
 		private _request(
 			method: string,
 			parameter: any,
 			validateSession?: boolean,
 			url?: string
 		): Promise<any>;
+	}
+
+	class InternalWebuntisSecretLogin extends WebUntis {}
+
+	export class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
+
 	}
 
 	export class WebUntisSecretAuth extends WebUntis {

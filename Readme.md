@@ -82,7 +82,7 @@ Only if your school supports public access.
 ```javascript
 const WebUntisLib = require('webuntis');
 
-const untis = new WebUntisLib.WebuntisAnonymousAuth(
+const untis = new WebUntisLib.WebUntisAnonymousAuth(
 	'school',
 	'xyz.webuntis.com'
 );
@@ -90,8 +90,12 @@ const untis = new WebUntisLib.WebuntisAnonymousAuth(
 untis
 	.login()
 	.then(() => {
-		return untis.getTimegrid();
+	    return untis.getClasses();
 	})
+    .then(classes => {
+        // Get timetable for the first class
+        return untis.getTimetableForToday(classes[0].id, WebUntisLib.TYPES.CLASS);
+    })
 	.then(timetable => {
 		// profit
 	});

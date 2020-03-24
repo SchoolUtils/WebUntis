@@ -30,7 +30,7 @@ const untisQR = new WebUntis.WebUntisQR(process.env.UNTISQR);
 /**
  *
  */
-const anonymous = new WebUntis.WebuntisAnonymousAuth(
+const anonymous = new WebUntis.WebUntisAnonymousAuth(
 	process.env.UNTISANONYMOUSSCHOOL,
 	process.env.UNTISANONYMOUSSCHOOLHOST
 );
@@ -41,7 +41,8 @@ const anonymous = new WebUntis.WebuntisAnonymousAuth(
 	try {
 		await untis.login();
 		const x = await untis.validateSession();
-		console.log('Valid session: ' + x);
+		console.log('Valid session (User/PW): ' + x);
+		console.log('Session: ' + JSON.stringify(untis.sessionInformation));
 		console.log(
 			'Timetable: ' +
 				JSON.stringify(await untis.getOwnTimetableFor(targetDate))
@@ -62,7 +63,8 @@ const anonymous = new WebUntis.WebuntisAnonymousAuth(
 	try {
 		await untisSecret.login();
 		const x = await untisSecret.validateSession();
-		console.log('Valid session: ' + x);
+		console.log('Valid session (SECRET): ' + x);
+		console.log('Session: ' + JSON.stringify(untisSecret.sessionInformation));
 		console.log(
 			'Timetable: ' +
 				JSON.stringify(await untisSecret.getOwnTimetableFor(targetDate))
@@ -83,7 +85,8 @@ const anonymous = new WebUntis.WebuntisAnonymousAuth(
 	try {
 		await untisQR.login();
 		const x = await untisQR.validateSession();
-		console.log('Valid session: ' + x);
+		console.log('Valid session (QR): ' + x);
+		console.log('Session: ' + JSON.stringify(untisQR.sessionInformation));
 		console.log(
 			'Timetable: ' +
 				JSON.stringify(await untisQR.getOwnTimetableFor(targetDate))
@@ -103,8 +106,8 @@ const anonymous = new WebUntis.WebuntisAnonymousAuth(
 	}
 	try {
 		await anonymous.login();
-		const x = await untisQR.validateSession();
-		console.log('Valid session: ' + x);
+		const x = await anonymous.validateSession();
+		console.log('Valid session (anonymous): ' + x);
 	} catch (e) {
 		console.trace(e);
 	}
