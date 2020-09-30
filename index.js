@@ -466,6 +466,24 @@ class WebUntis {
     }
 
     /**
+     * Get all known teachers by WebUntis
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getTeachers(validateSession = true) {
+        return await this._request('getTeachers', {}, validateSession);
+    }
+
+    /**
+     * Get all known students by WebUntis
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getStudents(validateSession = true) {
+        return await this._request('getStudents', {}, validateSession);
+    }
+
+    /**
      * Get all known rooms by WebUntis
      * @param {boolean} [validateSession=true]
      * @returns {Promise.<Array>}
@@ -484,12 +502,30 @@ class WebUntis {
     }
 
     /**
-     * Get all Holidays known by WebUntis
+     * Get all departments known by WebUntis
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getDepartments(validateSession = true) {
+        return await this._request('getDepartments', {}, validateSession);
+    }
+
+    /**
+     * Get all holidays known by WebUntis
      * @param {boolean} [validateSession=true]
      * @returns {Promise.<Array>}
      */
     async getHolidays(validateSession = true) {
         return await this._request('getHolidays', {}, validateSession);
+    }
+
+    /**
+     * Get all status data known by WebUntis
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getStatusData(validateSession = true) {
+        return await this._request('getStatusData', {}, validateSession);
     }
 
     /**
