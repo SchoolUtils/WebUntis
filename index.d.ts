@@ -112,6 +112,7 @@ declare module 'webuntis' {
 		name: string;
 		longName: string;
 	}
+
 	export interface Holiday {
 		name: string;
 		longName: string;
@@ -124,6 +125,7 @@ declare module 'webuntis' {
 		lstypes: (LsEntity)[];
 		codes: (CodesEntity)[];
 	}
+
 	export interface LsEntity {
 		ls?: ColorEntity | null
 		oh?: ColorEntity | null
@@ -131,14 +133,16 @@ declare module 'webuntis' {
 		bs?: ColorEntity | null
 		ex?: ColorEntity | null
 	}
+
 	export interface CodesEntity {
 		cancelled?: ColorEntity | null;
 		irregular?: ColorEntity | null;
-	  }
-	  export interface ColorEntity {
+	}
+
+	export interface ColorEntity {
 		foreColor: string;
 		backColor: string;
-	  }
+	}
 
 	  
 	export interface Room {

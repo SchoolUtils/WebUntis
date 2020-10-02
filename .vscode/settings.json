@@ -1,1 +1,3 @@
-{}
+{
+	"openhab.host": "peter.local"
+}
