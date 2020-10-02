@@ -72,6 +72,24 @@ declare module 'webuntis' {
 		text: string;
 	}
 
+	export interface Teacher {
+		id: number;
+		name: string;
+		foreName: string;
+		longName: string;
+		foreColor: string;
+		backColor: string;
+	}
+
+	export interface Student {
+		id: number;
+		key: number;
+		name: string;
+		foreName: string;
+		longName: string;
+		gender: string;
+	}
+
 	export interface Subject {
 		id: number;
 		name: string;
@@ -89,6 +107,11 @@ declare module 'webuntis' {
 		active: boolean;
 	}
 
+	export interface Department {
+		id: number;
+		name: string;
+		longName: string;
+	}
 	export interface Holiday {
 		name: string;
 		longName: string;
@@ -97,6 +120,27 @@ declare module 'webuntis' {
 		endDate: Date;
 	}
 
+	export interface StatusData {
+		lstypes: (LsEntity)[];
+		codes: (CodesEntity)[];
+	}
+	export interface LsEntity {
+		ls?: ColorEntity | null
+		oh?: ColorEntity | null
+		sb?: ColorEntity | null
+		bs?: ColorEntity | null
+		ex?: ColorEntity | null
+	}
+	export interface CodesEntity {
+		cancelled?: ColorEntity | null;
+		irregular?: ColorEntity | null;
+	  }
+	  export interface ColorEntity {
+		foreColor: string;
+		backColor: string;
+	  }
+
+	  
 	export interface Room {
 		id: number;
 		name: string;
@@ -221,11 +265,19 @@ declare module 'webuntis' {
 			validateSession?: boolean
 		): Promise<Array<any>>;
 
+		getTeachers(validateSession?: boolean): Promise<Teacher[]>;
+
+		getStudents(validateSession?: boolean): Promise<Student[]>;
+
 		getRooms(validateSession?: boolean): Promise<Room[]>;
 
 		getClasses(validateSession?: boolean): Promise<Klasse[]>;
 
+		getDepartments(validateSession?: boolean): Promise<Department[]>;
+
 		getHolidays(validateSession?: boolean): Promise<Holiday[]>;
+
+		getStatusData(validateSession?: boolean): Promise<StatusData>;
 
 		convertDateToUntis(date: Date): string;
 
