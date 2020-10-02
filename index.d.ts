@@ -1,4 +1,6 @@
 declare module 'webuntis' {
+	import { Authenticator } from 'otplib/core';
+
 	export enum WebUntisElementType {
 		CLASS = 1,
 		TEACHER = 2,
@@ -319,6 +321,7 @@ declare module 'webuntis' {
 		 * @param secret Your secret (Not password)
 		 * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
 		 * @param identity The client identity
+		 * @param authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
 		 * @augments WebUntis
 		 * @constructor
 		 */
@@ -327,7 +330,8 @@ declare module 'webuntis' {
 			user: string,
 			secret: string,
 			baseurl: string,
-			identity?: string
+			identity?: string,
+			authenticator?: Authenticator,
 		);
 
 		private _getCookieFromSetCookie(
@@ -341,9 +345,11 @@ declare module 'webuntis' {
 		 *
 		 * @param QRCodeURI The content of the qr code.
 		 * @param identity The client identity
+		 * @param authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
+		 * @param URL Custom whatwg url implementation. Default will use the nodejs implementation.
 		 * @augments WebUntisSecretAuth
 		 * @constructor
 		 */
-		constructor(QRCodeURI: string, identity?: string);
+		constructor(QRCodeURI: string, identity?: string, authenticator?: Authenticator, URL?: any);
 	}
 }

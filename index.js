@@ -1,12 +1,8 @@
 const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
-const otp = require('otplib/authenticator');
 const find = require('lodash.find');
-const {URL} = require('url');
 const {parse, startOfDay} = require('date-fns');
-
-otp.options = {crypto: require('crypto')};
 
 /**
  * WebUntis API Class
@@ -745,7 +741,7 @@ class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
      * @param {string} [identity='Awesome']
      */
     constructor(school, baseurl, identity = 'Awesome') {
-        super(school, null, null, baseurl, identity);
+        super(school, null, null, baseurl, identity, false);
         this.username = '#anonymous#';
         this.ananonymous = true;
     }
@@ -791,15 +787,21 @@ class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
      * @param {string} secret
      * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
      * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
+     * @param {Object} authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
      */
-    constructor(school, user, secret, baseurl, identity = 'Awesome') {
+    constructor(school, user, secret, baseurl, identity = 'Awesome', authenticator) {
         super(school, user, null, baseurl, identity);
         this.secret = secret;
+        this.authenticator = authenticator;
+        if (!authenticator) {
+            const { authenticator } = require('otplib');
+            this.authenticator = authenticator;
+        }
     }
 
     async login() {
         // Get JSESSION
-        const token = otp.generate(this.secret);
+        const token = this.authenticator.generate(this.secret);
         const time = new Date().getTime();
         return await this._otpLogin(token, this.username, time);
     }
@@ -812,15 +814,22 @@ class WebUntisQR extends WebUntisSecretAuth {
      * @augments WebUntisSecretAuth
      * @param {string} QRCodeURI A WebUntis uri. This is the data you get from the QR Code from the webuntis webapp under profile->Data access->Display
      * @param {string} [identity="Awesome"]  A identity like: MyAwesomeApp
+     * @param {Object} authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
+     * @param {Object} URL Custom whatwg url implementation. Default will use the nodejs implementation.
      */
-    constructor(QRCodeURI, identity) {
-        const uri = new URL(QRCodeURI);
+    constructor(QRCodeURI, identity, authenticator, URL) {
+        let URLImplementation = URL;
+        if (!URL) {
+            URLImplementation = require('url').URL;
+        }
+        const uri = new URLImplementation(QRCodeURI);
         super(
             uri.searchParams.get('school'),
             uri.searchParams.get('user'),
             uri.searchParams.get('key'),
             uri.searchParams.get('url'),
-            identity
+            identity,
+            authenticator
         );
     }
 }

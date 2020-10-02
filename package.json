@@ -16,7 +16,7 @@
 		"cookie": "^0.4.0",
 		"date-fns": "^2.9.0",
 		"lodash.find": "^4.6.0",
-		"otplib": "^11.0.1"
+		"otplib": "^12"
 	},
 	"devDependencies": {
 		"dotenv": "^8.2.0",
