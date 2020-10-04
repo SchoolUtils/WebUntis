@@ -717,7 +717,9 @@ class InternalWebuntisSecretLogin extends WebUntis {
      * @private
      */
     _getCookieFromSetCookie(setCookieArray, cookieName = 'JSESSIONID') {
-        for (const setCookie of setCookieArray) {
+        if (!setCookieArray) return false;
+        for (let i = 0; i < setCookieArray.length; i++) {
+            const setCookie = setCookieArray[i];
             if (!setCookie) continue;
             let cookieParts = setCookie.split(';');
             if (!cookieParts || !Array.isArray(cookieParts)) continue;
@@ -794,7 +796,8 @@ class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
         this.secret = secret;
         this.authenticator = authenticator;
         if (!authenticator) {
-            const { authenticator } = require('otplib');
+            // React-Native will not eval this expression
+            const { authenticator } = eval("require('otplib')");
             this.authenticator = authenticator;
         }
     }
@@ -820,7 +823,8 @@ class WebUntisQR extends WebUntisSecretAuth {
     constructor(QRCodeURI, identity, authenticator, URL) {
         let URLImplementation = URL;
         if (!URL) {
-            URLImplementation = require('url').URL;
+            // React-Native will not eval this expression
+            URLImplementation = eval("require('url').URL");
         }
         const uri = new URLImplementation(QRCodeURI);
         super(
