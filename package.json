@@ -19,13 +19,17 @@
 		"otplib": "^12"
 	},
 	"devDependencies": {
+		"axios-mock-adapter": "^1.18.2",
 		"dotenv": "^8.2.0",
 		"fs-extra": "^7.0.1",
+		"jest": "^26.4.2",
+		"jest-in-case": "^1.0.2",
 		"jsdoc": "^3.6.3",
 		"minami": "^1.2.3",
 		"symlink-dir": "^3.1.1"
 	},
 	"scripts": {
-		"generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js"
+		"generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js",
+		"test": "jest"
 	}
 }

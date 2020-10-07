@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should getHomeWorkAndLessons catch error invalidate 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorkAndLessons catch error invalidate with not object 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorkAndLessons catch error invalidate without homeworks 1`] = `"Data object doesn't contains homeworks object."`;
+
+exports[`should getHomeWorkAndLessons catch error validate 1`] = `"Current Session is not valid"`;
+
+exports[`should getHomeWorkAndLessons catch error validate with not object 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorkAndLessons catch error validate without homeworks 1`] = `"Data object doesn't contains homeworks object."`;
+
+exports[`should getHomeWorksFor catch error invalidate 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorksFor catch error invalidate with not object 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorksFor catch error invalidate without homeworks 1`] = `"Data object doesn't contains homeworks object."`;
+
+exports[`should getHomeWorksFor catch error validate 1`] = `"Current Session is not valid"`;
+
+exports[`should getHomeWorksFor catch error validate with not object 1`] = `"Server returned invalid data."`;
+
+exports[`should getHomeWorksFor catch error validate without homeworks 1`] = `"Data object doesn't contains homeworks object."`;
+
+exports[`should getLatestSchoolyear throw error with empty array 1`] = `"Failed to receive school year"`;
+
+exports[`should getNewsWidget catch data not object 1`] = `"Server returned invalid data."`;
+
+exports[`should getNewsWidget catch invalid data 1`] = `"Current Session is not valid"`;
+
+exports[`should method login catch error response not object 1`] = `"Failed to parse server response."`;
+
+exports[`should method login catch error with empty sessionId 1`] = `"Failed to login. No session id."`;
+
+exports[`should method login catch error with result has code 1`] = `"Login returned error code: 500"`;
+
+exports[`should method login catch error with result null 1`] = `"Failed to login. {\\"result\\":null}"`;
