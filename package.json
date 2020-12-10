@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TheNoim/WebUntis.git"
+		"url": "https://github.com/SchoolUtils/WebUntis.git"
 	},
-	"author": "Nils <nilsbergmann@noim.io>",
+	"author": "Tom Sacher <tom.sacher@icloud.com>",
 	"license": "MIT",
 	"private": false,
 	"types": "index.d",
