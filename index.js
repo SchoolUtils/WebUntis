@@ -175,6 +175,7 @@ class WebUntis {
      * @returns {Promise<boolean>}
      */
     async validateSession() {
+        if (!this.sessionInformation) return false;
         const response = await this.axios({
             method: 'POST',
             url: `/WebUntis/jsonrpc.do?school=${this.school}`,
