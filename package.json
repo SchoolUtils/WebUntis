@@ -1,6 +1,6 @@
 {
 	"name": "webuntis",
-	"version": "1.13.3",
+	"version": "1.14.0",
 	"description": "WebUntis API",
 	"main": "index.js",
 	"repository": {
