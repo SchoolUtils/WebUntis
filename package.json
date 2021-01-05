@@ -12,7 +12,7 @@
 	"private": false,
 	"types": "index.d",
 	"dependencies": {
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"cookie": "^0.4.0",
 		"date-fns": "^2.9.0",
 		"lodash.find": "^4.6.0",
