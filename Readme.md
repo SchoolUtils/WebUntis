@@ -13,21 +13,16 @@ In case you need the Untis API Spec (pdf) where those JSON responses are explain
 ```javascript
 const WebUntis = require('webuntis');
 
-const untis = new WebUntis(
-	'school',
-	'username',
-	'password',
-	'xyz.webuntis.com'
-);
+const untis = new WebUntis('school', 'username', 'password', 'xyz.webuntis.com');
 
 untis
-	.login()
-	.then(() => {
-		return untis.getOwnTimetableForToday();
-	})
-	.then(timetable => {
-		// profit
-	});
+    .login()
+    .then(() => {
+        return untis.getOwnTimetableForToday();
+    })
+    .then((timetable) => {
+        // profit
+    });
 ```
 
 ### QR Code Login
@@ -36,19 +31,18 @@ untis
 const WebUntisLib = require('webuntis');
 
 // The result of the scanned QR Code
-const QRCodeData =
-	'untis://setschool?url=[...]&school=[...]&user=[...]&key=[...]&schoolNumber=[...]';
+const QRCodeData = 'untis://setschool?url=[...]&school=[...]&user=[...]&key=[...]&schoolNumber=[...]';
 
 const untis = new WebUntisLib.WebUntisQR(QRCodeData);
 
 untis
-	.login()
-	.then(() => {
-		return untis.getOwnTimetableForToday();
-	})
-	.then(timetable => {
-		// profit
-	});
+    .login()
+    .then(() => {
+        return untis.getOwnTimetableForToday();
+    })
+    .then((timetable) => {
+        // profit
+    });
 ```
 
 ### User/Secret Login
@@ -58,21 +52,16 @@ const WebUntisLib = require('webuntis');
 
 const secret = 'NL04FGY4FSY5';
 
-const untis = new WebUntisLib.WebUntisSecretAuth(
-	'school',
-	'username',
-	secret,
-	'xyz.webuntis.com'
-);
+const untis = new WebUntisLib.WebUntisSecretAuth('school', 'username', secret, 'xyz.webuntis.com');
 
 untis
-	.login()
-	.then(() => {
-		return untis.getOwnTimetableForToday();
-	})
-	.then(timetable => {
-		// profit
-	});
+    .login()
+    .then(() => {
+        return untis.getOwnTimetableForToday();
+    })
+    .then((timetable) => {
+        // profit
+    });
 ```
 
 ### Anonymous Login
@@ -82,23 +71,20 @@ Only if your school supports public access.
 ```javascript
 const WebUntisLib = require('webuntis');
 
-const untis = new WebUntisLib.WebUntisAnonymousAuth(
-	'school',
-	'xyz.webuntis.com'
-);
+const untis = new WebUntisLib.WebUntisAnonymousAuth('school', 'xyz.webuntis.com');
 
 untis
-	.login()
-	.then(() => {
-	    return untis.getClasses();
-	})
-    .then(classes => {
+    .login()
+    .then(() => {
+        return untis.getClasses();
+    })
+    .then((classes) => {
         // Get timetable for the first class
         return untis.getTimetableForToday(classes[0].id, WebUntisLib.TYPES.CLASS);
     })
-	.then(timetable => {
-		// profit
-	});
+    .then((timetable) => {
+        // profit
+    });
 ```
 
 ### Installation

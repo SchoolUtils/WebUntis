@@ -2,7 +2,7 @@ const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
 const find = require('lodash.find');
-const {parse, startOfDay} = require('date-fns');
+const { parse, startOfDay } = require('date-fns');
 
 /**
  * WebUntis API Class
@@ -36,11 +36,11 @@ class WebUntis {
                     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36',
                 'Cache-Control': 'no-cache',
                 Pragma: 'no-cache',
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
             },
             validateStatus: function (status) {
                 return status >= 200 && status < 303; // default
-            }
+            },
         });
     }
 
@@ -51,13 +51,16 @@ class WebUntis {
     async logout() {
         await this.axios({
             method: 'POST',
-            url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+            url: `/WebUntis/jsonrpc.do`,
+            params: {
+                school: this.school,
+            },
             data: {
                 id: this.id,
                 method: 'logout',
                 params: {},
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
         this.sessionInformation = null;
         return true;
@@ -75,30 +78,25 @@ class WebUntis {
     async login() {
         const response = await this.axios({
             method: 'POST',
-            url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+            url: `/WebUntis/jsonrpc.do`,
+            params: {
+                school: this.school,
+            },
             data: {
                 id: this.id,
                 method: 'authenticate',
                 params: {
                     user: this.username,
                     password: this.password,
-                    client: this.id
+                    client: this.id,
                 },
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
-        if (typeof response.data !== 'object')
-            throw new Error('Failed to parse server response.');
-        if (!response.data.result)
-            throw new Error(
-                'Failed to login. ' + JSON.stringify(response.data)
-            );
-        if (response.data.result.code)
-            throw new Error(
-                'Login returned error code: ' + response.data.result.code
-            );
-        if (!response.data.result.sessionId)
-            throw new Error('Failed to login. No session id.');
+        if (typeof response.data !== 'object') throw new Error('Failed to parse server response.');
+        if (!response.data.result) throw new Error('Failed to login. ' + JSON.stringify(response.data));
+        if (response.data.result.code) throw new Error('Login returned error code: ' + response.data.result.code);
+        if (!response.data.result.sessionId) throw new Error('Failed to login. No session id.');
         this.sessionInformation = response.data.result;
         return response.data.result;
     }
@@ -120,7 +118,7 @@ class WebUntis {
             name: data[0].name,
             id: data[0].id,
             startDate: parse(data[0].startDate, 'yyyyMMdd', new Date()),
-            endDate: parse(data[0].endDate, 'yyyyMMdd', new Date())
+            endDate: parse(data[0].endDate, 'yyyyMMdd', new Date()),
         };
     }
 
@@ -131,19 +129,18 @@ class WebUntis {
      * @returns {Promise<Object>} see index.d.ts NewsWidget
      */
     async getNewsWidget(date, validateSession = true) {
-        if (validateSession && !(await this.validateSession()))
-            throw new Error('Current Session is not valid');
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'GET',
-            url: `/WebUntis/api/public/news/newsWidgetData?date=${this.convertDateToUntis(
-                date
-            )}`,
+            url: `/WebUntis/api/public/news/newsWidgetData`,
+            params: {
+                data: this.convertDateToUntis(date),
+            },
             headers: {
-                Cookie: this._buildCookies()
-            }
+                Cookie: this._buildCookies(),
+            },
         });
-        if (typeof response.data.data !== 'object')
-            throw new Error('Server returned invalid data.');
+        if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
         return response.data.data;
     }
 
@@ -160,12 +157,7 @@ class WebUntis {
      */
     _buildCookies() {
         let cookies = [];
-        cookies.push(
-            CookieBuilder.serialize(
-                'JSESSIONID',
-                this.sessionInformation.sessionId
-            )
-        );
+        cookies.push(CookieBuilder.serialize('JSESSIONID', this.sessionInformation.sessionId));
         cookies.push(CookieBuilder.serialize('schoolname', this.schoolbase64));
         return cookies.join('; ');
     }
@@ -178,16 +170,19 @@ class WebUntis {
         if (!this.sessionInformation) return false;
         const response = await this.axios({
             method: 'POST',
-            url: `/WebUntis/jsonrpc.do?school=${this.school}`,
+            url: `/WebUntis/jsonrpc.do`,
+            params: {
+                school: this.school,
+            },
             headers: {
-                Cookie: this._buildCookies()
+                Cookie: this._buildCookies(),
             },
             data: {
                 id: this.id,
                 method: 'getLatestImportTime',
                 params: {},
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
         return typeof response.data.result === 'number';
     }
@@ -227,7 +222,7 @@ class WebUntis {
                     id: new Date().getTime(),
                     element: {
                         id,
-                        type
+                        type,
                     },
                     ...additionalOptions,
                     showLsText: true,
@@ -239,8 +234,8 @@ class WebUntis {
                     klasseFields: ['id', 'name', 'longname', 'externalkey'],
                     roomFields: ['id', 'name', 'longname', 'externalkey'],
                     subjectFields: ['id', 'name', 'longname', 'externalkey'],
-                    teacherFields: ['id', 'name', 'longname', 'externalkey']
-                }
+                    teacherFields: ['id', 'name', 'longname', 'externalkey'],
+                },
             },
             validateSession
         );
@@ -248,13 +243,19 @@ class WebUntis {
 
     /**
      * Get your own Timetable for the current day
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Boolean} [validateSession=true]
      * @returns {Promise<Array>}
      */
     async getOwnTimetableForToday(validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.personId, this.sessionInformation.personType, null, null, validateSession);
+        return await this._timetableRequest(
+            this.sessionInformation.personId,
+            this.sessionInformation.personType,
+            null,
+            null,
+            validateSession
+        );
     }
 
     /**
@@ -270,14 +271,20 @@ class WebUntis {
 
     /**
      * Get your own Timetable for the given day
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Date} date
      * @param {Boolean} [validateSession=true]
      * @returns {Promise.<Array>}
      */
     async getOwnTimetableFor(date, validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.personId, this.sessionInformation.personType, date, date, validateSession);
+        return await this._timetableRequest(
+            this.sessionInformation.personId,
+            this.sessionInformation.personType,
+            date,
+            date,
+            validateSession
+        );
     }
 
     /**
@@ -294,43 +301,39 @@ class WebUntis {
 
     /**
      * Get your own timetable for a given Date range
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
      * @param {Boolean} [validateSession=true]
      * @returns {Promise.<Array>}
      */
-    async getOwnTimetableForRange(
-        rangeStart,
-        rangeEnd,
-        validateSession = true
-    ) {
+    async getOwnTimetableForRange(rangeStart, rangeEnd, validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.personId, this.sessionInformation.personType, rangeStart, rangeEnd, validateSession);
+        return await this._timetableRequest(
+            this.sessionInformation.personId,
+            this.sessionInformation.personType,
+            rangeStart,
+            rangeEnd,
+            validateSession
+        );
     }
 
-	/**
-	 * Get the timetable for a given Date range for specific element
-	 * @param {Date} rangeStart
-	 * @param {Date} rangeEnd
-	 * @param {number} id
-	 * @param {WebUntisElementType} type
-	 * @param {Boolean} [validateSession=true]
-	 * @returns {Promise.<Array>}
-	 */
-    async getTimetableForRange(
-    	rangeStart,
-		rangeEnd,
-        id,
-        type,
-        validateSession = true
-	) {
-		return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession);
+    /**
+     * Get the timetable for a given Date range for specific element
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {number} id
+     * @param {WebUntisElementType} type
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getTimetableForRange(rangeStart, rangeEnd, id, type, validateSession = true) {
+        return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession);
     }
 
     /**
      * Get the Timetable of your class for today
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Boolean} [validateSession=true]
      * @returns {Promise<Array>}
      */
@@ -341,7 +344,7 @@ class WebUntis {
 
     /**
      * Get the Timetable of your class for the given day
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Date} date
      * @param {Boolean} [validateSession=true]
      * @returns {Promise.<Array>}
@@ -353,17 +356,13 @@ class WebUntis {
 
     /**
      * Get the Timetable of your class for a given Date range
-	 * Note: You can't use this with anonymous login
+     * Note: You can't use this with anonymous login
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
      * @param {boolean} [validateSession=true]
      * @returns {Promise.<Array>}
      */
-    async getOwnClassTimetableForRange(
-        rangeStart,
-        rangeEnd,
-        validateSession = true
-    ) {
+    async getOwnClassTimetableForRange(rangeStart, rangeEnd, validateSession = true) {
         this._checkAnonymous();
         return await this._timetableRequest(this.sessionInformation.klasseId, 1, rangeStart, rangeEnd, validateSession);
     }
@@ -376,21 +375,20 @@ class WebUntis {
      * @returns {Promise.<Array>}
      */
     async getHomeWorksFor(rangeStart, rangeEnd, validateSession = true) {
-        if (validateSession && !(await this.validateSession()))
-            throw new Error('Current Session is not valid');
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'GET',
-            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(
-                rangeStart
-            )}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+            url: `/WebUntis/api/homeworks/lessons`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+            },
             headers: {
-                Cookie: this._buildCookies()
-            }
+                Cookie: this._buildCookies(),
+            },
         });
-        if (typeof response.data.data !== 'object')
-            throw new Error('Server returned invalid data.');
-        if (!response.data.data['homeworks'])
-            throw new Error("Data object doesn't contains homeworks object.");
+        if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
+        if (!response.data.data['homeworks']) throw new Error("Data object doesn't contains homeworks object.");
         return response.data.data;
     }
 
@@ -444,21 +442,20 @@ class WebUntis {
      * @returns {Promise.<void>}
      */
     async getHomeWorkAndLessons(rangeStart, rangeEnd, validateSession = true) {
-        if (validateSession && !(await this.validateSession()))
-            throw new Error('Current Session is not valid');
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'GET',
-            url: `/WebUntis/api/homeworks/lessons?startDate=${this.convertDateToUntis(
-                rangeStart
-            )}&endDate=${this.convertDateToUntis(rangeEnd)}`,
+            url: `/WebUntis/api/homeworks/lessons`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+            },
             headers: {
-                Cookie: this._buildCookies()
-            }
+                Cookie: this._buildCookies(),
+            },
         });
-        if (typeof response.data.data !== 'object')
-            throw new Error('Server returned invalid data.');
-        if (!response.data.data['homeworks'])
-            throw new Error("Data object doesn't contains homeworks object.");
+        if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
+        if (!response.data.data['homeworks']) throw new Error("Data object doesn't contains homeworks object.");
         return response.data.data;
     }
 
@@ -533,14 +530,8 @@ class WebUntis {
     convertDateToUntis(date) {
         return (
             date.getFullYear().toString() +
-            (date.getMonth() + 1 < 10
-                    ? '0' + (date.getMonth() + 1)
-                    : date.getMonth() + 1
-            ).toString() +
-            (date.getDate() < 10
-                    ? '0' + date.getDate()
-                    : date.getDate()
-            ).toString()
+            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1).toString() +
+            (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()).toString()
         );
     }
 
@@ -553,33 +544,26 @@ class WebUntis {
      * @returns {Promise.<any>}
      * @private
      */
-    async _request(
-        method,
-        parameter = {},
-        validateSession = true,
-        url = `/WebUntis/jsonrpc.do?school=${this.school}`
-    ) {
-        if (validateSession && !(await this.validateSession()))
-            throw new Error('Current Session is not valid');
+    async _request(method, parameter = {}, validateSession = true, url = `/WebUntis/jsonrpc.do`) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'POST',
             url: url,
+            params: {
+                school: this.school,
+            },
             headers: {
-                Cookie: this._buildCookies()
+                Cookie: this._buildCookies(),
             },
             data: {
                 id: this.id,
                 method: method,
                 params: parameter,
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
-        if (!response.data.result)
-            throw new Error("Server didn't returned any result.");
-        if (response.data.result.code)
-            throw new Error(
-                'Server returned error code: ' + response.data.result.code
-            );
+        if (!response.data.result) throw new Error("Server didn't returned any result.");
+        if (response.data.result.code) throw new Error('Server returned error code: ' + response.data.result.code);
         return response.data.result;
     }
 }
@@ -602,32 +586,25 @@ class InternalWebuntisSecretLogin extends WebUntis {
                         auth: {
                             clientTime: time,
                             user: username,
-                            otp: token
-                        }
-                    }
+                            otp: token,
+                        },
+                    },
                 ],
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
         if (response.data && response.data.error)
-            throw new Error(
-                'Failed to login. ' + (response.data.error.message || '')
-            );
+            throw new Error('Failed to login. ' + (response.data.error.message || ''));
         if (
             response.headers &&
             response.headers['set-cookie'] &&
-            this._getCookieFromSetCookie(response.headers['set-cookie']) ===
-            false
+            this._getCookieFromSetCookie(response.headers['set-cookie']) === false
         )
-            throw new Error(
-                "Failed to login. Server didn't return a session id."
-            );
-        const sessionId = this._getCookieFromSetCookie(
-            response.headers['set-cookie']
-        );
+            throw new Error("Failed to login. Server didn't return a session id.");
+        const sessionId = this._getCookieFromSetCookie(response.headers['set-cookie']);
         // Set session temporary
         this.sessionInformation = {
-            sessionId: sessionId
+            sessionId: sessionId,
         };
 
         if (skipSessionInfo) return true;
@@ -638,47 +615,31 @@ class InternalWebuntisSecretLogin extends WebUntis {
             method: 'GET',
             url: appConfigUrl,
             headers: {
-                Cookie: this._buildCookies()
-            }
+                Cookie: this._buildCookies(),
+            },
         });
-        if (
-            typeof configResponse.data !== 'object' ||
-            typeof configResponse.data.data !== 'object'
-        )
-            throw new Error(
-                'Failed to fetch app config while login. data (type): ' +
-                typeof response.data
-            );
+        if (typeof configResponse.data !== 'object' || typeof configResponse.data.data !== 'object')
+            throw new Error('Failed to fetch app config while login. data (type): ' + typeof response.data);
         // Path -> data.loginServiceConfig.user.persons -> find person with id
         if (
             configResponse.data.data &&
             configResponse.data.data.loginServiceConfig &&
             configResponse.data.data.loginServiceConfig.user &&
-            !Number.isInteger(
-                configResponse.data.data.loginServiceConfig.user.personId
-            )
+            !Number.isInteger(configResponse.data.data.loginServiceConfig.user.personId)
         )
-            throw new Error(
-                'Invalid personId. personId: ' +
-                configResponse.data.data.loginServiceConfig.user.personId
-            );
-        const webUntisLoginServiceUser =
-            configResponse.data.data.loginServiceConfig.user;
+            throw new Error('Invalid personId. personId: ' + configResponse.data.data.loginServiceConfig.user.personId);
+        const webUntisLoginServiceUser = configResponse.data.data.loginServiceConfig.user;
         if (!Array.isArray(webUntisLoginServiceUser.persons))
-            throw new Error(
-                'Invalid person array. persons (type): ' +
-                typeof webUntisLoginServiceUser.persons
-            );
+            throw new Error('Invalid person array. persons (type): ' + typeof webUntisLoginServiceUser.persons);
         const person = find(webUntisLoginServiceUser.persons, {
-            id: configResponse.data.data.loginServiceConfig.user.personId
+            id: configResponse.data.data.loginServiceConfig.user.personId,
         });
         if (!person) throw new Error('Can not find person in person array.');
-        if (!Number.isInteger(person.type))
-            throw new Error('Invalid person type. type (type): ' + person.type);
+        if (!Number.isInteger(person.type)) throw new Error('Invalid person type. type (type): ' + person.type);
         this.sessionInformation = {
             sessionId: sessionId,
             personType: person.type,
-            personId: configResponse.data.data.loginServiceConfig.user.personId
+            personId: configResponse.data.data.loginServiceConfig.user.personId,
         };
         // Get klasseId
         try {
@@ -687,22 +648,17 @@ class InternalWebuntisSecretLogin extends WebUntis {
                 method: 'GET',
                 url: dayConfigUrl,
                 headers: {
-                    Cookie: this._buildCookies()
-                }
+                    Cookie: this._buildCookies(),
+                },
             });
-            if (
-                typeof dayConfigResponse.data !== 'object' ||
-                typeof dayConfigResponse.data.data !== 'object'
-            )
+            if (typeof dayConfigResponse.data !== 'object' || typeof dayConfigResponse.data.data !== 'object')
                 throw new Error();
-            if (!Number.isInteger(dayConfigResponse.data.data.klasseId))
-                throw new Error();
+            if (!Number.isInteger(dayConfigResponse.data.data.klasseId)) throw new Error();
             this.sessionInformation = {
                 sessionId: sessionId,
                 personType: person.type,
-                personId:
-                configResponse.data.data.loginServiceConfig.user.personId,
-                klasseId: dayConfigResponse.data.data.klasseId
+                personId: configResponse.data.data.loginServiceConfig.user.personId,
+                klasseId: dayConfigResponse.data.data.klasseId,
             };
         } catch (e) {
             // klasseId is not important. This request can fail
@@ -751,32 +707,35 @@ class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
 
     async login() {
         // Check whether the school has public access or not
-        const url = `/WebUntis/jsonrpc_intern.do?m=getAppSharedSecret&school=${this.school}&v=i3.5`;
+        const url = `/WebUntis/jsonrpc_intern.do`;
         const response = await this.axios({
             method: 'POST',
             url,
+            params: {
+                m: 'getAppSharedSecret',
+                school: this.school,
+                v: 'i3.5',
+            },
             data: {
                 id: this.id,
                 method: 'getAppSharedSecret',
                 params: [
                     {
                         userName: '#anonymous#',
-                        password: ''
-                    }
+                        password: '',
+                    },
                 ],
-                jsonrpc: '2.0'
-            }
+                jsonrpc: '2.0',
+            },
         });
 
-		if (response.data && response.data.error)
-			throw new Error(
-				'Failed to login. ' + (response.data.error.message || '')
-			);
+        if (response.data && response.data.error)
+            throw new Error('Failed to login. ' + (response.data.error.message || ''));
 
-		// OTP never changes when using anonymous login
-		const otp = 100170;
-		const time = new Date().getTime();
-		return await this._otpLogin(otp, this.username, time, true);
+        // OTP never changes when using anonymous login
+        const otp = 100170;
+        const time = new Date().getTime();
+        return await this._otpLogin(otp, this.username, time, true);
     }
 }
 
@@ -843,11 +802,11 @@ WebUntis.WebUntisSecretAuth = WebUntisSecretAuth;
 WebUntis.WebUntisQR = WebUntisQR;
 WebUntis.WebUntisAnonymousAuth = WebUntisAnonymousAuth;
 WebUntis.TYPES = {
-	CLASS: 1,
-	TEACHER: 2,
-	SUBJECT: 3,
-	ROOM: 4,
-	STUDENT: 5,
+    CLASS: 1,
+    TEACHER: 2,
+    SUBJECT: 3,
+    ROOM: 4,
+    STUDENT: 5,
 };
 
 module.exports = WebUntis;
