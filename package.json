@@ -12,22 +12,21 @@
     "private": false,
     "types": "index.d",
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "^0.22.0",
         "cookie": "^0.4.0",
-        "date-fns": "^2.21.1",
+        "date-fns": "^2.24.0",
         "lodash.find": "^4.6.0",
         "otplib": "^12"
     },
     "devDependencies": {
-        "axios-mock-adapter": "^1.19.0",
-        "dotenv": "^8.2.0",
-        "fs-extra": "^9.1.0",
-        "jest": "^26.6.3",
+        "axios-mock-adapter": "^1.20.0",
+        "dotenv": "^10.0.0",
+        "fs-extra": "^10.0.0",
+        "jest": "^27.2.4",
         "jest-in-case": "^1.0.2",
-        "jsdoc": "^3.6.3",
+        "jsdoc": "^3.6.7",
         "minami": "^1.2.3",
-        "prettier": "^2.2.1",
-        "symlink-dir": "^3.1.1"
+        "prettier": "^2.4.1"
     },
     "scripts": {
         "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js",
