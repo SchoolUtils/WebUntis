@@ -22,7 +22,7 @@
         "axios-mock-adapter": "^1.20.0",
         "dotenv": "^10.0.0",
         "fs-extra": "^10.0.0",
-        "jest": "^26.6.3",
+        "jest": "^27.2.4",
         "jest-in-case": "^1.0.2",
         "jsdoc": "^3.6.7",
         "minami": "^1.2.3",
