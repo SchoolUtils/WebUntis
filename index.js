@@ -134,7 +134,7 @@ class WebUntis {
             method: 'GET',
             url: `/WebUntis/api/public/news/newsWidgetData`,
             params: {
-                data: this.convertDateToUntis(date),
+                date: this.convertDateToUntis(date),
             },
             headers: {
                 Cookie: this._buildCookies(),
