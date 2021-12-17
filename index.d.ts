@@ -74,6 +74,26 @@ declare module 'webuntis' {
         text: string;
     }
 
+    export interface Exam {
+        id: number;
+        examType: string;
+        name: string;
+        studentClass: string[];
+        assignedStudents: {
+            klasse: {id: number; name: string;};
+            displayName: string;
+            id: number;
+        }[];
+        examDate: number;
+        startTime: number;
+        endTime: number;
+        subject: string;
+        teachers: string[];
+        rooms: string[];
+        text: string;
+        grade?: string;
+    }
+
     export interface Teacher {
         id: number;
         name: string;
@@ -241,6 +261,8 @@ declare module 'webuntis' {
         getTimegrid(validateSession?: boolean): Promise<Timegrid[]>;
 
         getHomeWorkAndLessons(rangeStart: Date, rangeEnd: Date, validateSession?: boolean): Promise<Array<any>>;
+
+        getExamsForRange(rangeStart: Date, rangeEnd: Date,klasseId: number,withGrades: boolean, validateSession?: boolean): Promise<Array<Exam>>;
 
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 

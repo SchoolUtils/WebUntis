@@ -459,6 +459,36 @@ class WebUntis {
         return response.data.data;
     }
 
+
+    /**
+     * Get Exams for range
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Number} klasseId
+     * @param {boolean} withGrades
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<void>}
+     */
+    async getExamsForRange(rangeStart, rangeEnd, klasseId = -1, withGrades = false, validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/exams`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+                klasseId: klasseId,
+                withGrades: withGrades
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
+        if (!response.data.data['exams']) throw new Error("Data object doesn't contains exams object.");
+        return response.data.data['exams'];
+    }
+
     /**
      * Get all known teachers by WebUntis
      * @param {boolean} [validateSession=true]
