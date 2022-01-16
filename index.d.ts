@@ -80,7 +80,7 @@ declare module 'webuntis' {
         name: string;
         studentClass: string[];
         assignedStudents: {
-            klasse: {id: number; name: string;};
+            klasse: { id: number; name: string };
             displayName: string;
             id: number;
         }[];
@@ -205,9 +205,17 @@ declare module 'webuntis' {
          * @param password Your webuntis password
          * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
          * @param identity The client identity
+         * @param disableUserAgent If this is true, axios will not send a custom User-Agent
          * @constructor
          */
-        constructor(school: string, username: string, password: string, baseurl: string, identity?: string);
+        constructor(
+            school: string,
+            username: string,
+            password: string,
+            baseurl: string,
+            identity?: string,
+            disableUserAgent?: boolean
+        );
 
         logout(): Promise<boolean>;
 
@@ -262,7 +270,13 @@ declare module 'webuntis' {
 
         getHomeWorkAndLessons(rangeStart: Date, rangeEnd: Date, validateSession?: boolean): Promise<Array<any>>;
 
-        getExamsForRange(rangeStart: Date, rangeEnd: Date,klasseId: number,withGrades: boolean, validateSession?: boolean): Promise<Array<Exam>>;
+        getExamsForRange(
+            rangeStart: Date,
+            rangeEnd: Date,
+            klasseId: number,
+            withGrades: boolean,
+            validateSession?: boolean
+        ): Promise<Array<Exam>>;
 
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
@@ -308,6 +322,7 @@ declare module 'webuntis' {
          * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
          * @param identity The client identity
          * @param authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
+         * @param disableUserAgent If this is true, axios will not send a custom User-Agent
          * @augments WebUntis
          * @constructor
          */
@@ -317,7 +332,8 @@ declare module 'webuntis' {
             secret: string,
             baseurl: string,
             identity?: string,
-            authenticator?: Authenticator
+            authenticator?: Authenticator,
+            disableUserAgent?: boolean
         );
 
         private _getCookieFromSetCookie(setCookieArray: Array<any>, cookieName?: string): Promise<string | boolean>;
@@ -330,9 +346,16 @@ declare module 'webuntis' {
          * @param identity The client identity
          * @param authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
          * @param URL Custom whatwg url implementation. Default will use the nodejs implementation.
+         * @param disableUserAgent If this is true, axios will not send a custom User-Agent
          * @augments WebUntisSecretAuth
          * @constructor
          */
-        constructor(QRCodeURI: string, identity?: string, authenticator?: Authenticator, URL?: any);
+        constructor(
+            QRCodeURI: string,
+            identity?: string,
+            authenticator?: Authenticator,
+            URL?: any,
+            disableUserAgent?: boolean
+        );
     }
 }

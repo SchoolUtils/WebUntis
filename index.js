@@ -16,8 +16,9 @@ class WebUntis {
      * @param {string} password
      * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
      * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
+     * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(school, username, password, baseurl, identity = 'Awesome') {
+    constructor(school, username, password, baseurl, identity = 'Awesome', disableUserAgent = false) {
         this.school = school;
         this.schoolbase64 = '_' + Base64.btoa(this.school);
         this.username = username;
@@ -26,17 +27,22 @@ class WebUntis {
         this.cookies = [];
         this.id = identity;
         this.sessionInformation = {};
-        this.ananonymous = false;
+        this.anonymous = false;
+
+        const additionalHeaders = {}
+
+        if (!disableUserAgent) {
+            additionalHeaders['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36';
+        }
 
         this.axios = axios.create({
             baseURL: this.baseurl,
             maxRedirects: 0,
             headers: {
-                'User-Agent':
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36',
                 'Cache-Control': 'no-cache',
                 Pragma: 'no-cache',
                 'X-Requested-With': 'XMLHttpRequest',
+                ...additionalHeaders
             },
             validateStatus: function (status) {
                 return status >= 200 && status < 303; // default
@@ -145,7 +151,7 @@ class WebUntis {
     }
 
     _checkAnonymous() {
-        if (this.ananonymous) {
+        if (this.anonymous) {
             throw new Error('This method is not supported with anonymous login');
         }
     }
@@ -599,8 +605,8 @@ class WebUntis {
 }
 
 class InternalWebuntisSecretLogin extends WebUntis {
-    constructor(school, username, password, baseurl, identity = 'Awesome') {
-        super(school, username, password, baseurl, identity);
+    constructor(school, username, password, baseurl, identity = 'Awesome', disableUserAgent = false) {
+        super(school, username, password, baseurl, identity, disableUserAgent);
     }
 
     async _otpLogin(token, username, time, skipSessionInfo = false) {
@@ -728,11 +734,12 @@ class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
      * @param {string} school
      * @param {string} baseurl
      * @param {string} [identity='Awesome']
+     * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(school, baseurl, identity = 'Awesome') {
-        super(school, null, null, baseurl, identity, false);
+    constructor(school, baseurl, identity = 'Awesome', disableUserAgent = false) {
+        super(school, null, null, baseurl, identity, false, disableUserAgent);
         this.username = '#anonymous#';
-        this.ananonymous = true;
+        this.anonymous = true;
     }
 
     async login() {
@@ -780,9 +787,10 @@ class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
      * @param {string} baseurl Just the host name of your WebUntis (Example: mese.webuntis.com)
      * @param {string} [identity="Awesome"] A identity like: MyAwesomeApp
      * @param {Object} authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
+     * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(school, user, secret, baseurl, identity = 'Awesome', authenticator) {
-        super(school, user, null, baseurl, identity);
+    constructor(school, user, secret, baseurl, identity = 'Awesome', authenticator, disableUserAgent = false) {
+        super(school, user, null, baseurl, identity, disableUserAgent);
         this.secret = secret;
         this.authenticator = authenticator;
         if (!authenticator) {
@@ -809,8 +817,9 @@ class WebUntisQR extends WebUntisSecretAuth {
      * @param {string} [identity="Awesome"]  A identity like: MyAwesomeApp
      * @param {Object} authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
      * @param {Object} URL Custom whatwg url implementation. Default will use the nodejs implementation.
+     * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(QRCodeURI, identity, authenticator, URL) {
+    constructor(QRCodeURI, identity, authenticator, URL, disableUserAgent = false) {
         let URLImplementation = URL;
         if (!URL) {
             // React-Native will not eval this expression
@@ -823,7 +832,8 @@ class WebUntisQR extends WebUntisSecretAuth {
             uri.searchParams.get('key'),
             uri.searchParams.get('url'),
             identity,
-            authenticator
+            authenticator,
+            disableUserAgent
         );
     }
 }
