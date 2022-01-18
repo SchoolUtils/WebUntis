@@ -9,7 +9,7 @@ const mockResponse = {
         sessionId: '123',
         personId: 'testing-person',
         personType: 'testing-type',
-        klasseId: 'testing-klasse',
+        classId: 'testing-class',
     },
 };
 const school = 'school';
@@ -328,7 +328,7 @@ cases(
 
         expect(await untis.getOwnClassTimetableForToday(validate)).toBe(123);
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.classId, 1)
         );
     },
     [
@@ -354,7 +354,7 @@ cases(
         expect(await untis.getOwnClassTimetableFor(date, validate)).toBe(123);
         expect(mockAxios.history.post[2].data).toMatch('20191113');
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.classId, 1)
         );
     },
     [
@@ -382,7 +382,7 @@ cases(
         expect(mockAxios.history.post[2].data).toMatch('20191113');
         expect(mockAxios.history.post[2].data).toMatch('20191117');
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.classId, 1)
         );
     },
     [
@@ -518,8 +518,8 @@ cases(
         },
         { name: 'getRooms', method: 'getRooms', validate: true, post: 1 },
         { name: 'getRooms', method: 'getRooms', validate: false, post: 0 },
-        { name: 'getClasses', method: 'getKlassen', validate: true, post: 1 },
-        { name: 'getClasses', method: 'getKlassen', validate: false, post: 0 },
+        { name: 'getClasses', method: 'getClassn', validate: true, post: 1 },
+        { name: 'getClasses', method: 'getClassn', validate: false, post: 0 },
         {
             name: 'getDepartments',
             method: 'getDepartments',

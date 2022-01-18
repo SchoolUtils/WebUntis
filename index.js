@@ -237,7 +237,7 @@ class WebUntis {
                     showSubstText: true,
                     showInfo: true,
                     showBooking: true,
-                    klasseFields: ['id', 'name', 'longname', 'externalkey'],
+                    classFields: ['id', 'name', 'longname', 'externalkey'],
                     roomFields: ['id', 'name', 'longname', 'externalkey'],
                     subjectFields: ['id', 'name', 'longname', 'externalkey'],
                     teacherFields: ['id', 'name', 'longname', 'externalkey'],
@@ -345,7 +345,7 @@ class WebUntis {
      */
     async getOwnClassTimetableForToday(validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.klasseId, 1, null, null, validateSession);
+        return await this._timetableRequest(this.sessionInformation.classId, 1, null, null, validateSession);
     }
 
     /**
@@ -357,7 +357,7 @@ class WebUntis {
      */
     async getOwnClassTimetableFor(date, validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.klasseId, 1, date, date, validateSession);
+        return await this._timetableRequest(this.sessionInformation.classId, 1, date, date, validateSession);
     }
 
     /**
@@ -370,7 +370,7 @@ class WebUntis {
      */
     async getOwnClassTimetableForRange(rangeStart, rangeEnd, validateSession = true) {
         this._checkAnonymous();
-        return await this._timetableRequest(this.sessionInformation.klasseId, 1, rangeStart, rangeEnd, validateSession);
+        return await this._timetableRequest(this.sessionInformation.classId, 1, rangeStart, rangeEnd, validateSession);
     }
 
     /**
@@ -470,12 +470,12 @@ class WebUntis {
      * Get Exams for range
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
-     * @param {Number} klasseId
+     * @param {Number} classId
      * @param {boolean} withGrades
      * @param {boolean} [validateSession=true]
      * @returns {Promise.<void>}
      */
-    async getExamsForRange(rangeStart, rangeEnd, klasseId = -1, withGrades = false, validateSession = true) {
+    async getExamsForRange(rangeStart, rangeEnd, classId = -1, withGrades = false, validateSession = true) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'GET',
@@ -483,7 +483,7 @@ class WebUntis {
             params: {
                 startDate: this.convertDateToUntis(rangeStart),
                 endDate: this.convertDateToUntis(rangeEnd),
-                klasseId: klasseId,
+                classId: classId,
                 withGrades: withGrades
             },
             headers: {
@@ -528,7 +528,7 @@ class WebUntis {
      * @returns {Promise.<Array>}
      */
     async getClasses(validateSession = true) {
-        return await this._request('getKlassen', {}, validateSession);
+        return await this._request('getClassn', {}, validateSession);
     }
 
     /**
@@ -677,7 +677,7 @@ class InternalWebuntisSecretLogin extends WebUntis {
             personType: person.type,
             personId: configResponse.data.data.loginServiceConfig.user.personId,
         };
-        // Get klasseId
+        // Get classId
         try {
             const dayConfigUrl = `/WebUntis/api/daytimetable/config`;
             const dayConfigResponse = await this.axios({
@@ -689,15 +689,15 @@ class InternalWebuntisSecretLogin extends WebUntis {
             });
             if (typeof dayConfigResponse.data !== 'object' || typeof dayConfigResponse.data.data !== 'object')
                 throw new Error();
-            if (!Number.isInteger(dayConfigResponse.data.data.klasseId)) throw new Error();
+            if (!Number.isInteger(dayConfigResponse.data.data.classId)) throw new Error();
             this.sessionInformation = {
                 sessionId: sessionId,
                 personType: person.type,
                 personId: configResponse.data.data.loginServiceConfig.user.personId,
-                klasseId: dayConfigResponse.data.data.klasseId,
+                classId: dayConfigResponse.data.data.classId,
             };
         } catch (e) {
-            // klasseId is not important. This request can fail
+            // classId is not important. This request can fail
         }
         return true;
     }

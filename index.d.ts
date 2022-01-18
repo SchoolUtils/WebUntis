@@ -27,7 +27,7 @@ declare module 'webuntis' {
         sessionId: string;
         personType?: number;
         personId?: number;
-        klasseId?: number;
+        classId?: number;
     }
     export interface SchoolYear {
         name: string;
@@ -80,7 +80,7 @@ declare module 'webuntis' {
         name: string;
         studentClass: string[];
         assignedStudents: {
-            klasse: { id: number; name: string };
+            class: { id: number; name: string };
             displayName: string;
             id: number;
         }[];
@@ -122,7 +122,7 @@ declare module 'webuntis' {
         backColor: string;
     }
 
-    export interface Klasse {
+    export interface Class {
         id: number;
         name: string;
         longName: string;
@@ -273,7 +273,7 @@ declare module 'webuntis' {
         getExamsForRange(
             rangeStart: Date,
             rangeEnd: Date,
-            klasseId: number,
+            classId: number,
             withGrades: boolean,
             validateSession?: boolean
         ): Promise<Array<Exam>>;
@@ -284,7 +284,7 @@ declare module 'webuntis' {
 
         getRooms(validateSession?: boolean): Promise<Room[]>;
 
-        getClasses(validateSession?: boolean): Promise<Klasse[]>;
+        getClasses(validateSession?: boolean): Promise<Class[]>;
 
         getDepartments(validateSession?: boolean): Promise<Department[]>;
 
