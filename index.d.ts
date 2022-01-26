@@ -311,7 +311,23 @@ declare module 'webuntis' {
 
     class InternalWebuntisSecretLogin extends WebUntis {}
 
-    export class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {}
+    export class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
+        /**
+         *
+         * @param school Name of the school
+         * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
+         * @param identity The client identity
+         * @param disableUserAgent If this is true, axios will not send a custom User-Agent
+         * @augments WebUntis
+         * @constructor
+         */
+         constructor(
+            school: string,
+            baseurl: string,
+            identity?: string,
+            disableUserAgent?: boolean
+        );
+    }
 
     export class WebUntisSecretAuth extends WebUntis {
         /**
