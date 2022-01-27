@@ -150,6 +150,27 @@ class WebUntis {
         return response.data.data;
     }
 
+    
+    /**
+     * Get Inbox
+     * @returns {Promise<Object>}
+     */    
+    async getInbox(validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        //first get JWT Token
+        if (typeof this.sessionInformation.jwt_token != 'string') await this._getJWT()
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/rest/view/v1/messages`,
+            headers: {
+                Authorization: `Bearer ${this.sessionInformation.jwt_token}`,
+                Cookie: this._buildCookies(),
+            },
+        });
+        if (typeof response.data !== 'object') throw new Error('Server returned invalid data.');
+        return response.data;
+    }
+
     _checkAnonymous() {
         if (this.anonymous) {
             throw new Error('This method is not supported with anonymous login');
@@ -166,6 +187,26 @@ class WebUntis {
         cookies.push(CookieBuilder.serialize('JSESSIONID', this.sessionInformation.sessionId));
         cookies.push(CookieBuilder.serialize('schoolname', this.schoolbase64));
         return cookies.join('; ');
+    }
+
+    /**
+     * Get JWT Token
+     * @returns {Promise<String>}
+     */    
+     async _getJWT(validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/token/new`,
+            headers: {
+                //Authorization: `Bearer ${this._getToken()}`,
+                Cookie: this._buildCookies(),
+            },
+        });
+
+        if (typeof response.data !== 'string') throw new Error('Server returned invalid data.');
+        this.sessionInformation.jwt_token = response.data;
+        return response.data;
     }
 
     /**
@@ -642,7 +683,6 @@ class InternalWebuntisSecretLogin extends WebUntis {
         this.sessionInformation = {
             sessionId: sessionId,
         };
-
         if (skipSessionInfo) return true;
 
         // Get personId & personType

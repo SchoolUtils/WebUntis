@@ -197,6 +197,30 @@ declare module 'webuntis' {
         timeUnits: TimeUnit[];
     }
 
+    export interface Inbox {
+        incomingMessages: Inboxmessage[]
+    }
+
+    export interface Inboxmessage {
+        allowMessageDeletion: boolean;
+        contentPreview: string;
+        hasAttachments: boolean;
+        id: number;
+        isMessageRead: boolean;
+        isReply: boolean;
+        isReplyAllowed: boolean;
+        sender: Messagesender; 
+        sentDateTime: string;
+        subject: string;
+    }
+
+    export interface Messagesender {
+        userId: number;
+        displayName: string;
+        imageUrl: string;
+        className: string;
+    }        
+
     export default class WebUntis {
         /**
          *
@@ -230,6 +254,8 @@ declare module 'webuntis' {
          */
         getNewsWidget(date: Date, validateSession?: boolean): Promise<NewsWidget>;
 
+        getInbox(validateSession?: boolean): Promise<Inbox>;
+        
         private _buildCookies(): Promise<string>;
 
         private _checkAnonymous(): void;
