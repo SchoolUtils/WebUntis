@@ -156,6 +156,7 @@ class WebUntis {
      * @returns {Promise<Object>}
      */    
     async getInbox(validateSession = true) {
+        this._checkAnonymous();
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         //first get JWT Token
         if (typeof this.sessionInformation.jwt_token != 'string') await this._getJWT()
