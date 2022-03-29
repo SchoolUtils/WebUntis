@@ -198,7 +198,7 @@ declare module 'webuntis' {
     }
 
     export interface Inbox {
-        incomingMessages: Inboxmessage[]
+        incomingMessages: Inboxmessage[];
     }
 
     export interface Inboxmessage {
@@ -209,7 +209,7 @@ declare module 'webuntis' {
         isMessageRead: boolean;
         isReply: boolean;
         isReplyAllowed: boolean;
-        sender: Messagesender; 
+        sender: Messagesender;
         sentDateTime: string;
         subject: string;
     }
@@ -219,7 +219,64 @@ declare module 'webuntis' {
         displayName: string;
         imageUrl: string;
         className: string;
-    }        
+    }
+
+    export interface WebElement {
+        type: WebUntisElementType;
+        id: number;
+        orgId: number;
+        missing: boolean;
+        state: 'REGULAR' | 'ABSENT' | 'SUBSTITUTED';
+    }
+
+    export interface WebElementData extends WebElement {
+        element: {
+            type: number;
+            id: number;
+            name: string;
+            longName?: string;
+            displayname?: string;
+            alternatename?: string;
+            canViewTimetable: boolean;
+            externalKey?: string;
+            roomCapacity: number;
+        };
+    }
+
+    export interface WebAPITimetable {
+        id: number;
+        lessonId: number;
+        lessonNumber: number;
+        lessonCode: string;
+        lessonText: string;
+        periodText: string;
+        hasPeriodText: false;
+        periodInfo: string;
+        periodAttachments: [];
+        substText: string;
+        date: number;
+        startTime: number;
+        endTime: number;
+        elements: WebElement[];
+        studentGroup: string;
+        hasInfo: boolean;
+        code: number;
+        cellState: 'STANDARD' | 'SUBSTITUTION' | 'ROOMSUBSTITUTION';
+        priority: number;
+        is: {
+            roomSubstitution?: boolean;
+            substitution?: boolean;
+            standard?: boolean;
+            event: boolean;
+        };
+        roomCapacity: number;
+        studentCount: number;
+        classes: WebElementData[];
+        teachers: WebElementData[];
+        subjects: WebElementData[];
+        rooms: WebElementData[];
+        students: WebElementData[];
+    }
 
     export default class WebUntis {
         /**
@@ -255,7 +312,7 @@ declare module 'webuntis' {
         getNewsWidget(date: Date, validateSession?: boolean): Promise<NewsWidget>;
 
         getInbox(validateSession?: boolean): Promise<Inbox>;
-        
+
         private _buildCookies(): Promise<string>;
 
         private _checkAnonymous(): void;
@@ -304,6 +361,14 @@ declare module 'webuntis' {
             validateSession?: boolean
         ): Promise<Array<Exam>>;
 
+        getTimetableForWeek(
+            date: Date,
+            id: number,
+            type: number,
+            formatId: 1 | 2 = 1,
+            validateSession?: boolean
+        ): Promise<WebAPITimetable[]>;
+
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
         getStudents(validateSession?: boolean): Promise<Student[]>;
@@ -347,12 +412,7 @@ declare module 'webuntis' {
          * @augments WebUntis
          * @constructor
          */
-         constructor(
-            school: string,
-            baseurl: string,
-            identity?: string,
-            disableUserAgent?: boolean
-        );
+        constructor(school: string, baseurl: string, identity?: string, disableUserAgent?: boolean);
     }
 
     export class WebUntisSecretAuth extends WebUntis {

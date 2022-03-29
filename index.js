@@ -2,7 +2,7 @@ const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
 const find = require('lodash.find');
-const { parse, startOfDay } = require('date-fns');
+const { parse, startOfDay, format } = require('date-fns');
 
 /**
  * WebUntis API Class
@@ -539,14 +539,14 @@ class WebUntis {
 
     /**
      * Get the timetable for the current week for a specific element from the web client API.
+     * @param {Date} date one date in the week to query
      * @param {number} id element id
      * @param {WebUntisElementType} type element type
-     * @param {Date} date one date in the week to query
-     * @param {Number} [formatId=1] set to 1 to include teachers, 2 to omit teachers in elements response
+     * @param {Number} [formatId=1] set to 1 to include teachers, 2 omits the teachers in elements response
      * @param {Boolean} [validateSession=true]
-     * @returns {Promise<Array>}
+     * @returns {Promise<WebAPITimetable[]>}
      */
-    async getTimetableForWeek(id, type, date, formatId = 1, validateSession = true) {
+    async getTimetableForWeek(date, id, type, formatId = 1, validateSession = true) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
 
         const response = await this.axios({
@@ -555,7 +555,7 @@ class WebUntis {
             params: {
                 elementType: type,
                 elementId: id,
-                date: date,
+                date: format(date, "yyyy-MM-dd"),
                 formatId: formatId
             },
             headers: {
