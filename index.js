@@ -2,7 +2,7 @@ const axios = require('axios');
 const CookieBuilder = require('cookie');
 const Base64 = require('./Base64');
 const find = require('lodash.find');
-const { parse, startOfDay } = require('date-fns');
+const { parse, startOfDay, format } = require('date-fns');
 
 /**
  * WebUntis API Class
@@ -150,11 +150,11 @@ class WebUntis {
         return response.data.data;
     }
 
-    
+
     /**
      * Get Inbox
      * @returns {Promise<Object>}
-     */    
+     */
     async getInbox(validateSession = true) {
         this._checkAnonymous();
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
@@ -193,8 +193,8 @@ class WebUntis {
     /**
      * Get JWT Token
      * @returns {Promise<String>}
-     */    
-     async _getJWT(validateSession = true) {
+     */
+    async _getJWT(validateSession = true) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
             method: 'GET',
@@ -535,6 +535,59 @@ class WebUntis {
         if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
         if (!response.data.data['exams']) throw new Error("Data object doesn't contains exams object.");
         return response.data.data['exams'];
+    }
+
+    /**
+     * Get the timetable for the current week for a specific element from the web client API.
+     * @param {Date} date one date in the week to query
+     * @param {number} id element id
+     * @param {WebUntisElementType} type element type
+     * @param {Number} [formatId=1] set to 1 to include teachers, 2 omits the teachers in elements response
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise<WebAPITimetable[]>}
+     */
+    async getTimetableForWeek(date, id, type, formatId = 1, validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/public/timetable/weekly/data`,
+            params: {
+                elementType: type,
+                elementId: id,
+                date: format(date, "yyyy-MM-dd"),
+                formatId: formatId
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+
+        if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
+        if (!response.data.data.result || !response.data.data.result.data || !response.data.data.result.data.elementPeriods || !response.data.data.result.data.elementPeriods[id])
+            throw new Error("Invalid response");
+
+        const data = response.data.data.result.data;
+
+        const formatElements = (elements, { byType }) => {
+            const filteredElements = elements.filter((element) => element.type === byType);
+
+            return filteredElements.map(element => ({
+                ...element,
+                element: data.elements.find(dataElement => dataElement.type === byType && dataElement.id === element.id)
+            }));
+        }
+
+        const timetable = data.elementPeriods[id].map((lesson) => ({
+            ...lesson,
+            classes: formatElements(lesson.elements, { byType: WebUntis.TYPES.CLASS }),
+            teachers: formatElements(lesson.elements, { byType: WebUntis.TYPES.TEACHER }),
+            subjects: formatElements(lesson.elements, { byType: WebUntis.TYPES.SUBJECT }),
+            rooms: formatElements(lesson.elements, { byType: WebUntis.TYPES.ROOM }),
+            students: formatElements(lesson.elements, { byType: WebUntis.TYPES.STUDENT }),
+        }));
+
+        return timetable;
     }
 
     /**
