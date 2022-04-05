@@ -29,10 +29,11 @@ class WebUntis {
         this.sessionInformation = {};
         this.anonymous = false;
 
-        const additionalHeaders = {}
+        const additionalHeaders = {};
 
         if (!disableUserAgent) {
-            additionalHeaders['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36';
+            additionalHeaders['User-Agent'] =
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36';
         }
 
         this.axios = axios.create({
@@ -42,7 +43,7 @@ class WebUntis {
                 'Cache-Control': 'no-cache',
                 Pragma: 'no-cache',
                 'X-Requested-With': 'XMLHttpRequest',
-                ...additionalHeaders
+                ...additionalHeaders,
             },
             validateStatus: function (status) {
                 return status >= 200 && status < 303; // default
@@ -150,7 +151,6 @@ class WebUntis {
         return response.data.data;
     }
 
-
     /**
      * Get Inbox
      * @returns {Promise<Object>}
@@ -159,7 +159,7 @@ class WebUntis {
         this._checkAnonymous();
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         //first get JWT Token
-        if (typeof this.sessionInformation.jwt_token != 'string') await this._getJWT()
+        if (typeof this.sessionInformation.jwt_token != 'string') await this._getJWT();
         const response = await this.axios({
             method: 'GET',
             url: `/WebUntis/api/rest/view/v1/messages`,
@@ -507,7 +507,6 @@ class WebUntis {
         return response.data.data;
     }
 
-
     /**
      * Get Exams for range
      * @param {Date} rangeStart
@@ -526,7 +525,7 @@ class WebUntis {
                 startDate: this.convertDateToUntis(rangeStart),
                 endDate: this.convertDateToUntis(rangeEnd),
                 klasseId: klasseId,
-                withGrades: withGrades
+                withGrades: withGrades,
             },
             headers: {
                 Cookie: this._buildCookies(),
@@ -555,8 +554,8 @@ class WebUntis {
             params: {
                 elementType: type,
                 elementId: id,
-                date: format(date, "yyyy-MM-dd"),
-                formatId: formatId
+                date: format(date, 'yyyy-MM-dd'),
+                formatId: formatId,
             },
             headers: {
                 Cookie: this._buildCookies(),
@@ -564,19 +563,26 @@ class WebUntis {
         });
 
         if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
-        if (!response.data.data.result || !response.data.data.result.data || !response.data.data.result.data.elementPeriods || !response.data.data.result.data.elementPeriods[id])
-            throw new Error("Invalid response");
+        if (
+            !response.data.data.result ||
+            !response.data.data.result.data ||
+            !response.data.data.result.data.elementPeriods ||
+            !response.data.data.result.data.elementPeriods[id]
+        )
+            throw new Error('Invalid response');
 
         const data = response.data.data.result.data;
 
         const formatElements = (elements, { byType }) => {
             const filteredElements = elements.filter((element) => element.type === byType);
 
-            return filteredElements.map(element => ({
+            return filteredElements.map((element) => ({
                 ...element,
-                element: data.elements.find(dataElement => dataElement.type === byType && dataElement.id === element.id)
+                element: data.elements.find(
+                    (dataElement) => dataElement.type === byType && dataElement.id === element.id
+                ),
             }));
-        }
+        };
 
         const timetable = data.elementPeriods[id].map((lesson) => ({
             ...lesson,
@@ -588,6 +594,24 @@ class WebUntis {
         }));
 
         return timetable;
+    }
+
+    /**
+     * Get the timetable for the current week for the current element from the web client API.
+     * @param {Date} date one date in the week to query
+     * @param {Number} [formatId=1] set to 1 to include teachers, 2 omits the teachers in elements response
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise<WebAPITimetable[]>}
+     */
+    async getOwnTimetableForWeek(date, formatId = 1, validateSession = true) {
+        this._checkAnonymous();
+        return await this.getTimetableForWeek(
+            date,
+            this.sessionInformation.personId,
+            this.sessionInformation.personType,
+            formatId,
+            validateSession
+        );
     }
 
     /**

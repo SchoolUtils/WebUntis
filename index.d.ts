@@ -369,6 +369,8 @@ declare module 'webuntis' {
             validateSession?: boolean
         ): Promise<WebAPITimetable[]>;
 
+        getOwnTimetableForWeek(date: Date, formatId: 1 | 2 = 1, validateSession?: boolean): Promise<WebAPITimetable[]>;
+
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
         getStudents(validateSession?: boolean): Promise<Student[]>;
