@@ -250,11 +250,12 @@ class WebUntis {
      * @param type
      * @param startDate
      * @param endDate
+     * @param format
      * @param validateSession
      * @returns {Promise.<Array>}
      * @private
      */
-    async _timetableRequest(id, type, startDate, endDate, validateSession = true) {
+    async _timetableRequest(id, type, startDate, endDate, validateSession = true, format ) {
         const additionalOptions = {};
         if (startDate) {
             additionalOptions.startDate = this.convertDateToUntis(startDate);
@@ -271,6 +272,7 @@ class WebUntis {
                     element: {
                         id,
                         type,
+                        format
                     },
                     ...additionalOptions,
                     showLsText: true,
@@ -373,10 +375,11 @@ class WebUntis {
      * @param {number} id
      * @param {WebUntisElementType} type
      * @param {Boolean} [validateSession=true]
+     * @param {number} format
      * @returns {Promise.<Array>}
      */
-    async getTimetableForRange(rangeStart, rangeEnd, id, type, validateSession = true) {
-        return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession);
+    async getTimetableForRange(rangeStart, rangeEnd, id, type, validateSession = true, format ) {
+        return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession, format );
     }
 
     /**
