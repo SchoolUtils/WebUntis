@@ -717,7 +717,7 @@ class WebUntis {
                 jsonrpc: '2.0',
             },
         });
-        if (!response.data.result) throw new Error("Server didn't returned any result.");
+        if (!response.data.result) throw new Error("Server didn't return any result.");
         if (response.data.result.code) throw new Error('Server returned error code: ' + response.data.result.code);
         return response.data.result;
     }
