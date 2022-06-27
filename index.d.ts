@@ -304,6 +304,8 @@ declare module 'webuntis' {
 
         getLatestSchoolyear(validateSession?: boolean): Promise<SchoolYear>;
 
+        getSchoolyears(validateSession?: boolean): Promise<SchoolYear[]>;
+
         /**
          * @deprecated This method doesn't seem to work anymore.
          * @param date
@@ -365,11 +367,11 @@ declare module 'webuntis' {
             date: Date,
             id: number,
             type: number,
-            formatId: 1 | 2 = 1,
+            formatId?: 1 | 2,
             validateSession?: boolean
         ): Promise<WebAPITimetable[]>;
 
-        getOwnTimetableForWeek(date: Date, formatId: 1 | 2 = 1, validateSession?: boolean): Promise<WebAPITimetable[]>;
+        getOwnTimetableForWeek(date: Date, formatId?: 1 | 2, validateSession?: boolean): Promise<WebAPITimetable[]>;
 
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
@@ -421,7 +423,7 @@ declare module 'webuntis' {
         /**
          *
          * @param school Name of the school
-         * @param username Your webuntis username
+         * @param user Your webuntis username
          * @param secret Your secret (Not password)
          * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
          * @param identity The client identity

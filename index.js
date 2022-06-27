@@ -130,6 +130,29 @@ class WebUntis {
     }
 
     /**
+     * Get all WebUntis Schoolyears
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise<{name: String, id: Number, startDate: Date, endDate: Date}>}
+     */
+    async getSchoolyears(validateSession = true) {
+        const data = await this._request('getSchoolyears', {}, validateSession);
+        data.sort((a, b) => {
+            const na = parse(a.startDate, 'yyyyMMdd', new Date());
+            const nb = parse(b.startDate, 'yyyyMMdd', new Date());
+            return nb - na;
+        });
+        if (!data[0]) throw new Error('Failed to receive school year');
+        return data.map((year) => {
+            return {
+                name: year.name,
+                id: year.id,
+                startDate: parse(year.startDate, 'yyyyMMdd', new Date()),
+                endDate: parse(year.endDate, 'yyyyMMdd', new Date()),
+            }
+        })
+    }
+
+    /**
      * Get News Widget
      * @param {Date} date
      * @param {boolean} [validateSession=true]
