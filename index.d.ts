@@ -421,7 +421,7 @@ declare module 'webuntis' {
         /**
          *
          * @param school Name of the school
-         * @param username Your webuntis username
+         * @param user Your webuntis username
          * @param secret Your secret (Not password)
          * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
          * @param identity The client identity
