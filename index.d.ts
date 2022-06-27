@@ -304,6 +304,8 @@ declare module 'webuntis' {
 
         getLatestSchoolyear(validateSession?: boolean): Promise<SchoolYear>;
 
+        getSchoolyears(validateSession?: boolean): Promise<SchoolYear[]>;
+
         /**
          * @deprecated This method doesn't seem to work anymore.
          * @param date
