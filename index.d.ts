@@ -365,11 +365,11 @@ declare module 'webuntis' {
             date: Date,
             id: number,
             type: number,
-            formatId: 1 | 2 = 1,
+            formatId?: 1 | 2,
             validateSession?: boolean
         ): Promise<WebAPITimetable[]>;
 
-        getOwnTimetableForWeek(date: Date, formatId: 1 | 2 = 1, validateSession?: boolean): Promise<WebAPITimetable[]>;
+        getOwnTimetableForWeek(date: Date, formatId?: 1 | 2, validateSession?: boolean): Promise<WebAPITimetable[]>;
 
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
