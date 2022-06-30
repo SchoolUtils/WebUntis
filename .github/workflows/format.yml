@@ -24,4 +24,5 @@ jobs:
                   author_email: me+high5@dunklestoast.de
                   message: 'style: format code with prettier'
                   add: '.'
+                  pull: '--rebase'
                   push: true

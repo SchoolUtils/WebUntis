@@ -23,5 +23,6 @@ jobs:
                 author_name: high5-bot
                 author_email: me+high5@dunklestoast.de
                 message: 'docs: update documentation'
+                pull: '--rebase'
                 add: '.'
                 push: true
