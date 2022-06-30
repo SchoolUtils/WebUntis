@@ -1,0 +1,25 @@
+name: Ensure documentation is up-to-date
+on: [push, pull_request]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Install node_modules
+              run: yarn
+
+            - name: Generate docs
+              run: yarn generate-doc
+
+            - name: Commit changes
+              uses: EndBug/add-and-commit@v9
+              if: ${{ github.ref == 'refs/heads/master' }}
+              with:
+                author_name: high5-bot
+                author_email: me+high5@dunklestoast.de
+                message: 'docs: update documentation'
+                add: '.'
+                push: true
