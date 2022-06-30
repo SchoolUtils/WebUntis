@@ -148,8 +148,8 @@ class WebUntis {
                 id: year.id,
                 startDate: parse(year.startDate, 'yyyyMMdd', new Date()),
                 endDate: parse(year.endDate, 'yyyyMMdd', new Date()),
-            }
-        })
+            };
+        });
     }
 
     /**
@@ -743,6 +743,33 @@ class WebUntis {
         if (!response.data.result) throw new Error("Server didn't return any result.");
         if (response.data.result.code) throw new Error('Server returned error code: ' + response.data.result.code);
         return response.data.result;
+    }
+
+    /**
+     * Returns all the Lessons where you were absent including the excused one!
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Integer} execuseStatusId
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise.<Array>}
+     */
+    async getAbsentLesson(validateSession = true, rangeStart, rangeEnd, excuseStatusId = -1) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/classreg/absences/students`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+                studentId: this.sessionInformation.personId,
+                excuseStatusId: excuseStatusId,
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        if (response.data.data == null) throw new Error('Server returned no data!');
+        return response.data.data;
     }
 }
 
