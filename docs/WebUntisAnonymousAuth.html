@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Home - Documentation</title>
+    <title>WebUntisAnonymousAuth - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,11 +29,35 @@
 
 <div id="main">
     
+    <h1 class="page-title">WebUntisAnonymousAuth</h1>
+    
 
     
 
 
 
+
+<section>
+
+<header>
+    
+        <h2>
+        WebUntisAnonymousAuth
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="WebUntisAnonymousAuth"><span class="type-signature"></span>new WebUntisAnonymousAuth<span class="signature">(school, baseurl, identity<span class="signature-attributes">opt</span>, disableUserAgent<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
     
 
 
@@ -42,98 +66,282 @@
 
 
 
-
+<dl class="details">
 
     
 
+    
 
-    <section class="readme">
-        <article><h1>WebUntis API</h1>
-<p>This is a NodeJS Wrapper for the JSON RPC WebUntis API.</p>
-<p>The Documentation is available at <a href="https://webuntis.noim.me/">https://webuntis.noim.me/</a></p>
-<p>In case you need the Untis API Spec (pdf) where those JSON responses are explained, you need to directly email Untis and ask. I am (legally) not allowed to publish it.</p>
-<h2>Examples</h2>
-<h3>User/Password Login</h3>
-<pre class="prettyprint source lang-javascript"><code>const WebUntis = require('webuntis');
+    
 
-const untis = new WebUntis('school', 'username', 'password', 'xyz.webuntis.com');
+    
 
-untis
-    .login()
-    .then(() => {
-        return untis.getOwnTimetableForToday();
-    })
-    .then((timetable) => {
-        // profit
-    });
-</code></pre>
-<h3>QR Code Login</h3>
-<pre class="prettyprint source lang-javascript"><code>const WebUntisLib = require('webuntis');
+    
 
-// The result of the scanned QR Code
-const QRCodeData = 'untis://setschool?url=[...]&school=[...]&user=[...]&key=[...]&schoolNumber=[...]';
+    
 
-const untis = new WebUntisLib.WebUntisQR(QRCodeData);
+    
 
-untis
-    .login()
-    .then(() => {
-        return untis.getOwnTimetableForToday();
-    })
-    .then((timetable) => {
-        // profit
-    });
-</code></pre>
-<h3>User/Secret Login</h3>
-<pre class="prettyprint source lang-javascript"><code>const WebUntisLib = require('webuntis');
+    
 
-const secret = 'NL04FGY4FSY5';
+    
 
-const untis = new WebUntisLib.WebUntisSecretAuth('school', 'username', secret, 'xyz.webuntis.com');
+    
 
-untis
-    .login()
-    .then(() => {
-        return untis.getOwnTimetableForToday();
-    })
-    .then((timetable) => {
-        // profit
-    });
-</code></pre>
-<h3>Anonymous Login</h3>
-<p>Only if your school supports public access.</p>
-<pre class="prettyprint source lang-javascript"><code>const WebUntisLib = require('webuntis');
+    
 
-const untis = new WebUntisLib.WebUntisAnonymousAuth('school', 'xyz.webuntis.com');
+    
 
-untis
-    .login()
-    .then(() => {
-        return untis.getClasses();
-    })
-    .then((classes) => {
-        // Get timetable for the first class
-        return untis.getTimetableForToday(classes[0].id, WebUntisLib.TYPES.CLASS);
-    })
-    .then((timetable) => {
-        // profit
-    });
-</code></pre>
-<h3>Installation</h3>
-<pre class="prettyprint source lang-bash"><code>yarn add webuntis
-# Or
-npm i webuntis --save
-</code></pre>
-<h3>Notice</h3>
-<p>I am not affiliated with Untis GmbH. Use this at your own risk.</p>
-<h3>License</h3>
-<p>Copyright 2019 Nils Bergmann</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
-    </section>
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line880">line 880</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
 
 
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>school</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>baseurl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>identity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'Awesome'
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>disableUserAgent</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>boolean</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">
+                <p>If this is true, axios will not send a custom User-Agent</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
