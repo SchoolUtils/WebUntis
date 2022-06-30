@@ -148,8 +148,8 @@ class WebUntis {
                 id: year.id,
                 startDate: parse(year.startDate, 'yyyyMMdd', new Date()),
                 endDate: parse(year.endDate, 'yyyyMMdd', new Date()),
-            }
-        })
+            };
+        });
     }
 
     /**
