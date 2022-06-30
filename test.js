@@ -33,7 +33,7 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
 (async function () {
     const endOfMonthVar = endOfMonth(new Date());
     const targetDate = subDays(new Date(), 2);
-    console.log("Normal login:")
+    console.log('Normal login:');
     try {
         await untis.login();
         const x = await untis.validateSession();
@@ -46,7 +46,7 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
     } catch (e) {
         console.error(e);
     }
-    console.log("Secret login:");
+    console.log('Secret login:');
     try {
         await untisSecret.login();
         const x = await untisSecret.validateSession();
@@ -58,7 +58,7 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
     } catch (e) {
         console.trace(e);
     }
-    console.log("QR Login:")
+    console.log('QR Login:');
     try {
         await untisQR.login();
         const x = await untisQR.validateSession();
@@ -70,7 +70,7 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
     } catch (e) {
         console.trace(e);
     }
-    console.log("Anonymous:")
+    console.log('Anonymous:');
     try {
         await anonymous.login();
         const x = await anonymous.validateSession();
