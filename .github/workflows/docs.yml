@@ -11,7 +11,7 @@ jobs:
               with:
                   fetch-depth: 2
 
-            - run: git checkout HEAD^
+            - run: git pull --rebase
 
             - name: Install node_modules
               run: yarn
