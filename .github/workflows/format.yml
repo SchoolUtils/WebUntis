@@ -1,10 +1,11 @@
 name: Ensure code is formatted
 on: [push, pull_request]
 
+concurrency: ci-${{ github.ref }}
+
 jobs:
     build:
         runs-on: ubuntu-latest
-        concurrency: ci-${{ github.ref }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v2
