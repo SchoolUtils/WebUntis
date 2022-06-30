@@ -1,0 +1,25 @@
+name: Ensure code is formatted
+on: [push, pull_request]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Install node_modules
+              run: yarn
+
+            - name: Format
+              run: yarn format
+
+            - name: Commit changes
+              uses: EndBug/add-and-commit@v9
+              if: ${{ github.ref == 'refs/heads/master' }}
+              with:
+                  author_name: high5-bot
+                  author_email: me+high5@dunklestoast.de
+                  message: 'style: format code with prettier'
+                  add: '.'
+                  push: true
