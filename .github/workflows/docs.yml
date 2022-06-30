@@ -7,8 +7,11 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repo
-              uses: actions/checkout@v2
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 2
+
+            - run: git checkout HEAD^
 
             - name: Install node_modules
               run: yarn
@@ -20,9 +23,8 @@ jobs:
               uses: EndBug/add-and-commit@v9
               if: ${{ github.ref == 'refs/heads/master' }}
               with:
-                author_name: high5-bot
-                author_email: me+high5@dunklestoast.de
-                message: 'docs: update documentation'
-                pull: '--rebase'
-                add: '.'
-                push: true
+                  author_name: high5-bot
+                  author_email: me+high5@dunklestoast.de
+                  message: 'docs: update documentation'
+                  add: '.'
+                  push: true
