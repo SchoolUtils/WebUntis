@@ -65,6 +65,3 @@ typings/
 test2.js
 
 .vscode
-
-package-lock.json
-yarn.lock

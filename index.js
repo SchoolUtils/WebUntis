@@ -755,6 +755,7 @@ class WebUntis {
      */
     async getAbsentLesson(validateSession = true, rangeStart, rangeEnd, excuseStatusId = -1) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        this._checkAnonymous();
         const response = await this.axios({
             method: 'GET',
             url: `/WebUntis/api/classreg/absences/students`,
