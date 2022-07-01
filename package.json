@@ -29,7 +29,7 @@
         "prettier": "^2.6.2"
     },
     "scripts": {
-        "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js",
+        "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js && echo \"webuntis.noim.me\" > ./docs/CNAME",
         "test": "jest",
         "format": "prettier -w ."
     }
