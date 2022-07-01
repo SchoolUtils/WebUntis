@@ -379,7 +379,7 @@ declare module 'webuntis' {
 
         getRooms(validateSession?: boolean): Promise<Room[]>;
 
-        getClasses(validateSession?: boolean): Promise<Klasse[]>;
+        getClasses(validateSession?: boolean, schoolyearId?: number,): Promise<Klasse[]>;
 
         getDepartments(validateSession?: boolean): Promise<Department[]>;
 

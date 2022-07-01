@@ -667,10 +667,12 @@ class WebUntis {
     /**
      * Get all classes known by WebUntis
      * @param {boolean} [validateSession=true]
+     * @param {number} schoolyearId
      * @returns {Promise.<Array>}
      */
-    async getClasses(validateSession = true) {
-        return await this._request('getKlassen', {}, validateSession);
+    async getClasses(validateSession = true,schoolyearId) {
+        const data = typeof schoolyearId !== 'number' ? {} : {schoolyearId};
+        return await this._request('getKlassen', data, validateSession);
     }
 
     /**
