@@ -41,6 +41,7 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
         console.log(
             'Absent Lessons: ' + JSON.stringify(await untis.getAbsentLesson(true, new Date(2021, 09, 13), new Date()))
         );
+        console.log(await untis.getPdfOfAbsentLesson(true, new Date(2021, 09, 13), new Date()));
         console.log('Session: ' + JSON.stringify(untis.sessionInformation));
         console.log('Timetable: ' + JSON.stringify(await untis.getOwnTimetableFor(targetDate)));
         console.log('Homework: ' + JSON.stringify(await untis.getHomeWorkAndLessons(new Date(), endOfMonthVar)));
