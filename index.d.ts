@@ -278,6 +278,45 @@ declare module 'webuntis' {
         students: WebElementData[];
     }
 
+    export interface Absences {
+        absences: Absence[];
+        absenceReasons: [];
+        excuseStatuses: boolean;
+        showAbsenceReasonChange: boolean;
+        showCreateAbsence: boolean;
+    }
+
+    export interface Absence {
+        id: number;
+        startDate: number;
+        endDate: number;
+        startTime: number;
+        endTime: number;
+        createDate: number;
+        lastUpdate: number;
+        createdUser: string;
+        updatedUser: string;
+        reasonId: number;
+        reason: string;
+        text: string;
+        interruptions: [];
+        canEdit: boolean;
+        studentName: string;
+        excuseStatus: string;
+        isExcused: boolean;
+        excuse: Excuse;
+    }
+
+    export interface Excuse {
+        id: number;
+        text: string;
+        excuseDate: number;
+        excuseStatus: string;
+        isExcused: boolean;
+        userId: number;
+        username: string;
+    }
+
     export default class WebUntis {
         /**
          *
@@ -402,6 +441,23 @@ declare module 'webuntis' {
         static TYPES: typeof WebUntisElementType;
 
         private _request(method: string, parameter: any, validateSession?: boolean, url?: string): Promise<any>;
+
+        getAbsentLesson(
+            validateSession?: boolean,
+            rangeStart: number,
+            rangeEnd: number,
+            excuseStatusId?: number
+        ): Promise<Absences>;
+
+        getPdfOfAbsentLesson(
+            validateSession?: boolean,
+            rangeStart: number,
+            rangeEnd: number,
+            excuseStatusId?: number,
+            lateness?: boolean,
+            absences?: boolean,
+            execuseGroup?: number
+        ): Promise<string>;
     }
 
     class InternalWebuntisSecretLogin extends WebUntis {}

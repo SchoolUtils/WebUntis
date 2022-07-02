@@ -770,6 +770,7 @@ class WebUntis {
             },
         });
         if (response.data.data == null) throw new Error('Server returned no data!');
+        console.log(response.data.data);
         return response.data.data;
     }
 
