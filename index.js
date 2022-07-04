@@ -753,7 +753,7 @@ class WebUntis {
      * @param {boolean} [validateSession=true]
      * @returns {Promise.<Array>}
      */
-    async getAbsentLesson(validateSession = true, rangeStart, rangeEnd, excuseStatusId = -1) {
+    async getAbsentLesson(rangeStart, rangeEnd, excuseStatusId = -1, validateSession = true) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         this._checkAnonymous();
         const response = await this.axios({
@@ -770,7 +770,6 @@ class WebUntis {
             },
         });
         if (response.data.data == null) throw new Error('Server returned no data!');
-        console.log(response.data.data);
         return response.data.data;
     }
 
@@ -786,9 +785,9 @@ class WebUntis {
      * @returns {String} URL
      */
     async getPdfOfAbsentLesson(
-        validateSession = true,
         rangeStart,
         rangeEnd,
+        validateSession = true,
         excuseStatusId = -1,
         lateness = true,
         absences = true,
