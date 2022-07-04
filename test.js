@@ -38,6 +38,10 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
         await untis.login();
         const x = await untis.validateSession();
         console.log('Valid session (User/PW): ' + x);
+        console.log(
+            'Absent Lessons: ' + JSON.stringify(await untis.getAbsentLesson(new Date(2021, 09, 13), new Date(), true))
+        );
+        console.log(await untis.getPdfOfAbsentLesson(new Date(2021, 09, 13), new Date(), true));
         console.log('Session: ' + JSON.stringify(untis.sessionInformation));
         console.log('Timetable: ' + JSON.stringify(await untis.getOwnTimetableFor(targetDate)));
         console.log('Homework: ' + JSON.stringify(await untis.getHomeWorkAndLessons(new Date(), endOfMonthVar)));

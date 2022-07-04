@@ -746,6 +746,81 @@ class WebUntis {
         if (response.data.result.code) throw new Error('Server returned error code: ' + response.data.result.code);
         return response.data.result;
     }
+
+    /**
+     * Returns all the Lessons where you were absent including the excused one!
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Integer} execuseStatusId
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise<Absences>}
+     */
+    async getAbsentLesson(rangeStart, rangeEnd, excuseStatusId = -1, validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        this._checkAnonymous();
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/classreg/absences/students`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+                studentId: this.sessionInformation.personId,
+                excuseStatusId: excuseStatusId,
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        if (response.data.data == null) throw new Error('Server returned no data!');
+        return response.data.data;
+    }
+
+    /**
+     * Returns a URL to a unique PDF of all the lessons you were absent
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Integer} execuseStatusId
+     * @param {boolean} lateness
+     * @param {boolean} absences
+     * @param {boolean} [validateSession=true]
+     * @param {boolean} execuseGroup
+     * @returns {String} URL
+     */
+    async getPdfOfAbsentLesson(
+        rangeStart,
+        rangeEnd,
+        validateSession = true,
+        excuseStatusId = -1,
+        lateness = true,
+        absences = true,
+        execuseGroup = 2
+    ) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        this._checkAnonymous();
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/reports.do`,
+            params: {
+                name: 'Excuse',
+                format: 'pdf',
+                rpt_sd: this.convertDateToUntis(rangeStart),
+                rpt_ed: this.convertDateToUntis(rangeEnd),
+                excuseStatusId: excuseStatusId,
+                studentId: this.sessionInformation.personId,
+                withLateness: lateness,
+                withAbsences: absences,
+                execuseGroup: execuseGroup,
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        const res = response.data.data;
+        if (response.status != 200 || res.error) throw new Error('Server returned no data!');
+        const pdfDownloadURL =
+            this.baseurl + 'WebUntis/reports.do?' + 'msgId=' + res.messageId + '&' + res.reportParams;
+        return pdfDownloadURL;
+    }
 }
 
 class InternalWebuntisSecretLogin extends WebUntis {
