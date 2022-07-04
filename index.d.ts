@@ -443,20 +443,20 @@ declare module 'webuntis' {
         private _request(method: string, parameter: any, validateSession?: boolean, url?: string): Promise<any>;
 
         getAbsentLesson(
-            validateSession?: boolean,
             rangeStart: number,
             rangeEnd: number,
-            excuseStatusId?: number
+            excuseStatusId?: number,
+            validateSession?: boolean
         ): Promise<Absences>;
 
         getPdfOfAbsentLesson(
-            validateSession?: boolean,
             rangeStart: number,
             rangeEnd: number,
             excuseStatusId?: number,
             lateness?: boolean,
             absences?: boolean,
-            execuseGroup?: number
+            execuseGroup?: number,
+            validateSession?: boolean
         ): Promise<string>;
     }
 

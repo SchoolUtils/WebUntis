@@ -751,7 +751,7 @@ class WebUntis {
      * @param {Date} rangeEnd
      * @param {Integer} execuseStatusId
      * @param {boolean} [validateSession=true]
-     * @returns {Promise.<Array>}
+     * @returns {Promise<Absences>}
      */
     async getAbsentLesson(rangeStart, rangeEnd, excuseStatusId = -1, validateSession = true) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
