@@ -751,7 +751,7 @@ class WebUntis {
      * Returns all the Lessons where you were absent including the excused one!
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
-     * @param {Integer} execuseStatusId
+     * @param {Integer} [excuseStatusId=-1]
      * @param {boolean} [validateSession=true]
      * @returns {Promise<Absences>}
      */
@@ -779,11 +779,11 @@ class WebUntis {
      * Returns a URL to a unique PDF of all the lessons you were absent
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
-     * @param {Integer} execuseStatusId
-     * @param {boolean} lateness
-     * @param {boolean} absences
      * @param {boolean} [validateSession=true]
-     * @param {boolean} execuseGroup
+     * @param {Integer} [excuseStatusId=-1]
+     * @param {boolean} [lateness=true]
+     * @param {boolean} [absences=true]
+     * @param {boolean} [excuseGroup=2]
      * @returns {String} URL
      */
     async getPdfOfAbsentLesson(
@@ -793,7 +793,7 @@ class WebUntis {
         excuseStatusId = -1,
         lateness = true,
         absences = true,
-        execuseGroup = 2
+        excuseGroup = 2
     ) {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         this._checkAnonymous();
@@ -809,7 +809,7 @@ class WebUntis {
                 studentId: this.sessionInformation.personId,
                 withLateness: lateness,
                 withAbsences: absences,
-                execuseGroup: execuseGroup,
+                execuseGroup: excuseGroup,
             },
             headers: {
                 Cookie: this._buildCookies(),
