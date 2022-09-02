@@ -278,6 +278,45 @@ declare module 'webuntis' {
         students: WebElementData[];
     }
 
+    export interface Absences {
+        absences: Absence[];
+        absenceReasons: [];
+        excuseStatuses: boolean;
+        showAbsenceReasonChange: boolean;
+        showCreateAbsence: boolean;
+    }
+
+    export interface Absence {
+        id: number;
+        startDate: number;
+        endDate: number;
+        startTime: number;
+        endTime: number;
+        createDate: number;
+        lastUpdate: number;
+        createdUser: string;
+        updatedUser: string;
+        reasonId: number;
+        reason: string;
+        text: string;
+        interruptions: [];
+        canEdit: boolean;
+        studentName: string;
+        excuseStatus: string;
+        isExcused: boolean;
+        excuse: Excuse;
+    }
+
+    export interface Excuse {
+        id: number;
+        text: string;
+        excuseDate: number;
+        excuseStatus: string;
+        isExcused: boolean;
+        userId: number;
+        username: string;
+    }
+
     export default class WebUntis {
         /**
          *
@@ -303,6 +342,8 @@ declare module 'webuntis' {
         login(): Promise<LoginSessionInformations>;
 
         getLatestSchoolyear(validateSession?: boolean): Promise<SchoolYear>;
+
+        getSchoolyears(validateSession?: boolean): Promise<SchoolYear[]>;
 
         /**
          * @deprecated This method doesn't seem to work anymore.
@@ -365,11 +406,11 @@ declare module 'webuntis' {
             date: Date,
             id: number,
             type: number,
-            formatId: 1 | 2 = 1,
+            formatId?: 1 | 2,
             validateSession?: boolean
         ): Promise<WebAPITimetable[]>;
 
-        getOwnTimetableForWeek(date: Date, formatId: 1 | 2 = 1, validateSession?: boolean): Promise<WebAPITimetable[]>;
+        getOwnTimetableForWeek(date: Date, formatId?: 1 | 2, validateSession?: boolean): Promise<WebAPITimetable[]>;
 
         getTeachers(validateSession?: boolean): Promise<Teacher[]>;
 
@@ -377,7 +418,7 @@ declare module 'webuntis' {
 
         getRooms(validateSession?: boolean): Promise<Room[]>;
 
-        getClasses(validateSession?: boolean): Promise<Klasse[]>;
+        getClasses(validateSession?: boolean, schoolyearId?: number): Promise<Klasse[]>;
 
         getDepartments(validateSession?: boolean): Promise<Department[]>;
 
@@ -400,6 +441,23 @@ declare module 'webuntis' {
         static TYPES: typeof WebUntisElementType;
 
         private _request(method: string, parameter: any, validateSession?: boolean, url?: string): Promise<any>;
+
+        getAbsentLesson(
+            rangeStart: number,
+            rangeEnd: number,
+            excuseStatusId?: number,
+            validateSession?: boolean
+        ): Promise<Absences>;
+
+        getPdfOfAbsentLesson(
+            rangeStart: number,
+            rangeEnd: number,
+            excuseStatusId?: number,
+            lateness?: boolean,
+            absences?: boolean,
+            execuseGroup?: number,
+            validateSession?: boolean
+        ): Promise<string>;
     }
 
     class InternalWebuntisSecretLogin extends WebUntis {}
@@ -421,7 +479,7 @@ declare module 'webuntis' {
         /**
          *
          * @param school Name of the school
-         * @param username Your webuntis username
+         * @param user Your webuntis username
          * @param secret Your secret (Not password)
          * @param baseurl The WebUntis Host. Example: XXX.webuntis.com
          * @param identity The client identity

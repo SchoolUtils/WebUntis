@@ -130,6 +130,29 @@ class WebUntis {
     }
 
     /**
+     * Get all WebUntis Schoolyears
+     * @param {Boolean} [validateSession=true]
+     * @returns {Promise<{name: String, id: Number, startDate: Date, endDate: Date}>}
+     */
+    async getSchoolyears(validateSession = true) {
+        const data = await this._request('getSchoolyears', {}, validateSession);
+        data.sort((a, b) => {
+            const na = parse(a.startDate, 'yyyyMMdd', new Date());
+            const nb = parse(b.startDate, 'yyyyMMdd', new Date());
+            return nb - na;
+        });
+        if (!data[0]) throw new Error('Failed to receive school year');
+        return data.map((year) => {
+            return {
+                name: year.name,
+                id: year.id,
+                startDate: parse(year.startDate, 'yyyyMMdd', new Date()),
+                endDate: parse(year.endDate, 'yyyyMMdd', new Date()),
+            };
+        });
+    }
+
+    /**
      * Get News Widget
      * @param {Date} date
      * @param {boolean} [validateSession=true]
@@ -647,10 +670,12 @@ class WebUntis {
     /**
      * Get all classes known by WebUntis
      * @param {boolean} [validateSession=true]
+     * @param {number} schoolyearId
      * @returns {Promise.<Array>}
      */
-    async getClasses(validateSession = true) {
-        return await this._request('getKlassen', {}, validateSession);
+    async getClasses(validateSession = true, schoolyearId) {
+        const data = typeof schoolyearId !== 'number' ? {} : { schoolyearId };
+        return await this._request('getKlassen', data, validateSession);
     }
 
     /**
@@ -720,9 +745,84 @@ class WebUntis {
                 jsonrpc: '2.0',
             },
         });
-        if (!response.data.result) throw new Error("Server didn't returned any result.");
+        if (!response.data.result) throw new Error("Server didn't return any result.");
         if (response.data.result.code) throw new Error('Server returned error code: ' + response.data.result.code);
         return response.data.result;
+    }
+
+    /**
+     * Returns all the Lessons where you were absent including the excused one!
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {Integer} [excuseStatusId=-1]
+     * @param {boolean} [validateSession=true]
+     * @returns {Promise<Absences>}
+     */
+    async getAbsentLesson(rangeStart, rangeEnd, excuseStatusId = -1, validateSession = true) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        this._checkAnonymous();
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/api/classreg/absences/students`,
+            params: {
+                startDate: this.convertDateToUntis(rangeStart),
+                endDate: this.convertDateToUntis(rangeEnd),
+                studentId: this.sessionInformation.personId,
+                excuseStatusId: excuseStatusId,
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        if (response.data.data == null) throw new Error('Server returned no data!');
+        return response.data.data;
+    }
+
+    /**
+     * Returns a URL to a unique PDF of all the lessons you were absent
+     * @param {Date} rangeStart
+     * @param {Date} rangeEnd
+     * @param {boolean} [validateSession=true]
+     * @param {Integer} [excuseStatusId=-1]
+     * @param {boolean} [lateness=true]
+     * @param {boolean} [absences=true]
+     * @param {boolean} [excuseGroup=2]
+     * @returns {String} URL
+     */
+    async getPdfOfAbsentLesson(
+        rangeStart,
+        rangeEnd,
+        validateSession = true,
+        excuseStatusId = -1,
+        lateness = true,
+        absences = true,
+        excuseGroup = 2
+    ) {
+        if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
+        this._checkAnonymous();
+        const response = await this.axios({
+            method: 'GET',
+            url: `/WebUntis/reports.do`,
+            params: {
+                name: 'Excuse',
+                format: 'pdf',
+                rpt_sd: this.convertDateToUntis(rangeStart),
+                rpt_ed: this.convertDateToUntis(rangeEnd),
+                excuseStatusId: excuseStatusId,
+                studentId: this.sessionInformation.personId,
+                withLateness: lateness,
+                withAbsences: absences,
+                execuseGroup: excuseGroup,
+            },
+            headers: {
+                Cookie: this._buildCookies(),
+            },
+        });
+        const res = response.data.data;
+        if (response.status != 200 || res.error) throw new Error('Server returned no data!');
+        const pdfDownloadURL =
+            this.baseurl + 'WebUntis/reports.do?' + 'msgId=' + res.messageId + '&' + res.reportParams;
+        return pdfDownloadURL;
     }
 }
 
