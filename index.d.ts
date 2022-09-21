@@ -139,8 +139,8 @@ declare module 'webuntis' {
         name: string;
         longName: string;
         id: number;
-        startDate: Date;
-        endDate: Date;
+        startDate: number;
+        endDate: number;
     }
 
     export interface StatusData {
