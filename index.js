@@ -586,6 +586,13 @@ class WebUntis {
         });
 
         if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
+
+        if (response.data.data.error && response.data.data.error.data && response.data.data.error.data.messageKey)
+            /* known keys:
+             * - ERR_TTVIEW_NOTALLOWED_ONDATE
+            */
+            throw new Error(response.data.data.error.data.messageKey)
+
         if (
             !response.data.data.result ||
             !response.data.data.result.data ||
