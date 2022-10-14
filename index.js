@@ -587,18 +587,16 @@ class WebUntis {
 
         if (typeof response.data.data !== 'object') throw new Error('Server returned invalid data.');
 
-        if (response.data.data.error && response.data.data.error.data && response.data.data.error.data.messageKey)
-            /* known keys:
-             * - ERR_TTVIEW_NOTALLOWED_ONDATE
+        if (response.data.data.error) {
+            /* known codes:
+            * - ERR_TTVIEW_NOTALLOWED_ONDATE
             */
-            throw new Error(response.data.data.error.data.messageKey)
+            const err = new Error("Server responded with error");
+            err.code = response.data.data.error?.data?.messageKey;
+            throw err;
+        }
 
-        if (
-            !response.data.data.result ||
-            !response.data.data.result.data ||
-            !response.data.data.result.data.elementPeriods ||
-            !response.data.data.result.data.elementPeriods[id]
-        )
+        if (!response.data.data.result?.data?.elementPeriods?.[id])
             throw new Error('Invalid response');
 
         const data = response.data.data.result.data;
