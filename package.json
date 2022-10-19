@@ -1,6 +1,6 @@
 {
     "name": "webuntis",
-    "version": "1.22.1",
+    "version": "2.0.0",
     "description": "WebUntis API",
     "main": "dist/webuntis.js",
     "module": "dist/webuntis.mjs",
