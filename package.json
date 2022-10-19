@@ -41,6 +41,6 @@
         "prepublish": "rollup -c && typedoc",
         "generate-doc": "typedoc",
         "test": "jest",
-        "format": "prettier -w ."
+        "format": "prettier -w src/"
     }
 }

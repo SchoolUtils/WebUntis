@@ -781,7 +781,6 @@ class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
   }
   async login() {
     const url = `/WebUntis/jsonrpc_intern.do`;
-    console.log(this.school);
     const response = await this.axios({
       method: "POST",
       url,
