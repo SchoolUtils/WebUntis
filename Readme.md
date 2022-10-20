@@ -1,4 +1,4 @@
-# Base API
+# WebUntis API
 
 This is a NodeJS Wrapper for the JSON RPC WebUntis API.
 
