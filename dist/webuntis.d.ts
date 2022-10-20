@@ -241,8 +241,8 @@ interface Holiday {
     name: string;
     longName: string;
     id: number;
-    startDate: Date;
-    endDate: Date;
+    startDate: number;
+    endDate: number;
 }
 interface ColorEntity {
     foreColor: string;
