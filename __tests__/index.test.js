@@ -1,7 +1,7 @@
 const MockAdapter = require('axios-mock-adapter');
 const axios = require('axios');
 const cases = require('jest-in-case');
-const WebUntis = require('../index');
+const { WebUntis } = require('../dist/webuntis.js');
 
 const mockAxios = new MockAdapter(axios);
 const mockResponse = {
@@ -652,8 +652,7 @@ cases(
 cases(
     'should convertDateToUntis converted date',
     ({ date, result }) => {
-        const untis = createInstance();
-        expect(untis.convertDateToUntis(new Date(date))).toBe(result);
+        expect(WebUntis.convertDateToUntis(new Date(date))).toBe(result);
     },
     [
         { name: 'default', date: '11/13/2019', result: '20191113' },

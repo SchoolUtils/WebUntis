@@ -1,4 +1,4 @@
-const WebUntis = require('./index');
+const { WebUntis } = require('./dist/webuntis');
 const { subDays, endOfMonth } = require('date-fns');
 
 require('dotenv').config();

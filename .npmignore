@@ -3,11 +3,12 @@ test.mjs
 .gitignore
 .git
 .idea/
-docs/
 .DS_Store
 .DS_store
-linkDocs.js
-.jsdoc.json
 .env
 test2.js
 .vscode
+typedoc.json
+test.js
+jest.config.js
+__tests__

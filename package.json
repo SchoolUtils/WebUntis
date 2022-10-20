@@ -1,36 +1,46 @@
 {
     "name": "webuntis",
-    "version": "1.22.1",
+    "version": "2.0.0",
     "description": "WebUntis API",
-    "main": "index.js",
+    "main": "dist/webuntis.js",
+    "module": "dist/webuntis.mjs",
+    "typings": "dist/webuntis.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/SchoolUtils/WebUntis.git"
     },
-    "author": "Tom Sacher <tom.sacher@icloud.com>",
+    "author": "Nils Bergmann <nilsbergmann@noim.io>",
     "license": "MIT",
     "private": false,
-    "types": "index.d",
+    "files": [
+        "dist",
+        "docs"
+    ],
     "dependencies": {
         "axios": "^0.27.2",
-        "cookie": "^0.5.0",
-        "date-fns": "^2.28.0",
-        "lodash.find": "^4.6.0",
+        "date-fns": "^2.28.0"
+    },
+    "optionalDependencies": {
         "otplib": "^12"
     },
     "devDependencies": {
         "axios-mock-adapter": "^1.20.0",
         "dotenv": "^16.0.1",
-        "fs-extra": "^10.1.0",
+        "esbuild": "^0.15.12",
         "jest": "^28.1.0",
         "jest-in-case": "^1.0.2",
-        "jsdoc": "^3.6.10",
-        "minami": "^1.2.3",
-        "prettier": "^2.6.2"
+        "otplib": "^12",
+        "prettier": "^2.6.2",
+        "rollup": "^3.2.2",
+        "rollup-plugin-dts": "^5.0.0",
+        "rollup-plugin-esbuild": "^4.10.1",
+        "typedoc": "^0.23.17",
+        "typescript": "^4.8.4"
     },
     "scripts": {
-        "generate-doc": "jsdoc --configure ./.jsdoc.json --verbose index.js && node linkDocs.js && echo \"webuntis.noim.me\" > ./docs/CNAME",
+        "prepublish": "rollup -c && typedoc",
+        "generate-doc": "typedoc",
         "test": "jest",
-        "format": "prettier -w ."
+        "format": "prettier -w src/"
     }
 }
