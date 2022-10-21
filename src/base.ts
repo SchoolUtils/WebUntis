@@ -933,11 +933,7 @@ export class InternalWebuntisSecretLogin extends Base {
         if (response.data && response.data.error)
             throw new Error('Failed to login. ' + (response.data.error.message || ''));
         if (!response.headers['set-cookie']) throw new Error(`Failed to login. Server didn't return a set-cookie`);
-        if (
-            response.headers &&
-            response.headers['set-cookie'] &&
-            this._getCookieFromSetCookie(response.headers['set-cookie'])
-        )
+        if (!this._getCookieFromSetCookie(response.headers['set-cookie']))
             throw new Error("Failed to login. Server didn't return a session id.");
         const sessionId = this._getCookieFromSetCookie(response.headers['set-cookie']);
         // Set session temporary
@@ -1010,7 +1006,7 @@ export class InternalWebuntisSecretLogin extends Base {
      * @return {string|boolean}
      * @private
      */
-    _getCookieFromSetCookie(setCookieArray: string[], cookieName = 'JSESSIONID') {
+    _getCookieFromSetCookie(setCookieArray?: string[], cookieName = 'JSESSIONID') {
         if (!setCookieArray) return;
         for (let i = 0; i < setCookieArray.length; i++) {
             const setCookie = setCookieArray[i];
