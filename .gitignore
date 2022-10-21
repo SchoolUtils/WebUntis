@@ -59,9 +59,12 @@ typings/
 
 .idea/runConfigurations/**/*
 
+# system files
 .DS_Store
-.DS_store
-.env
+
+# build dir
+dist/
+
 test2.js
 
 .vscode
