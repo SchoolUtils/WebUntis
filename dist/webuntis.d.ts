@@ -628,7 +628,7 @@ declare class InternalWebuntisSecretLogin extends Base {
      * @return {string|boolean}
      * @private
      */
-    _getCookieFromSetCookie(setCookieArray: string[], cookieName?: string): string | undefined;
+    _getCookieFromSetCookie(setCookieArray?: string[], cookieName?: string): string | undefined;
 }
 
 declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
