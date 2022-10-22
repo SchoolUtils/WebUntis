@@ -311,7 +311,7 @@ export class Base {
      */
     private async _timetableRequest(
         id: string | number,
-        type: number,
+        type: string | number,
         startDate?: Date | null,
         endDate?: Date | null,
         validateSession = true
@@ -369,12 +369,12 @@ export class Base {
 
     /**
      * Get the timetable of today for a specific element.
-     * @param {number} id
+     * @param {(string | number)} id
      * @param {WebUntisElementType} type
      * @param {Boolean} [validateSession=true]
      * @returns {Promise<Array>}
      */
-    async getTimetableForToday(id: number, type: number, validateSession = true): Promise<Lesson[]> {
+    async getTimetableForToday(id: string | number, type: string | number, validateSession = true): Promise<Lesson[]> {
         return await this._timetableRequest(id, type, null, null, validateSession);
     }
 
@@ -398,11 +398,16 @@ export class Base {
     /**
      * Get the timetable for a specific day for a specific element.
      * @param {Date} date
-     * @param {number} id
+     * @param {(string | number)} id
      * @param {WebUntisElementType} type
      * @param {Boolean} [validateSession=true]
      */
-    async getTimetableFor(date: Date, id: number, type: number, validateSession = true): Promise<Lesson[]> {
+    async getTimetableFor(
+        date: Date,
+        id: string | number,
+        type: string | number,
+        validateSession = true
+    ): Promise<Lesson[]> {
         return await this._timetableRequest(id, type, date, date, validateSession);
     }
 
@@ -429,15 +434,15 @@ export class Base {
      * Get the timetable for a given Date range for specific element
      * @param {Date} rangeStart
      * @param {Date} rangeEnd
-     * @param {number} id
+     * @param {(string | number)} id
      * @param {WebUntisElementType} type
      * @param {Boolean} [validateSession=true]
      */
     async getTimetableForRange(
         rangeStart: Date,
         rangeEnd: Date,
-        id: number,
-        type: number,
+        id: string | number,
+        type: string | number,
         validateSession = true
     ): Promise<Lesson[]> {
         return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession);
@@ -611,15 +616,15 @@ export class Base {
     /**
      * Get the timetable for the current week for a specific element from the web client API.
      * @param {Date} date one date in the week to query
-     * @param {number} id element id
+     * @param {(string | number)} id element id
      * @param {WebUntisElementType} type element type
      * @param {Number} [formatId=1] set to 1 to include teachers, 2 omits the teachers in elements response
      * @param {Boolean} [validateSession=true]
      */
     async getTimetableForWeek(
         date: Date,
-        id: number,
-        type: number,
+        id: string | number,
+        type: string | number,
         formatId = 1,
         validateSession = true
     ): Promise<WebAPITimetable[]> {
