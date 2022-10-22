@@ -1,7 +1,7 @@
-const MockAdapter = require('axios-mock-adapter');
-const axios = require('axios');
-const cases = require('jest-in-case');
-const { WebUntis } = require('../dist/webuntis.js');
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
+import cases from 'jest-in-case';
+import { WebUntis } from '../dist/webuntis.js';
 
 const mockAxios = new MockAdapter(axios);
 const mockResponse = {
@@ -254,7 +254,7 @@ cases(
 
 cases(
     'should getTimetableFor return result',
-    async (validate) => {
+    async ({ validate }) => {
         const id = 'test-id';
         const type = 'test-type';
         const date = new Date('11/13/2019');
@@ -274,7 +274,7 @@ cases(
 
 cases(
     'should getOwnTimetableForRange return result',
-    async (validate) => {
+    async ({ validate }) => {
         const dateStart = new Date('11/13/2019');
         const dateEnd = new Date('11/17/2019');
         const untis = createInstance();
@@ -293,7 +293,7 @@ cases(
 
 cases(
     'should getTimetableForRange return result',
-    async (validate) => {
+    async ({ validate }) => {
         const id = 'test-id';
         const type = 'test-type';
         const dateStart = new Date('11/13/2019');
@@ -315,7 +315,7 @@ cases(
 
 cases(
     'should getOwnClassTimetableForToday return result',
-    async (validate) => {
+    async ({ validate }) => {
         const untis = createInstance();
 
         mockAxios
@@ -328,7 +328,7 @@ cases(
 
         expect(await untis.getOwnClassTimetableForToday(validate)).toBe(123);
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.klasseId, '1')
         );
     },
     [
@@ -339,7 +339,7 @@ cases(
 
 cases(
     'should getOwnClassTimetableFor return result',
-    async (validate) => {
+    async ({ validate }) => {
         const date = new Date('11/13/2019');
         const untis = createInstance();
 
@@ -354,7 +354,7 @@ cases(
         expect(await untis.getOwnClassTimetableFor(date, validate)).toBe(123);
         expect(mockAxios.history.post[2].data).toMatch('20191113');
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.klasseId, '1')
         );
     },
     [
@@ -365,7 +365,7 @@ cases(
 
 cases(
     'should getOwnClassTimetableForRange return result',
-    async (validate) => {
+    async ({ validate }) => {
         const dateStart = new Date('11/13/2019');
         const dateEnd = new Date('11/17/2019');
         const untis = createInstance();
@@ -382,7 +382,7 @@ cases(
         expect(mockAxios.history.post[2].data).toMatch('20191113');
         expect(mockAxios.history.post[2].data).toMatch('20191117');
         expect(JSON.parse(mockAxios.history.post[2].data)).toMatchObject(
-            getElementObject(mockResponse.result.klasseId, 1)
+            getElementObject(mockResponse.result.klasseId, '1')
         );
     },
     [
@@ -474,7 +474,7 @@ cases(
 
 test('should convertUntisDate converted date', () => {
     const date = new Date('11/13/2019');
-    expect(WebUntis.convertUntisDate(20191113, date)).toEqual(date);
+    expect(WebUntis.convertUntisDate('20191113', date)).toEqual(date);
 });
 
 test('should convertUntisTime converted time', () => {
