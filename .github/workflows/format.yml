@@ -1,5 +1,8 @@
 name: Ensure code is formatted
-on: [push, pull_request]
+on:
+    push:
+        branches:
+            - 'master'
 
 concurrency: ci-${{ github.ref }}
 
@@ -11,6 +14,8 @@ jobs:
               with:
                   fetch-depth: 2
 
+            - name: Pull latetst changes
+            - run: git checkout master
             - run: git pull --rebase
 
             - name: Install node_modules
