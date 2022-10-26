@@ -15,8 +15,7 @@ jobs:
                   fetch-depth: 2
 
             - name: Pull latetst changes
-            - run: git checkout master
-            - run: git pull --rebase
+            - run: git pull --rebase origin master
 
             - name: Install node_modules
               run: yarn
