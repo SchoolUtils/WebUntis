@@ -631,6 +631,7 @@ declare class InternalWebuntisSecretLogin extends Base {
     _getCookieFromSetCookie(setCookieArray?: string[], cookieName?: string): string | undefined;
 }
 
+declare type Authenticator = typeof authenticator;
 declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
     private readonly secret;
     private authenticator;
@@ -646,7 +647,7 @@ declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
      * @param {Object} authenticator Custom otplib v12 instance. Default will use the default otplib configuration.
      * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(school: string, user: string, secret: string, baseurl: string, identity: string | undefined, authenticator: typeof authenticator, disableUserAgent?: boolean);
+    constructor(school: string, user: string, secret: string, baseurl: string, identity: string | undefined, authenticator: Authenticator, disableUserAgent?: boolean);
     login(): Promise<boolean>;
 }
 
@@ -664,7 +665,7 @@ declare class WebUntisQR extends WebUntisSecretAuth {
      * @param {Object} URL Custom whatwg url implementation. Default will use the nodejs implementation.
      * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
-    constructor(QRCodeURI: string, identity: string, authenticator: typeof authenticator, URL?: URLClass, disableUserAgent?: boolean);
+    constructor(QRCodeURI: string, identity: string, authenticator: Authenticator, URL?: URLClass, disableUserAgent?: boolean);
 }
 
 declare class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
@@ -679,4 +680,4 @@ declare class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
     login(): Promise<boolean>;
 }
 
-export { Absence, Absences, Base, CodesEntity, ColorEntity, Department, Exam, Excuse, Holiday, Homework, Inbox, Inboxmessage, InternalWebuntisSecretLogin, Klasse, Lesson, LoginSessionInformations, LsEntity, MessagesOfDay, Messagesender, NewsWidget, Room, SchoolYear, ShortData, StatusData, Student, Subject, Teacher, TimeUnit, Timegrid, URLClass, WebAPITimetable, WebElement, WebElementData, Base as WebUntis, WebUntisAnonymousAuth, WebUntisDay, WebUntisElementType, WebUntisQR, WebUntisSecretAuth };
+export { Absence, Absences, Authenticator, Base, CodesEntity, ColorEntity, Department, Exam, Excuse, Holiday, Homework, Inbox, Inboxmessage, InternalWebuntisSecretLogin, Klasse, Lesson, LoginSessionInformations, LsEntity, MessagesOfDay, Messagesender, NewsWidget, Room, SchoolYear, ShortData, StatusData, Student, Subject, Teacher, TimeUnit, Timegrid, URLClass, WebAPITimetable, WebElement, WebElementData, Base as WebUntis, WebUntisAnonymousAuth, WebUntisDay, WebUntisElementType, WebUntisQR, WebUntisSecretAuth };
