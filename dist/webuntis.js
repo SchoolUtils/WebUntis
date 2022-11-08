@@ -621,10 +621,14 @@ class InternalWebuntisSecretLogin extends Base {
     super(school, username, password, baseurl, identity, disableUserAgent);
   }
   async _otpLogin(token, username, time, skipSessionInfo = false) {
-    const url = `/WebUntis/jsonrpc_intern.do?m=getUserData2017&school=${this.school}&v=i2.2`;
     const response = await this.axios({
       method: "POST",
-      url,
+      url: "/WebUntis/jsonrpc_intern.do",
+      params: {
+        m: "getUserData2017",
+        school: this.school,
+        v: "i2.2"
+      },
       data: {
         id: this.id,
         method: "getUserData2017",

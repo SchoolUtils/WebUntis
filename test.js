@@ -1,15 +1,17 @@
-const { WebUntis } = require('./dist/webuntis');
+const { WebUntis, WebUntisSecretAuth, WebUntisQR, WebUntisAnonymousAuth } = require('./dist/webuntis');
 const { subDays, endOfMonth } = require('date-fns');
 
 require('dotenv').config();
 
 const untis = new WebUntis(process.env.SCHOOL, process.env.UNTISUSER, process.env.UNTISPW, process.env.UNTISHOST);
 
+console.log(process.env.UNTISPW);
+
 /**
  *
  * @type {WebUntisSecretAuth}
  */
-const untisSecret = new WebUntis.WebUntisSecretAuth(
+const untisSecret = new WebUntisSecretAuth(
     process.env.SCHOOL,
     process.env.UNTISUSER,
     process.env.UNTISSECRET,
@@ -20,15 +22,12 @@ const untisSecret = new WebUntis.WebUntisSecretAuth(
  *
  * @type {WebUntisQR}
  */
-const untisQR = new WebUntis.WebUntisQR(process.env.UNTISQR);
+const untisQR = new WebUntisQR(process.env.UNTISQR);
 
 /**
  *
  */
-const anonymous = new WebUntis.WebUntisAnonymousAuth(
-    process.env.UNTISANONYMOUSSCHOOL,
-    process.env.UNTISANONYMOUSSCHOOLHOST
-);
+const anonymous = new WebUntisAnonymousAuth(process.env.UNTISANONYMOUSSCHOOL, process.env.UNTISANONYMOUSSCHOOLHOST);
 
 (async function () {
     const endOfMonthVar = endOfMonth(new Date());
@@ -38,13 +37,13 @@ const anonymous = new WebUntis.WebUntisAnonymousAuth(
         await untis.login();
         const x = await untis.validateSession();
         console.log('Valid session (User/PW): ' + x);
-        console.log(
-            'Absent Lessons: ' + JSON.stringify(await untis.getAbsentLesson(new Date(2021, 09, 13), new Date(), true))
-        );
-        console.log(await untis.getPdfOfAbsentLesson(new Date(2021, 09, 13), new Date(), true));
+        // console.log(
+        //     'Absent Lessons: ' + JSON.stringify(await untis.getAbsentLesson(new Date('20210913'), new Date(), true))
+        // );
+        // console.log(await untis.getPdfOfAbsentLesson(new Date(Date.now() - 7 * 24 * 60 * 60), new Date(), true));
         console.log('Session: ' + JSON.stringify(untis.sessionInformation));
         console.log('Timetable: ' + JSON.stringify(await untis.getOwnTimetableFor(targetDate)));
-        console.log('Homework: ' + JSON.stringify(await untis.getHomeWorkAndLessons(new Date(), endOfMonthVar)));
+        // console.log('Homework: ' + JSON.stringify(await untis.getHomeWorkAndLessons(new Date(), endOfMonthVar)));
         console.log('Rooms: ' + JSON.stringify(await untis.getRooms()));
         console.log('News: ' + JSON.stringify(await untis.getNewsWidget(targetDate)));
     } catch (e) {
