@@ -12,7 +12,6 @@ import type {
     Inbox,
     Klasse,
     Lesson,
-    LoginSessionInformations,
     NewsWidget,
     Room,
     SchoolYear,
@@ -120,7 +119,7 @@ export class Base {
      * *Untis says in the official docs:*
      * > An application should always log out as soon as possible to free system resources on the server.
      */
-    async login(): Promise<LoginSessionInformations> {
+    async login(): Promise<SessionInformation> {
         const response = await this.axios({
             method: 'POST',
             url: `/WebUntis/jsonrpc.do`,
@@ -944,7 +943,7 @@ export class InternalWebuntisSecretLogin extends Base {
         this.sessionInformation = {
             sessionId: sessionId,
         };
-        if (skipSessionInfo) return true;
+        if (skipSessionInfo) return this.sessionInformation;
 
         // Get personId & personType
         const appConfigUrl = `/WebUntis/api/app/config`;
@@ -1000,7 +999,7 @@ export class InternalWebuntisSecretLogin extends Base {
         } catch (e) {
             // klasseId is not important. This request can fail
         }
-        return true;
+        return this.sessionInformation;
     }
 
     /**

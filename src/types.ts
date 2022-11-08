@@ -1,10 +1,3 @@
-export interface LoginSessionInformations {
-    sessionId: string;
-    personType?: number;
-    personId?: number;
-    klasseId?: number;
-}
-
 export interface SchoolYear {
     name: string;
     id: number;

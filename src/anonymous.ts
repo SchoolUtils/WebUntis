@@ -15,8 +15,7 @@ export class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
         this.anonymous = true;
     }
 
-    // @ts-ignore
-    override async login(): Promise<boolean> {
+    override async login() {
         // Check whether the school has public access or not
         const url = `/WebUntis/jsonrpc_intern.do`;
 
