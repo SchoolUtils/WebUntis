@@ -1,9 +1,11 @@
 import { InternalWebuntisSecretLogin } from './base';
-import type { authenticator as Authenticator } from 'otplib';
+import type { authenticator } from 'otplib';
+
+export type Authenticator = typeof authenticator;
 
 export class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
     private readonly secret: string;
-    private authenticator: typeof Authenticator;
+    private authenticator: Authenticator;
 
     /**
      *
@@ -23,7 +25,7 @@ export class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
         secret: string,
         baseurl: string,
         identity = 'Awesome',
-        authenticator: typeof Authenticator,
+        authenticator: Authenticator,
         disableUserAgent = false
     ) {
         super(school, user, null as unknown as string, baseurl, identity, disableUserAgent);

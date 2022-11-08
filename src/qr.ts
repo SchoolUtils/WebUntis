@@ -1,5 +1,5 @@
 import { WebUntisSecretAuth } from './secret';
-import type { authenticator as Authenticator } from 'otplib';
+import type { Authenticator } from './secret';
 import type { URL } from 'url';
 
 /**
@@ -20,7 +20,7 @@ export class WebUntisQR extends WebUntisSecretAuth {
     constructor(
         QRCodeURI: string,
         identity: string,
-        authenticator: typeof Authenticator,
+        authenticator: Authenticator,
         URL?: URLClass,
         disableUserAgent = false
     ) {
