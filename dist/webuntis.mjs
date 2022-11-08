@@ -653,7 +653,7 @@ class InternalWebuntisSecretLogin extends Base {
       sessionId
     };
     if (skipSessionInfo)
-      return true;
+      return this.sessionInformation;
     const appConfigUrl = `/WebUntis/api/app/config`;
     const configResponse = await this.axios({
       method: "GET",
@@ -702,7 +702,7 @@ class InternalWebuntisSecretLogin extends Base {
       };
     } catch (e) {
     }
-    return true;
+    return this.sessionInformation;
   }
   _getCookieFromSetCookie(setCookieArray, cookieName = "JSESSIONID") {
     if (!setCookieArray)

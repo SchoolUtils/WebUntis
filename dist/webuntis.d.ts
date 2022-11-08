@@ -2,12 +2,6 @@ import { AxiosInstance } from 'axios';
 import { authenticator } from 'otplib';
 import { URL } from 'url';
 
-interface LoginSessionInformations {
-    sessionId: string;
-    personType?: number;
-    personId?: number;
-    klasseId?: number;
-}
 interface SchoolYear {
     name: string;
     id: number;
@@ -343,7 +337,7 @@ declare class Base {
      * *Untis says in the official docs:*
      * > An application should always log out as soon as possible to free system resources on the server.
      */
-    login(): Promise<LoginSessionInformations>;
+    login(): Promise<SessionInformation>;
     /**
      * Get the latest WebUntis Schoolyear
      * @param {Boolean} [validateSession=true]
@@ -620,7 +614,7 @@ declare class Base {
  */
 declare class InternalWebuntisSecretLogin extends Base {
     constructor(school: string, username: string, password: string, baseurl: string, identity?: string, disableUserAgent?: boolean);
-    _otpLogin(token: number | string, username: string, time: number, skipSessionInfo?: boolean): Promise<boolean>;
+    _otpLogin(token: number | string, username: string, time: number, skipSessionInfo?: boolean): Promise<SessionInformation>;
     /**
      *
      * @param {Array} setCookieArray
@@ -648,7 +642,7 @@ declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
      * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
     constructor(school: string, user: string, secret: string, baseurl: string, identity: string | undefined, authenticator: Authenticator, disableUserAgent?: boolean);
-    login(): Promise<boolean>;
+    login(): Promise<SessionInformation>;
 }
 
 /**
@@ -677,7 +671,7 @@ declare class WebUntisAnonymousAuth extends InternalWebuntisSecretLogin {
      * @param {boolean} [disableUserAgent=false] If this is true, axios will not send a custom User-Agent
      */
     constructor(school: string, baseurl: string, identity?: string, disableUserAgent?: boolean);
-    login(): Promise<boolean>;
+    login(): Promise<SessionInformation>;
 }
 
-export { Absence, Absences, Authenticator, Base, CodesEntity, ColorEntity, Department, Exam, Excuse, Holiday, Homework, Inbox, Inboxmessage, InternalWebuntisSecretLogin, Klasse, Lesson, LoginSessionInformations, LsEntity, MessagesOfDay, Messagesender, NewsWidget, Room, SchoolYear, ShortData, StatusData, Student, Subject, Teacher, TimeUnit, Timegrid, URLClass, WebAPITimetable, WebElement, WebElementData, Base as WebUntis, WebUntisAnonymousAuth, WebUntisDay, WebUntisElementType, WebUntisQR, WebUntisSecretAuth };
+export { Absence, Absences, Authenticator, Base, CodesEntity, ColorEntity, Department, Exam, Excuse, Holiday, Homework, Inbox, Inboxmessage, InternalWebuntisSecretLogin, Klasse, Lesson, LsEntity, MessagesOfDay, Messagesender, NewsWidget, Room, SchoolYear, ShortData, StatusData, Student, Subject, Teacher, TimeUnit, Timegrid, URLClass, WebAPITimetable, WebElement, WebElementData, Base as WebUntis, WebUntisAnonymousAuth, WebUntisDay, WebUntisElementType, WebUntisQR, WebUntisSecretAuth };
