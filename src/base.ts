@@ -527,7 +527,7 @@ export class Base {
      */
     static convertUntisTime(time: number | string, baseDate = new Date()): Date {
         if (typeof time !== 'string') time = `${time}`;
-        return parse(time, 'Hmm', baseDate);
+        return parse(time.padStart(4, "0"), 'Hmm', baseDate);
     }
 
     /**
