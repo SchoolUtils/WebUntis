@@ -409,7 +409,7 @@ class Base {
   static convertUntisTime(time, baseDate = new Date()) {
     if (typeof time !== "string")
       time = `${time}`;
-    return parse(time, "Hmm", baseDate);
+    return parse(time.padStart(4, "0"), "Hmm", baseDate);
   }
   async getSubjects(validateSession = true) {
     return await this._request("getSubjects", {}, validateSession);
