@@ -294,7 +294,7 @@ interface Excuse {
     username: string;
 }
 
-declare type SessionInformation = {
+type SessionInformation = {
     klasseId?: number;
     personId?: number;
     sessionId?: string;
@@ -625,7 +625,7 @@ declare class InternalWebuntisSecretLogin extends Base {
     _getCookieFromSetCookie(setCookieArray?: string[], cookieName?: string): string | undefined;
 }
 
-declare type Authenticator = typeof authenticator;
+type Authenticator = typeof authenticator;
 declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
     private readonly secret;
     private authenticator;
@@ -648,7 +648,7 @@ declare class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
 /**
  * @private
  */
-declare type URLClass = typeof URL;
+type URLClass = typeof URL;
 declare class WebUntisQR extends WebUntisSecretAuth {
     /**
      * Use the data you get from a WebUntis QR code
