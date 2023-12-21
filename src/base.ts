@@ -1,6 +1,5 @@
 import { serialize } from './cookie';
 import axios from 'axios';
-import { btoa } from './base-64';
 import { parse, startOfDay, format } from 'date-fns';
 import type { AxiosInstance } from 'axios';
 import type {
@@ -59,7 +58,7 @@ export class Base {
         disableUserAgent = false
     ) {
         this.school = school;
-        this.schoolbase64 = '_' + btoa(this.school);
+        this.schoolbase64 = '_' + Buffer.from(this.school).toString('base64');
         this.username = username;
         this.password = password;
         this.baseurl = 'https://' + baseurl + '/';
