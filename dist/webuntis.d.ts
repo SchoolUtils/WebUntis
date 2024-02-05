@@ -51,6 +51,8 @@ interface ShortData {
     id: number;
     name: string;
     longname: string;
+    orgname?: string;
+    orgid?: number;
 }
 interface Lesson {
     id: number;
