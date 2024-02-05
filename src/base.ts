@@ -56,7 +56,7 @@ export class Base {
         password: string,
         baseurl: string,
         identity = 'Awesome',
-        disableUserAgent = false
+        disableUserAgent = false,
     ) {
         this.school = school;
         this.schoolbase64 = '_' + btoa(this.school);
@@ -313,7 +313,7 @@ export class Base {
         type: number,
         startDate?: Date | null,
         endDate?: Date | null,
-        validateSession = true
+        validateSession = true,
     ): Promise<Lesson[]> {
         const additionalOptions: Record<string, unknown> = {};
         if (startDate) {
@@ -345,7 +345,7 @@ export class Base {
                     teacherFields: ['id', 'name', 'longname', 'externalkey'],
                 },
             },
-            validateSession
+            validateSession,
         );
     }
 
@@ -362,7 +362,7 @@ export class Base {
             this.sessionInformation!.personType!,
             null,
             null,
-            validateSession
+            validateSession,
         );
     }
 
@@ -390,7 +390,7 @@ export class Base {
             this.sessionInformation!.personType!,
             date,
             date,
-            validateSession
+            validateSession,
         );
     }
 
@@ -420,7 +420,7 @@ export class Base {
             this.sessionInformation!.personType!,
             rangeStart,
             rangeEnd,
-            validateSession
+            validateSession,
         );
     }
 
@@ -437,7 +437,7 @@ export class Base {
         rangeEnd: Date,
         id: number,
         type: number,
-        validateSession = true
+        validateSession = true,
     ): Promise<Lesson[]> {
         return await this._timetableRequest(id, type, rangeStart, rangeEnd, validateSession);
     }
@@ -479,7 +479,7 @@ export class Base {
             1,
             rangeStart,
             rangeEnd,
-            validateSession
+            validateSession,
         );
     }
 
@@ -586,7 +586,7 @@ export class Base {
         rangeEnd: Date,
         klasseId = -1,
         withGrades = false,
-        validateSession = true
+        validateSession = true,
     ): Promise<Array<Exam>> {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
@@ -620,7 +620,7 @@ export class Base {
         id: number,
         type: number,
         formatId = 1,
-        validateSession = true
+        validateSession = true,
     ): Promise<WebAPITimetable[]> {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
 
@@ -664,7 +664,7 @@ export class Base {
                 ...element,
                 element: data.elements.find(
                     (dataElement: Record<string, unknown>) =>
-                        dataElement.type === byType && dataElement.id === element.id
+                        dataElement.type === byType && dataElement.id === element.id,
                 ),
             }));
         };
@@ -695,7 +695,7 @@ export class Base {
             this.sessionInformation!.personId!,
             this.sessionInformation!.personType!,
             formatId,
-            validateSession
+            validateSession,
         );
     }
 
@@ -790,7 +790,7 @@ export class Base {
         method: string,
         parameter: Record<string, any> = {},
         validateSession = true,
-        url = `/WebUntis/jsonrpc.do`
+        url = `/WebUntis/jsonrpc.do`,
     ): Promise<Response> {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         const response = await this.axios({
@@ -826,7 +826,7 @@ export class Base {
         rangeStart: Date,
         rangeEnd: Date,
         excuseStatusId = -1,
-        validateSession = true
+        validateSession = true,
     ): Promise<Absences> {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         this._checkAnonymous();
@@ -864,7 +864,7 @@ export class Base {
         excuseStatusId = -1,
         lateness = true,
         absences = true,
-        excuseGroup = 2
+        excuseGroup = 2,
     ): Promise<string> {
         if (validateSession && !(await this.validateSession())) throw new Error('Current Session is not valid');
         this._checkAnonymous();
@@ -904,7 +904,7 @@ export class InternalWebuntisSecretLogin extends Base {
         password: string,
         baseurl: string,
         identity = 'Awesome',
-        disableUserAgent = false
+        disableUserAgent = false,
     ) {
         super(school, username, password, baseurl, identity, disableUserAgent);
     }
@@ -968,7 +968,7 @@ export class InternalWebuntisSecretLogin extends Base {
         if (!Array.isArray(webUntisLoginServiceUser.persons))
             throw new Error('Invalid person array. persons (type): ' + typeof webUntisLoginServiceUser.persons);
         const person = webUntisLoginServiceUser.persons.find(
-            (value: Record<string, unknown>) => value.id === configResponse.data.data.loginServiceConfig.user.personId
+            (value: Record<string, unknown>) => value.id === configResponse.data.data.loginServiceConfig.user.personId,
         );
         if (!person) throw new Error('Can not find person in person array.');
         if (!Number.isInteger(person.type)) throw new Error('Invalid person type. type (type): ' + person.type);
