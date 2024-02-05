@@ -36,4 +36,4 @@ exports[`should method login catch error with empty sessionId 1`] = `"Failed to 
 
 exports[`should method login catch error with result has code 1`] = `"Login returned error code: 500"`;
 
-exports[`should method login catch error with result null 1`] = `"Failed to login. {\\"result\\":null}"`;
+exports[`should method login catch error with result null 1`] = `"Failed to login. {\"result\":null}"`;
