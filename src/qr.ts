@@ -22,13 +22,13 @@ export class WebUntisQR extends WebUntisSecretAuth {
         identity: string,
         authenticator: Authenticator,
         URL?: URLClass,
-        disableUserAgent = false
+        disableUserAgent = false,
     ) {
         let URLImplementation = URL;
         if (!URL) {
             if ('import' in globalThis) {
                 throw new Error(
-                    'You need to provide the URL object by yourself. We can not eval the require in ESM mode.'
+                    'You need to provide the URL object by yourself. We can not eval the require in ESM mode.',
                 );
             }
             // React-Native will not eval this expression
@@ -42,7 +42,7 @@ export class WebUntisQR extends WebUntisSecretAuth {
             uri.searchParams.get('url')!,
             identity,
             authenticator,
-            disableUserAgent
+            disableUserAgent,
         );
     }
 }

@@ -39,7 +39,7 @@ export function parse(
         decode: (str: string) => string;
     } = {
         decode: decodeURIComponent,
-    }
+    },
 ): Record<string, string> {
     const obj: Record<string, string> = {};
     const pairs = str.split(pairSplitRegExp);

@@ -26,7 +26,7 @@ export class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
         baseurl: string,
         identity = 'Awesome',
         authenticator: Authenticator,
-        disableUserAgent = false
+        disableUserAgent = false,
     ) {
         super(school, user, null as unknown as string, baseurl, identity, disableUserAgent);
         this.secret = secret;
@@ -34,7 +34,7 @@ export class WebUntisSecretAuth extends InternalWebuntisSecretLogin {
         if (!authenticator) {
             if ('import' in globalThis) {
                 throw new Error(
-                    'You need to provide the otplib object by yourself. We can not eval the require in ESM mode.'
+                    'You need to provide the otplib object by yourself. We can not eval the require in ESM mode.',
                 );
             }
             // React-Native will not eval this expression
