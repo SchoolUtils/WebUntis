@@ -241,6 +241,11 @@ export interface Klasse {
     name: string;
     longName: string;
     active: boolean;
+    foreColor?: string;
+    backColor?: string;
+    did?: number;
+    teacher1?: number;
+    teacher2?: number;
 }
 
 export interface Department {
