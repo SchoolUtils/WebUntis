@@ -1,5 +1,9 @@
 name: Ensure documentation is up-to-date
-on: [push, pull_request]
+on:
+    push:
+        paths-ignore:
+            - 'docs/**'
+            - 'dist/**'
 
 concurrency: ci-${{ github.ref }}
 
