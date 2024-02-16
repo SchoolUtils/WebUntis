@@ -580,6 +580,12 @@ declare class Base {
      */
     getStatusData(validateSession?: boolean): Promise<StatusData>;
     /**
+     * Get the current school year
+     * @param [validateSession=true]
+     * @returns {Promise.<SchoolYear>}
+     */
+    getCurrentSchoolyear(validateSession?: boolean): Promise<SchoolYear>;
+    /**
      * Convert a JS Date Object to a WebUntis date string
      * @param {Date} date
      * @returns {String}

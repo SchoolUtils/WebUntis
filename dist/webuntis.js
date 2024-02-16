@@ -765,6 +765,22 @@ const _Base = class _Base {
     return await this._request("getStatusData", {}, validateSession);
   }
   /**
+   * Get the current school year
+   * @param [validateSession=true]
+   * @returns {Promise.<SchoolYear>}
+   */
+  async getCurrentSchoolyear(validateSession = true) {
+    const data = await this._request("getCurrentSchoolyear", {}, validateSession);
+    if (!data)
+      throw new Error("Failed to retrieve current school year");
+    return {
+      name: data.name,
+      id: data.id,
+      startDate: _Base.convertUntisDate(data.startDate),
+      endDate: _Base.convertUntisDate(data.endDate)
+    };
+  }
+  /**
    * Convert a JS Date Object to a WebUntis date string
    * @param {Date} date
    * @returns {String}
